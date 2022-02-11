@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -14,6 +15,12 @@ export default function Home() {
           <a className="text-blue-600" href="https://nextjs.org">
             Next.js!
           </a>
+        </h1>
+
+        <h1 className="text-blue-600">
+          <Link href="/curriculum/student/8305180722?type=student">
+            <a>导航</a>
+          </Link>
         </h1>
 
         <p className="mt-3 text-2xl">
