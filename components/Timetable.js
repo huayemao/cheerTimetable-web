@@ -44,7 +44,7 @@ const Cell = ({ courses }) => {
               <a className="hover:underline">{locationTitle}</a>
             </Link>
           </div>
-          <div className="truncate">
+          <div className="truncate max-w-full">
             {parseTeacher(courses[0].授课教师).map(({ id, title }, i, arr) => (
               <>
                 <Link href={`/curriculum/teacher/${id}`}>

@@ -6,7 +6,7 @@ import { Timetable } from '../../../components/Timetable'
 import useMediaQuery from '../../../hooks/useMediaQuery '
 
 export default function ({ data }) {
-  const show7days = useMediaQuery('(min-width: 768px)', true, false);
+  const show7days = useMediaQuery('(min-width: 768px)', true, false)
   return <Timetable data={data} show7days={show7days}></Timetable>
 }
 
@@ -73,6 +73,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       data,
+      rawUrl: `http://csujwc.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_list.jsp?kbtype=xs0101&isview=0&${str}`,
     },
     revalidate: 60 * 60 * 24,
   }
