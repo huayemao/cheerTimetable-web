@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import Search from '../components/Search'
 
 export default function Home() {
   return (
@@ -24,6 +25,8 @@ export default function Home() {
             start having fun!
           </a>
         </Link>
+
+        <Search></Search>
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
