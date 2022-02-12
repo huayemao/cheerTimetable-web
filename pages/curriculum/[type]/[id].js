@@ -3,8 +3,12 @@ import { mapKeys } from 'lodash'
 import qs from 'qs'
 import { retryWithLogin } from '../../../utils'
 import { Timetable } from '../../../components/Timetable'
+import useMediaQuery from '../../../hooks/useMediaQuery '
 
-export default Timetable
+export default function ({ data }) {
+  const show7days = useMediaQuery('(min-width: 768px)', true, false);
+  return <Timetable data={data} show7days={show7days}></Timetable>
+}
 
 export async function getStaticProps(context) {
   const { id, type } = context.params

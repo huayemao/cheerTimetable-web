@@ -35,47 +35,61 @@ const Cell = ({ courses }) => {
   )
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 border-opacity-50 p-4 text-xs text-gray-500">
+    <div className="flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none dark:hover:bg-slate-900 dark:hover:text-white">
       {courses[0] && (
         <>
           <div>{courses[0]?.开课课程}</div>
           <div>
             <Link href={`/curriculum/location/${locationId}`}>
-              <a className="text-indigo-500">{locationTitle}</a>
+              <a className="hover:underline">{locationTitle}</a>
             </Link>
           </div>
-          {parseTeacher(courses[0].授课教师).map(({ id, title }, i, arr) => (
-            <>
-              <Link href={`/curriculum/teacher/${id}`}>
-                <a className="text-indigo-500">{title}</a>
-              </Link>
-              {i < arr.length - 1 && `、`}
-            </>
-          ))}
+          <div className="truncate">
+            {parseTeacher(courses[0].授课教师).map(({ id, title }, i, arr) => (
+              <>
+                <Link href={`/curriculum/teacher/${id}`}>
+                  <a className="hover:underline">{title}</a>
+                </Link>
+                {i < arr.length - 1 && `、`}
+              </>
+            ))}
+          </div>
         </>
       )}
     </div>
   )
 }
 
-export function Timetable({ data }) {
-  const cells = Array.from({ length: 42 }, (e, i) => i + 1)
+export function Timetable({ data, show7days }) {
+  const cells = Array.from({ length: show7days ? 42 : 30 }, (e, i) => i + 1)
 
   const getCourses = useCallback(
     (row, col) => {
       const courses = data.filter((course) => {
         const { day, start } = parseTime(course.开课时间)
+        if (!show7days && day > 5) {
+          return false
+        }
         return day === col && Math.ceil(start / 2) === row
       })
       return courses
     },
     [data]
   )
+
+  const columnCount = show7days ? 7 : 5
+
   return (
-    <div className="">
-      <div className="grid grid-cols-7 gap-4" style={{ gridAutoRows: '1fr' }}>
+    <div className="mx-2 lg:mx-20">
+      <div
+        className={`grid grid-cols-5 gap-3 lg:grid-cols-7`}
+        style={{ gridAutoRows: '1fr' }}
+      >
         {cells.map((e, i) => (
-          <Cell key={i} courses={getCourses(Math.ceil(e / 7), (e % 7) + 1)} />
+          <Cell
+            key={i}
+            courses={getCourses(Math.ceil(e / columnCount), e % columnCount)}
+          />
         ))}
       </div>
     </div>
