@@ -38,20 +38,20 @@ const Cell = ({ courses }) => {
     <div className="flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none dark:hover:bg-slate-900 dark:hover:text-white">
       {courses[0] && (
         <>
-          <div>{courses[0]?.开课课程}</div>
-          <div>
+          <div className="px-2 max-w-full truncate">{courses[0]?.开课课程}</div>
+          <div className="px-2 max-w-full truncate">
             <Link href={`/curriculum/location/${locationId}`}>
               <a className="hover:underline">{locationTitle}</a>
             </Link>
           </div>
-          <div className="max-w-full truncate">
+          <div className="px-2 max-w-full truncate">
             {parseTeacher(courses[0].授课教师).map(({ id, title }, i, arr) => (
-              <div key={id}>
+              <span key={id}>
                 <Link href={`/curriculum/teacher/${id}`}>
                   <a className="hover:underline">{title}</a>
                 </Link>
                 {i < arr.length - 1 && `、`}
-              </div>
+              </span>
             ))}
           </div>
         </>
@@ -80,9 +80,9 @@ export default function Timetable({ data, show7days }) {
   const columnCount = show7days ? 7 : 5
 
   return (
-    <div className="mx-2 lg:mx-20">
+    <div className="lg:mx-5">
       <div
-        className={`grid grid-cols-5 gap-3 lg:grid-cols-7`}
+        className={`grid grid-cols-5 gap-2 lg:gap-3 lg:grid-cols-7`}
         style={{ gridAutoRows: '1fr' }}
       >
         {cells.map((e, i) => (

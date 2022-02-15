@@ -1,14 +1,45 @@
 import { getNameById, getTimeTable } from '../../../lib/api'
 import { Timetable, TimetableTitle } from '../../../components/Timetable'
 import useMediaQuery from '../../../lib/hooks/useMediaQuery '
+import Layout from '../../../components/Layout'
+import Container from '../../../components/Container'
+
+const Filters = () => (
+  <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+    <ul>
+      <li className="text-accent-4 hover:bg-accent-1 hover:text-accent-8 focus:bg-accent-1 focus:text-accent-8 block text-sm leading-5 focus:outline-none lg:text-base lg:font-bold lg:tracking-wide lg:no-underline lg:hover:bg-transparent">
+        <div className="block px-4 py-2 lg:my-2 lg:mx-4 lg:inline-block lg:p-0">
+          学期
+        </div>
+      </li>
+      {['2021-2022-1', '2021-2022-2'].map((e) => (
+        <li className="text-accent-4 hover:bg-accent-1 hover:text-accent-8 focus:bg-accent-1 focus:text-accent-8 block whitespace-nowrap text-sm leading-5 hover:underline focus:outline-none lg:hover:bg-transparent">
+          <a
+            className="block px-4 py-2 lg:my-2 lg:mx-4 lg:inline-block lg:p-0"
+            href=""
+          >
+            {e}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)
 
 export default function ({ data, ownerType, ownerName }) {
-  const show7days = useMediaQuery('(min-width: 768px)', true, false)
+  const isNotMobile = useMediaQuery('(min-width: 768px)', true, false)
   return (
-    <>
-      <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
-      <Timetable data={data} show7days={show7days}></Timetable>
-    </>
+    <Layout>
+      <Container>
+        <div className="flex justify-center">
+          <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
+        </div>
+        <div className="flex">
+          {isNotMobile && <Filters />}
+          <Timetable data={data} show7days={isNotMobile}></Timetable>
+        </div>
+      </Container>
+    </Layout>
   )
 }
 
