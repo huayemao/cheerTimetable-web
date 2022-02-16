@@ -1,8 +1,9 @@
 import { getNameById, getTimeTable } from '../../../lib/api'
 import { Timetable, TimetableTitle } from '../../../components/Timetable'
-import useMediaQuery from '../../../lib/hooks/useMediaQuery '
+import useMediaQuery from '../../../lib/hooks/useMediaQuery'
 import Layout from '../../../components/Layout'
 import Container from '../../../components/Container'
+import Modal from '../../../components/Modal/Modal'
 
 const Filters = () => (
   <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">

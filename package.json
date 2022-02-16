@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "clsx": "^1.1.1",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.21",
     "next": "latest",
