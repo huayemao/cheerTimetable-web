@@ -1,6 +1,6 @@
 import { toughCookie } from 'jsdom'
 
-function parseCookie(str) {
+export function parseCookie(str) {
   return str
     .split(',')
     .map((e) => toughCookie.parse(e).cookieString())
