@@ -4,17 +4,16 @@ import useMediaQuery from '../../../lib/hooks/useMediaQuery'
 import Layout from '../../../components/Layout'
 import Container from '../../../components/Container'
 import Modal from '../../../components/Modal/Modal'
+import Head from 'next/head'
 
 const Filters = () => (
   <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
     <ul>
-      <li className="text-accent-4 hover:bg-accent-1 hover:text-accent-8 focus:bg-accent-1 focus:text-accent-8 block text-sm leading-5 focus:outline-none lg:text-base lg:font-bold lg:tracking-wide lg:no-underline lg:hover:bg-transparent">
-        <div className="block px-4 py-2 lg:my-2 lg:mx-4 lg:inline-block lg:p-0">
-          学期
-        </div>
-      </li>
       {['2021-2022-1', '2021-2022-2'].map((e) => (
-        <li className="text-accent-4 hover:bg-accent-1 hover:text-accent-8 focus:bg-accent-1 focus:text-accent-8 block whitespace-nowrap text-sm leading-5 hover:underline focus:outline-none lg:hover:bg-transparent">
+        <li
+          key={e}
+          className="text-accent-4 hover:bg-accent-1 hover:text-accent-8 focus:bg-accent-1 focus:text-accent-8 block whitespace-nowrap text-sm leading-5 hover:underline focus:outline-none lg:hover:bg-transparent"
+        >
           <a
             className="block px-4 py-2 lg:my-2 lg:mx-4 lg:inline-block lg:p-0"
             href=""
@@ -27,10 +26,14 @@ const Filters = () => (
   </div>
 )
 
-export default function ({ data, ownerType, ownerName }) {
+function TimetablePage({ data, ownerType, ownerName }) {
   const isNotMobile = useMediaQuery('(min-width: 768px)', true, false)
   return (
     <Layout>
+      <Head>
+        <title>{ownerName}的课表-绮课</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Container>
         <div className="flex justify-center">
           <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
@@ -95,3 +98,5 @@ export async function getStaticPaths() {
 
   return { paths, fallback: 'blocking' }
 }
+
+export default TimetablePage
