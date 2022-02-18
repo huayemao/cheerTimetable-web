@@ -8,39 +8,7 @@ import Container from '../../components/Container'
 import Modal from '../../components/Modal/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
-import { TERMS } from '../../constants'
 import { SideBar } from '../../components/SideBar'
-
-const Filters = () => {
-  const router = useRouter()
-  const [type, id, term] = router.query.all
-  return (
-    <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-      <ul>
-        {TERMS.map((e) => (
-          <li
-            key={e}
-            className="focus:bg-accent-1 focus:text-accent-8 block whitespace-nowrap text-sm leading-5 text-gray-400 hover:text-gray-600 focus:outline-none lg:hover:bg-transparent"
-          >
-            <Link
-              // shallow
-              href={`/curriculum/${type}/${id}/${e}`}
-            >
-              <a
-                className={
-                  'block px-4 py-2 lg:my-2 lg:mx-4 lg:inline-block lg:p-0' +
-                  (term === e ? ' text-gray-600' : '')
-                }
-              >
-                {e}
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
 
 function TimetablePage(props) {
   const router = useRouter()
@@ -66,10 +34,15 @@ function TimetablePage(props) {
 
 function Content({ ownerName, ownerType, data }) {
   const isNotMobile = useMediaQuery('(min-width: 768px)', true, false)
+  const { courses, rawUrl } = data
   return (
     <>
       <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
-      <Timetable data={data} show7days={isNotMobile}></Timetable>
+      {courses?.length ? (
+        <Timetable courses={courses} show7days={isNotMobile}></Timetable>
+      ) : (
+        '这里一节课都没有呀'
+      )}
     </>
   )
 }
@@ -94,7 +67,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      data: timetables[term].data,
+      data: timetables[term],
       ownerType,
       ownerName,
     },

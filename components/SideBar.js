@@ -2,11 +2,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { TERMS } from '../constants'
 import useCollapsible from 'lib/hooks/useCollapsible'
+import { getTermsByStudent } from 'lib/term'
 import Select from 'components/Select'
 
 import React from 'react'
-
-const termItems = TERMS.map((e) => ({ key: e, label: e + ' 学期' }))
 
 const MenuItem = ({ children }) => (
   <li>
@@ -79,7 +78,13 @@ export const SideBar = () => {
   })
 
   const router = useRouter()
+
   const [type, id, term] = router.query.all
+
+  const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
+
+  const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
+
   return (
     <div className="hidden h-screen flex-col bg-slate-50 p-2 lg:flex">
       <Link href={'/'}>

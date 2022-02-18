@@ -31,7 +31,7 @@ export const parseTeacher = (str = '') => {
     )
 }
 
-export default function Timetable({ data, show7days }) {
+export default function Timetable({ courses, show7days }) {
   const router = useRouter()
   const { modal } = router.query
   const columnCount = show7days ? 7 : 5
@@ -43,16 +43,16 @@ export default function Timetable({ data, show7days }) {
 
   const getCourses = useCallback(
     (row, col) => {
-      const courses = data.filter((course) => {
+      const data = courses.filter((course) => {
         const { day, start } = parseTime(course.开课时间)
         if (!show7days && day > 5) {
           return false
         }
         return day === col && Math.ceil(start / 2) === row
       })
-      return courses
+      return data
     },
-    [data, show7days]
+    [courses, show7days]
   )
 
   const cells = emptyCells.map((e, i) =>
