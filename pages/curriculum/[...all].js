@@ -9,6 +9,7 @@ import Modal from '../../components/Modal/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
 import { TERMS } from '../../constants'
+import { SideBar } from '../../components/SideBar'
 
 const Filters = () => {
   const router = useRouter()
@@ -40,15 +41,6 @@ const Filters = () => {
     </div>
   )
 }
-
-const SideBar = () => (
-  <div className="hidden bg-slate-50 p-2 lg:block">
-    <Link href={'/'}>
-      <a className="ml-4 text-2xl text-blue-400 hover:text-blue-500">绮课</a>
-    </Link>
-    <Filters />
-  </div>
-)
 
 function TimetablePage(props) {
   const router = useRouter()
