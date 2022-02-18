@@ -13,7 +13,12 @@ import { TERMS } from '../../../constants'
 const Filters = () => {
   const router = useRouter()
   return (
-    <div role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+    <div
+      className=""
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="options-menu"
+    >
       <ul>
         {TERMS.map((e) => (
           <li
@@ -50,21 +55,29 @@ function TimetablePage({ timetables, ownerType, ownerName }) {
         <title>{ownerName}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container>
-        <div className="flex justify-center">
+      {/* <Container> */}
+      <div className="grid grid-cols-5 ">
+        {isNotMobile && (
+          <div className="bg-slate-50 p-2">
+            <Link href={'/'}>
+              <a className="ml-4 text-2xl text-blue-400 hover:text-blue-500">绮课</a>
+            </Link>
+            <Filters />
+          </div>
+        )}
+        <div className="col-span-4 flex h-screen flex-col items-center overflow-y-auto py-2">
           <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
-        </div>
-        <div className="flex">
-          {isNotMobile && <Filters />}
           <Timetable data={data} show7days={isNotMobile}></Timetable>
         </div>
-      </Container>
+      </div>
+      {/* </Container> */}
     </Layout>
   )
 }
 
 export async function getStaticProps(context) {
   const { id, type } = context.params
+  console.log(context)
 
   const data = await Promise.all(
     TERMS.map((term) => getTimeTable(type, id, term))
