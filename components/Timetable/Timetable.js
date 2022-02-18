@@ -96,7 +96,7 @@ export default function Timetable({ data, show7days }) {
       })
       return courses
     },
-    [data]
+    [data, show7days]
   )
 
   const cells = emptyCells.map((e, i) =>
@@ -106,7 +106,7 @@ export default function Timetable({ data, show7days }) {
   return (
     <div className="lg:mx-5">
       <div
-        className={`grid grid-cols-5 gap-2 lg:grid-cols-7 lg:gap-3`}
+        className={`grid grid-cols-5 gap-2 md:grid-cols-7 lg:gap-3`}
         style={{ gridAutoRows: '1fr' }}
       >
         {cells.map((e, i) => (
