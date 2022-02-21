@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { getNameById, getTimeTable } from '../../lib/api'
 import { Timetable, TimetableTitle } from '../../components/Timetable'
 import useMediaQuery from '../../lib/hooks/useMediaQuery'
@@ -9,21 +8,38 @@ import Modal from '../../components/Modal/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
 import { SideBar } from '../../components/SideBar'
+import { TermSelect } from '../../components/TermSelect'
 
 function TimetablePage(props) {
   const router = useRouter()
 
-  const term = router.query.all[2] || '2021-2022-2'
+  const [type, id, term = '2021-2022-2'] = router.query.all
   return (
-    <Layout>
+    <Layout
+      extraNavBarChildren={
+        <TimetableTitle
+          ownerName={props.ownerName}
+          ownerType={props.ownerType}
+        />
+      }
+      renderMenuItems={(toggleCollapsed) => (
+        <TermSelect
+          handleOnchange={toggleCollapsed}
+          type={type}
+          id={id}
+        ></TermSelect>
+      )}
+    >
       <Head>
         <title>{props.ownerName}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
         <div className="grid grid-cols-5 ">
-          <SideBar></SideBar>
-          <div className="col-span-5 flex  h-screen flex-col items-center overflow-y-auto py-2 lg:col-span-4">
+          <SideBar>
+            <TermSelect type={type} id={id}></TermSelect>
+          </SideBar>
+          <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
             {process.browser && <Content {...props}></Content>}
           </div>
         </div>
@@ -37,7 +53,6 @@ function Content({ ownerName, ownerType, data }) {
   const { courses, rawUrl } = data
   return (
     <>
-      <TimetableTitle ownerName={ownerName} ownerType={ownerType} />
       {courses?.length ? (
         <Timetable courses={courses} show7days={isNotMobile}></Timetable>
       ) : (

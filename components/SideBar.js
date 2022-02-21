@@ -1,11 +1,7 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { TERMS } from '../constants'
 import useCollapsible from 'lib/hooks/useCollapsible'
-import { getTermsByStudent } from 'lib/term'
-import Select from 'components/Select'
-
-import React from 'react'
 
 const MenuItem = ({ children }) => (
   <li>
@@ -72,73 +68,17 @@ function SubList({ label, items, renderItem }) {
   )
 }
 
-export const SideBar = () => {
-  const { collapsed, toggleCollapsed } = useCollapsible({
-    initialState: true,
-  })
-
+export const SideBar = ({ children }) => {
   const router = useRouter()
 
-  const [type, id, term] = router.query.all
-
-  const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
-
-  const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
-
   return (
-    <div className="hidden h-screen flex-col bg-slate-50 p-2 lg:flex">
-      <Link href={'/'}>
-        <a className="ml-4 text-2xl text-blue-400 hover:text-blue-500">绮课</a>
-      </Link>
-      <aside className="w-full flex-1 overflow-y-auto" aria-label="Sidebar">
-        <div className="h-full overflow-y-auto rounded bg-gray-50 px-3 py-4 dark:bg-gray-800">
-          <ul className="space-y-2">
-            {/* <li>
-              <SubList
-                label={'学期'}
-                items={TERMS}
-                renderItem={(e) => (
-                  <Link
-                    // shallow
-                    href={`/curriculum/${type}/${id}/${e}`}
-                  >
-                    <a
-                      href="#"
-                      className="group flex w-full items-center rounded-lg p-1 pl-11 text-base font-normal text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      {e}
-                    </a>
-                  </Link>
-                )}
-              ></SubList>
-            </li> */}
-            {/* <MenuItem>
-              <span className="ml-3 flex-1 whitespace-nowrap">导出</span>
-              <span className="ml-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                Pro
-              </span>
-            </MenuItem>
-            <MenuItem>
-              <span className="ml-3 flex-1 whitespace-nowrap">Inbox</span>
-              <span className="ml-3 inline-flex h-3 w-3 items-center justify-center rounded-full bg-blue-200 p-3 text-sm font-medium text-blue-600 dark:bg-blue-900 dark:text-blue-200">
-                3
-              </span>
-            </MenuItem> */}
-            <Select
-              options={termItems}
-              renderOption={({ label, key, isActive }) => (
-                <Link href={`/curriculum/${type}/${id}/${key}`}>
-                  <a
-                    href="#"
-                    className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal transition duration-75"
-                  >
-                    {label}
-                  </a>
-                </Link>
-              )}
-            ></Select>
-          </ul>
-        </div>
+    <div className="hidden h-screen flex-col overflow-y-auto bg-slate-50 p-2 lg:flex">
+      <aside
+        className="fixed h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4 dark:bg-gray-800"
+        aria-label="Sidebar"
+        style={{ maxWidth: '18vw' }}
+      >
+        <ul className="space-y-2">{children}</ul>
       </aside>
     </div>
   )
