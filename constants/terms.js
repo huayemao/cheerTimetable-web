@@ -1,3 +1,9 @@
+const CURRICULUM_TYPES = {
+  student: 'student',
+  teacher: 'teacher',
+  location: 'location',
+}
+
 const TERMS = (() => {
   const DATE = new Date()
   const curYear = DATE.getFullYear()
@@ -14,4 +20,4 @@ const TERMS = (() => {
   })
 })()
 
-export default TERMS
+export { TERMS }

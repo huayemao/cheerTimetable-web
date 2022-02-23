@@ -10,6 +10,10 @@ export default function Search() {
         if (students.length === 1) {
           const [s] = students
           router.push('/curriculum/student/' + s.xs0101id)
+        } else if (students.length > 1) {
+          router.push('/search/' + v)
+        } else {
+          alert('没有找到这个人哟')
         }
       })
   }

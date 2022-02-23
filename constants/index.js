@@ -1,2 +1,2 @@
-import TERMS from './terms'
-export { TERMS }
+export * from './fields'
+export * from './terms'

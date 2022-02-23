@@ -1,17 +1,22 @@
 import { useRouter } from 'next/router'
-import { getNameById, getTimeTable } from '../../lib/api'
-import { Timetable, TimetableTitle } from '../../components/Timetable'
-import useMediaQuery from '../../lib/hooks/useMediaQuery'
-import Layout from '../../components/Layout'
-import Container from '../../components/Container'
-import Modal from '../../components/Modal/Modal'
+import { getNameById } from 'lib/api/getMeta'
+import { getTimeTable } from 'lib/api/getTimeTable'
+import { Timetable, TimetableTitle } from 'components/Timetable'
+import useMediaQuery from 'lib/hooks/useMediaQuery'
+import Layout from 'components/Layout'
+import Container from 'components/Container'
+import Modal from 'components/Modal/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
-import { SideBar } from '../../components/SideBar'
-import { TermSelect } from '../../components/TermSelect'
+import { SideBar } from 'components/SideBar'
+import { TermSelect } from 'components/TermSelect'
 
 function TimetablePage(props) {
   const router = useRouter()
+
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
 
   const [type, id, term = '2021-2022-2'] = router.query.all
   return (
@@ -97,7 +102,7 @@ export async function getStaticPaths() {
     },
   ].map((e) => ({ params: e }))
 
-  return { paths, fallback: 'blocking' }
+  return { paths, fallback: true }
 }
 
 export default TimetablePage
