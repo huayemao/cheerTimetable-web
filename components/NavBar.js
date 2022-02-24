@@ -8,7 +8,7 @@ export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
   const isTimeTablePage = router.pathname.includes('curriculum')
 
   return (
-    <nav className="py-auto fixed top-0 z-10 h-16 w-full rounded border-gray-200 bg-white py-2.5 drop-shadow-sm dark:bg-gray-800">
+    <nav className="py-auto fixed top-0 z-10 h-16 w-full rounded border-gray-200 bg-white py-2.5 drop-shadow-sm">
       <div className="container flex flex-wrap items-center justify-between px-4">
         <Link href={'/'}>
           <a
@@ -30,7 +30,7 @@ export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
           onClick={toggleCollapsed}
           data-collapse-toggle="mobile-menu"
           type="button"
-          className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden"
+          className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 lg:hidden"
           aria-controls="mobile-menu-2"
           aria-expanded="false"
         >

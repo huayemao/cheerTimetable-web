@@ -29,9 +29,9 @@ export default function Modal({ children, title, onClose = console.log }) {
     <div>
       <div className={s.root}>
         <div className={s.modal} role="dialog" ref={ref}>
-          <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-            <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white lg:text-2xl">
+          <div className="relative rounded-lg bg-white shadow">
+            <div className="flex items-start justify-between rounded-t border-b p-5">
+              <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl">
                 {title}
               </h3>
               <button
@@ -55,7 +55,7 @@ export default function Modal({ children, title, onClose = console.log }) {
               </button>
             </div>
             <div className="space-y-6 p-6">
-              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              <p className="text-base leading-relaxed text-gray-500">
                 {children}
               </p>
             </div>

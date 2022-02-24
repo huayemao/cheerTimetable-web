@@ -7,10 +7,10 @@ const MenuItem = ({ children }) => (
   <li>
     <a
       href="#"
-      className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+      className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100"
     >
       <svg
-        className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+        className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900"
         fill="currentColor"
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ function SubList({ label, items, renderItem }) {
       <button
         onClick={toggleCollapsed}
         type="button"
-        className="group flex w-full items-center rounded-lg p-2 text-base font-normal text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+        className="group flex w-full items-center rounded-lg p-2 text-base font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
       >
         <span className="ml-3 flex-1 whitespace-nowrap text-left">{label}</span>
         <svg
@@ -77,7 +77,7 @@ export const SideBar = ({ children }) => {
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <aside
-        className="h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4 dark:bg-gray-800"
+        className="h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4"
         aria-label="Sidebar"
         style={{ maxWidth: '18vw' }}
       >

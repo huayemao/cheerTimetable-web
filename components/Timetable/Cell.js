@@ -64,7 +64,7 @@ export const Cell = ({ courses, onClick, showModal, num }) => {
       onClickCapture={() => {
         courses.length && router.push(...params)
       }}
-      className="flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none dark:hover:bg-slate-900 dark:hover:text-white"
+      className="flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none"
     >
       {courses[0] && (
         <>
