@@ -2,6 +2,7 @@ import NavBar from './NavBar'
 import cn from 'clsx'
 import useCollapsible from 'lib/hooks/useCollapsible'
 import { SideBar } from './SideBar'
+import { noop } from 'lodash'
 
 const Menu = ({ collapsed, children, toggleCollapsed }) => (
   <div
@@ -19,7 +20,7 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
           Services
         </a>
       </li> */}
-      <div className="px-2 w-full">{children}</div>
+      <div className="w-full px-2">{children}</div>
     </ul>
   </div>
 )
@@ -28,7 +29,7 @@ export default function Layout({
   preview,
   children,
   extraNavBarChildren,
-  renderMenuItems,
+  renderMenuItems = noop,
 }) {
   const { collapsed, toggleCollapsed } = useCollapsible({
     initialState: true,

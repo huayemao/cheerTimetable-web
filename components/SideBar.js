@@ -72,9 +72,12 @@ export const SideBar = ({ children }) => {
   const router = useRouter()
 
   return (
-    <div className="hidden h-screen flex-col overflow-y-auto bg-slate-50 p-2 lg:flex">
+    <div
+      className="hidden flex-col overflow-y-auto bg-slate-50 p-2 lg:flex"
+      style={{ height: 'calc(100vh - 4rem)' }}
+    >
       <aside
-        className="fixed h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4 dark:bg-gray-800"
+        className="h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4 dark:bg-gray-800"
         aria-label="Sidebar"
         style={{ maxWidth: '18vw' }}
       >

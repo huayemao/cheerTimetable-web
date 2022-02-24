@@ -9,12 +9,12 @@ import Head from 'next/head'
 import { keyBy } from 'lodash'
 import { SideBar } from 'components/SideBar'
 import MappedTable from 'components/MappedTable'
-import { TermSelect } from 'components/TermSelect'
 import { getFieldDetail } from 'lib/api/getFieldDetail'
 import Link from 'next/link'
 
 function SearchPage({ data }) {
   const router = useRouter()
+  const name = decodeURIComponent(router.query.name)
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -22,22 +22,30 @@ function SearchPage({ data }) {
   // console.log(props)
 
   return (
-    <div>
-      <MappedTable
-        data={data}
-        customCell={({ propertyName, value, item }) =>
-          propertyName === '姓名' ? (
-            <Link href={`/curriculum/student/${item.学号}`}>
-              <a className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal transition duration-75">
-                {value}
-              </a>
-            </Link>
-          ) : (
-            value
-          )
-        }
-      ></MappedTable>
-    </div>
+    <Layout
+      extraNavBarChildren={
+        <h2 className="text-xl font-thin text-blue-500">{name}的搜索结果</h2>
+      }
+    >
+      <Head>
+        <title>{name}的搜索结果-绮课</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Container>
+        <MappedTable
+          data={data}
+          customCell={({ propertyName, value, item }) =>
+            propertyName === '姓名' && item.年级 > '2016' ? (
+              <Link href={`/curriculum/student/${item.学号}`}>
+                <a className="text-blue-500 transition duration-75">{value}</a>
+              </Link>
+            ) : (
+              value
+            )
+          }
+        ></MappedTable>
+      </Container>
+    </Layout>
   )
 }
 

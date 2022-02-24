@@ -4,7 +4,7 @@ const CURRICULUM_TYPES = {
   location: 'location',
 }
 
-const TERMS = (() => {
+const baseTerms = (() => {
   const DATE = new Date()
   const curYear = DATE.getFullYear()
   const curMonth = DATE.getMonth() + 1
@@ -20,4 +20,4 @@ const TERMS = (() => {
   })
 })()
 
-export { TERMS }
+export default { baseTerms }

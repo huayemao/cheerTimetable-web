@@ -1,8 +1,12 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import cn from 'clsx'
 import Link from 'next/link'
 
 export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
+  const router = useRouter()
+  const isTimeTablePage = router.pathname.includes('curriculum')
+
   return (
     <nav className="py-auto fixed top-0 z-10 h-16 w-full rounded border-gray-200 bg-white py-2.5 drop-shadow-sm dark:bg-gray-800">
       <div className="container flex flex-wrap items-center justify-between px-4">
@@ -16,7 +20,10 @@ export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
             绮课
           </a>
         </Link>
-        <div style={{ flex: 4 }} className="flex justify-center">
+        <div
+          style={{ flex: isTimeTablePage ? 4 : 16 }}
+          className="flex justify-center"
+        >
           {children}
         </div>
         <button

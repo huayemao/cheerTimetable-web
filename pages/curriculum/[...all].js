@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getNameById } from 'lib/api/getMeta'
 import { getTimeTable } from 'lib/api/getTimeTable'
@@ -5,14 +6,17 @@ import { Timetable, TimetableTitle } from 'components/Timetable'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Layout from 'components/Layout'
 import Container from 'components/Container'
-import Modal from 'components/Modal/Modal'
+import Modal from 'components/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
 import { SideBar } from 'components/SideBar'
 import { TermSelect } from 'components/TermSelect'
+import useLinkTransition from 'lib/hooks/useLinkTransition'
+import Loading from '../../components/Loading'
 
 function TimetablePage(props) {
   const router = useRouter()
+  const loading = useLinkTransition()
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -42,10 +46,12 @@ function TimetablePage(props) {
       <Container>
         <div className="grid grid-cols-5 ">
           <SideBar>
-            <TermSelect type={type} id={id}></TermSelect>
+            <TermSelect type={type} id={id} />
           </SideBar>
           <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
-            {process.browser && <Content {...props}></Content>}
+            {process.browser && (
+              <Content {...props} loading={loading}></Content>
+            )}
           </div>
         </div>
       </Container>
@@ -53,9 +59,12 @@ function TimetablePage(props) {
   )
 }
 
-function Content({ ownerName, ownerType, data }) {
+function Content({ ownerName, ownerType, data, loading }) {
   const isNotMobile = useMediaQuery('(min-width: 768px)', true, false)
   const { courses, rawUrl } = data
+  if (loading) {
+    return <Loading size={60} />
+  }
   return (
     <>
       {courses?.length ? (
