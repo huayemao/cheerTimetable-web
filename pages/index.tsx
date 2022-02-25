@@ -41,7 +41,7 @@ export default function Home() {
           </Link>
         </h1>
 
-        <div className="mt-3 flex w-full items-center justify-center">
+        <div className="mx-10 mt-4 w-full items-center justify-center">
           <Search onSubmit={handleSearch} onChange={setQ}></Search>
           <button
             onClick={() => {
