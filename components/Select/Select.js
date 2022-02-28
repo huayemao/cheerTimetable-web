@@ -68,7 +68,7 @@ export default function Select({
                   }}
                   key={option.key}
                   className={cn(
-                    'pointer-cursor before:hover:bg-accent-1 focus:bg-accent-1 block cursor-pointer p-2 text-sm leading-5 hover:text-blue-500 focus:text-blue-500 focus:outline-none lg:hover:bg-transparent',
+                    'pointer-cursor before:hover:bg-accent-1 focus:bg-accent-1 block cursor-pointer p-1 text-sm leading-5 hover:text-blue-500 focus:text-blue-500 focus:outline-none lg:hover:bg-transparent',
                     {
                       'text-blue-500': option.key === activeKey,
                     }

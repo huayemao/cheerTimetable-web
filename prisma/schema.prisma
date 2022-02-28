@@ -1,0 +1,16 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+model Cookie {
+    id    Int     @id @default(autoincrement())
+    value String
+    date  String
+}
