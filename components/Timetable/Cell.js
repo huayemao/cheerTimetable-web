@@ -110,7 +110,7 @@ export const Cell = ({ courses, onClick, showModal, num }) => {
       )}
       {courses.length > 1 && (
         <div className="absolute top-0 right-0">
-          <IconInfo className='w-4 h-4' />
+          <IconInfo className="h-4 w-4" />
         </div>
       )}
     </div>
@@ -122,7 +122,7 @@ function CourseDetailModal({ courses, router, num }) {
   const isChoosing = courses.length > 1 && !courseId
   const activeCourse =
     courses.length > 1
-      ? courses.find((e) => e.开课编号 === courseId)?.开课课程
+      ? courses.find((e) => e.开课编号 === courseId)
       : courses[0]
   const courseTitle = activeCourse?.开课课程
 
