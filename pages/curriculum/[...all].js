@@ -10,14 +10,20 @@ import Modal from 'components/Modal'
 import Head from 'next/head'
 import { keyBy } from 'lodash'
 import { SideBar } from 'components/SideBar'
-import { TermSelect } from 'components/TermSelect'
+import TermSelect from 'components/TermSelect'
+import Select from 'components/Select'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import Loading from '../../components/Loading'
+import {
+  usePreferenceDispatch,
+  usePreference,
+} from 'contexts/preferenceContext'
 
 function TimetablePage(props) {
   const router = useRouter()
   const loading = useLinkTransition()
 
+  const dispath = usePreferenceDispatch()
   if (router.isFallback) {
     return <div>Loading...</div>
   }
@@ -32,11 +38,20 @@ function TimetablePage(props) {
         />
       }
       renderMenuItems={(toggleCollapsed) => (
-        <TermSelect
-          handleOnchange={toggleCollapsed}
-          type={type}
-          id={id}
-        ></TermSelect>
+        <div className="menu-wrapper bg-white">
+          <TermSelect handleOnchange={toggleCollapsed} />
+          <Select
+            options={[
+              { label: '展示5天', key: '5' },
+              { label: '展示7天', key: '7' },
+            ]}
+            onChange={(key) => {
+              dispath({ type: `SHOW_${key}_DAYS_ON_MOBILE` })
+              toggleCollapsed()
+            }}
+            defaultValue={'5'}
+          />
+        </div>
       )}
     >
       <Head>
@@ -60,15 +75,19 @@ function TimetablePage(props) {
 }
 
 function Content({ ownerName, ownerType, data, loading }) {
-  const isNotMobile = useMediaQuery('(min-width: 768px)', true, false)
+  const isMobile = useMediaQuery('(max-width: 768px)', true, false)
   const { courses, rawUrl } = data
+  const { show7DaysOnMobile } = usePreference()
   if (loading) {
     return <Loading size={60} />
   }
   return (
     <>
       {courses?.length ? (
-        <Timetable courses={courses} show7days={isNotMobile}></Timetable>
+        <Timetable
+          courses={courses}
+          show7days={!isMobile || (isMobile && show7DaysOnMobile)}
+        ></Timetable>
       ) : (
         '这里一节课都没有呀'
       )}

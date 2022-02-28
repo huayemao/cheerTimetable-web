@@ -1,0 +1,41 @@
+.timetable {
+  @apply mx-2 grid grid-cols-5 gap-2 lg:gap-3;
+}
+
+.show-7-days {
+  @apply grid-cols-7;
+}
+
+.timetable.show-7-days > .first-row {
+  @apply border-t;
+}
+
+.timetable.show-7-days > .first-col {
+  @apply border-l;
+}
+
+.course-title {
+  @apply truncate font-medium;
+}
+
+.cell {
+  @apply rounded-l-xl rounded-b-xl border border-blue-500;
+}
+
+@media screen and (max-width: 768px) {
+  .show-7-days .cell {
+    @apply rounded-none border-l-0 border-t-0 border-r border-b border-blue-300;
+  }
+
+  .course-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .show-7-days {
+    @apply mx-0 gap-0;
+  }
+}

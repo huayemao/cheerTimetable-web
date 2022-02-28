@@ -1,11 +1,15 @@
 import Link from 'next/link'
+import cn from 'clsx'
 import Modal from '../Modal'
 import { useRouter } from 'next/router'
 import { map, mapValues, omit, pick } from 'lodash'
 import List from '../List'
 import { parseLocation, parseTeacher } from './Timetable'
+import s from './Timetable.module.css'
 
 export const Cell = ({ courses, onClick, showModal, num }) => {
+  const isFirstRow = Math.floor(num / 7) === 0
+  const isFirstCol = Math.floor(num % 7) === 0
   const router = useRouter()
   const transformer = {
     授课教师: (v, withLink = false) =>
@@ -64,12 +68,25 @@ export const Cell = ({ courses, onClick, showModal, num }) => {
       onClickCapture={() => {
         courses.length && router.push(...params)
       }}
-      className="flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none"
+      className={cn(
+        'flex flex-col items-center justify-center px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none',
+        {
+          [s['first-row']]: isFirstRow,
+          [s['first-col']]: isFirstCol,
+          [s.cell]: true,
+        }
+      )}
     >
       {courses[0] && (
         <>
           {map(cellData, (v, k) => (
-            <div key={k} className="max-w-full truncate">
+            <div
+              key={k}
+              className={cn('max-w-full font-light', {
+                [s['course-title']]: k === '开课课程',
+                truncate: k !== '开课课程',
+              })}
+            >
               {v}
             </div>
           ))}

@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import cn from 'clsx'
 import { useRef } from 'react'
-import useClickOutside from '../../lib/hooks/useClickOutside'
-import useCollapsible from '../../lib/hooks/useCollapsible'
+import useClickOutside from 'lib/hooks/useClickOutside'
+import useCollapsible from 'lib/hooks/useCollapsible'
 
 export default function Select({
   options,
   defaultValue,
   onChange = () => {},
-  renderOption = (e) => e,
+  renderOption = (e) => e.label,
 }) {
   const { collapsed, toggleCollapsed } = useCollapsible({
     initialState: true,
@@ -59,28 +59,25 @@ export default function Select({
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            <ul>
+            <ul className="bg-white">
               {options.map((option) => (
                 <li
+                  onClick={() => {
+                    setActiveKey(option.key)
+                    onChange(option.key)
+                  }}
                   key={option.key}
                   className={cn(
-                    'pointer-cursor before:hover:bg-accent-1 focus:bg-accent-1 block cursor-pointer text-sm leading-5 hover:text-blue-500 focus:text-blue-500 focus:outline-none lg:hover:bg-transparent',
+                    'pointer-cursor before:hover:bg-accent-1 focus:bg-accent-1 block cursor-pointer p-2 text-sm leading-5 hover:text-blue-500 focus:text-blue-500 focus:outline-none lg:hover:bg-transparent',
                     {
                       'text-blue-500': option.key === activeKey,
                     }
                   )}
                 >
-                  <span
-                    onClick={() => {
-                      setActiveKey(option.key)
-                      onChange(option.key)
-                    }}
-                  >
-                    {renderOption({
-                      ...option,
-                      isActive: activeKey === option.key,
-                    })}
-                  </span>
+                  {renderOption({
+                    ...option,
+                    isActive: activeKey === option.key,
+                  })}
                 </li>
               ))}
             </ul>

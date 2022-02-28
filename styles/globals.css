@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.menu-wrapper > * + * {
+  @apply mt-2;
+}

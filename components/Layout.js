@@ -11,7 +11,7 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
     })}
     id="mobile-menu"
   >
-    <ul className="absolute left-0 top-16 bottom-0 flex w-full flex-col bg-white pt-4  drop-shadow md:flex-row md:space-x-8 md:pt-0 md:text-sm md:font-medium lg:static">
+    <ul className="absolute left-0 top-16 bottom-0 flex w-full flex-col bg-black bg-opacity-40 drop-shadow md:flex-row md:space-x-8 md:pt-0 md:text-sm md:font-medium lg:static">
       {/* <li>
         <a
           href="#"
@@ -20,7 +20,7 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
           Services
         </a>
       </li> */}
-      <div className="w-full px-2">{children}</div>
+      <div className="w-full bg-white px-2 py-5">{children}</div>
     </ul>
   </div>
 )

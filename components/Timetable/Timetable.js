@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import { map, pick } from 'lodash'
+import cn from 'clsx'
 import { Cell } from './Cell'
+import s from './Timetable.module.css'
 
 const parseTime = (str) => {
   const day = parseInt(str[0], 10)
@@ -62,7 +64,9 @@ export default function Timetable({ courses, show7days }) {
   return (
     <div className="lg:mx-5">
       <div
-        className={`grid grid-cols-5 gap-2 md:grid-cols-7 lg:gap-3`}
+        className={cn(s.timetable, {
+          [s['show-7-days']]: show7days,
+        })}
         style={{ gridAutoRows: '1fr' }}
       >
         {cells.map((e, i) => (
