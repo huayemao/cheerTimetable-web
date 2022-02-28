@@ -28,7 +28,7 @@ export default function Select({
         <button
           type="button"
           onClick={toggleCollapsed}
-          className="border-accent-3 bg-accent-0 text-accent-4 hover:text-accent-5 focus:shadow-outline-normal active:bg-accent-1 active:text-accent-8 flex w-full justify-between rounded-sm border px-4 py-3 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none"
+          className="border-accent-3 bg-accent-0 focus:outline:none flex w-full justify-between rounded-md border px-4 py-3 text-sm leading-5 text-slate-500 transition  duration-150 ease-in-out hover:text-slate-700 focus:border-blue-300 active:bg-slate-100 active:text-slate-700"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -59,16 +59,17 @@ export default function Select({
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            <ul className="bg-white">
+            <ul className="space-y-0.5 bg-white py-2">
               {options.map((option) => (
                 <li
+                  role="menuitem"
                   onClick={() => {
                     setActiveKey(option.key)
                     onChange(option.key)
                   }}
                   key={option.key}
                   className={cn(
-                    'pointer-cursor before:hover:bg-accent-1 focus:bg-accent-1 block cursor-pointer p-1 text-sm leading-5 hover:text-blue-500 focus:text-blue-500 focus:outline-none lg:hover:bg-transparent',
+                    'pointer-cursor focus:bg-accent-1 block cursor-pointer py-0.5 text-sm leading-5 hover:bg-blue-50 hover:text-blue-500 focus:text-blue-500 ',
                     {
                       'text-blue-500': option.key === activeKey,
                     }

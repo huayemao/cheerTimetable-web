@@ -11,17 +11,9 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
     })}
     id="mobile-menu"
   >
-    <ul className="absolute left-0 top-16 bottom-0 flex w-full flex-col bg-black bg-opacity-40 drop-shadow md:flex-row md:space-x-8 md:pt-0 md:text-sm md:font-medium lg:static">
-      {/* <li>
-        <a
-          href="#"
-          className="block border-b border-gray-100 py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white"
-        >
-          Services
-        </a>
-      </li> */}
+    <div className="absolute left-0 top-16 bottom-0 flex w-full flex-col bg-black bg-opacity-40 drop-shadow md:flex-row md:space-x-8 md:pt-0 md:text-sm md:font-medium lg:static">
       <div className="w-full bg-white px-2 py-5">{children}</div>
-    </ul>
+    </div>
   </div>
 )
 

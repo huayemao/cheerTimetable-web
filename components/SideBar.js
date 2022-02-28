@@ -73,15 +73,17 @@ export const SideBar = ({ children }) => {
 
   return (
     <div
-      className="hidden flex-col overflow-y-auto bg-slate-50 p-2 lg:flex"
+      className="hidden flex-col overflow-y-auto lg:flex "
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <aside
-        className="h-full w-full flex-1 overflow-y-auto rounded  bg-gray-50 px-3 py-4"
+        className="fixed drop-shadow-sm top-16 h-full w-full flex-1 overflow-y-auto bg-blue-100"
         aria-label="Sidebar"
         style={{ maxWidth: '18vw' }}
       >
-        <ul className="space-y-2">{children}</ul>
+        <div className="backdrop-blur-sm h-full w-full bg-slate-50 bg-opacity-95 px-3 py-4 backdrop-filter">
+          <ul className="space-y-2 ">{children}</ul>
+        </div>
       </aside>
     </div>
   )
