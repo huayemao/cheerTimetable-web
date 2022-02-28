@@ -4,7 +4,7 @@ import Modal from '../Modal'
 import { useRouter } from 'next/router'
 import { map, mapValues, omit, pick } from 'lodash'
 import List from '../List'
-import { parseLocation, parseTeacher } from './Timetable'
+import { parseLocation, parseTeacher } from '../../lib/parseCourseFields'
 import s from './Timetable.module.css'
 
 export const Cell = ({ courses, onClick, showModal, num }) => {

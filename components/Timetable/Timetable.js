@@ -4,34 +4,7 @@ import { map, pick } from 'lodash'
 import cn from 'clsx'
 import { Cell } from './Cell'
 import s from './Timetable.module.css'
-
-const parseTime = (str) => {
-  const day = parseInt(str[0], 10)
-  const start = parseInt(str.slice(1, 3), 10)
-  const end = parseInt(str.slice(3, 5), 10)
-  return {
-    day,
-    start,
-    end,
-  }
-}
-
-export const parseLocation = (str = '') => {
-  const [id, title] = str.split(',')
-  return { id, title }
-}
-
-export const parseTeacher = (str = '') => {
-  return str
-    .split(',')
-    .reduce(
-      (acc, item, i, arr) =>
-        i < arr.length / 2
-          ? [...acc, { id: item, title: arr[arr.length / 2 + i] }]
-          : acc,
-      []
-    )
-}
+import { parseTime } from '../../lib/parseCourseFields'
 
 export default function Timetable({ courses, show7days }) {
   const router = useRouter()
