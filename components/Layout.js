@@ -44,12 +44,12 @@ export default function Layout({
         >
           {extraNavBarChildren}
         </NavBar>
+        <main className="h-screen pt-16 ">{children}</main>
         <div className="large:hidden">
           <Menu collapsed={collapsed} toggleCollapsed={toggleCollapsed}>
             {renderMenuItems(toggleCollapsed)}
           </Menu>
         </div>
-        <main className="h-screen pt-16 ">{children}</main>
       </div>
     </>
   )

@@ -15,7 +15,7 @@
 }
 
 .course-title {
-  @apply truncate font-medium;
+  @apply text-sm truncate font-medium mb-0.5;
 }
 
 .cell {
