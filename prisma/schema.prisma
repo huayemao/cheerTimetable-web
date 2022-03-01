@@ -12,5 +12,5 @@ datasource db {
 model Cookie {
     id    Int     @id @default(autoincrement())
     value String
-    date  String
+    date  DateTime @default("2020-03-19T14:21:00+02:00")
 }
