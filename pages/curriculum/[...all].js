@@ -58,18 +58,14 @@ function TimetablePage(props) {
         <title>{props.ownerName}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container>
-        <div className="grid grid-cols-5 ">
-          <SideBar>
-            <TermSelect type={type} id={id} />
-          </SideBar>
-          <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
-            {process.browser && (
-              <Content {...props} loading={loading}></Content>
-            )}
-          </div>
+      <div className="grid grid-cols-5 ">
+        <SideBar>
+          <TermSelect type={type} id={id} />
+        </SideBar>
+        <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
+          {process.browser && <Content {...props} loading={loading}></Content>}
         </div>
-      </Container>
+      </div>
     </Layout>
   )
 }

@@ -37,7 +37,7 @@ function SearchPage({ data, name }) {
           <div className="flex h-full items-center justify-center">
             <Loading size={60} />
           </div>
-        ) : (
+        ) : data.length ? (
           <MappedTable
             data={data}
             propertyNames={Object.keys(data[0]).filter(
@@ -55,6 +55,10 @@ function SearchPage({ data, name }) {
               )
             }
           ></MappedTable>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            没有搜索到这位同学哦
+          </div>
         )}
       </Container>
       {loading && (
