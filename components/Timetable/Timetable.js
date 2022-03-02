@@ -16,8 +16,6 @@ export default function Timetable({ courses, show7days }) {
     (e, i) => i + 1
   )
 
-  console.log(emptyCells.length)
-
   const getCourses = useCallback(
     (row, col) => {
       const data = courses.filter((course) => {
@@ -25,22 +23,19 @@ export default function Timetable({ courses, show7days }) {
         if (!show7days && day > 5) {
           return false
         }
-
-        const isTheDay = day === col || day === columnCount
-        const isThePeriod = Math.ceil(start / 2) === row
-
-        return isTheDay && isThePeriod
+        return day === col && Math.ceil(start / 2) === row
       })
       return data
     },
-    [columnCount, courses, show7days]
+    [courses, show7days]
   )
 
   const cells = emptyCells.map((e, i) =>
-    getCourses(Math.ceil(e / columnCount), e % columnCount)
+    getCourses(
+      Math.ceil(e / columnCount),
+      e % columnCount === 0 && e >= columnCount ? columnCount : e % columnCount
+    )
   )
-
-  console.log(cells)
 
   return (
     <div className="lg:mx-5">
