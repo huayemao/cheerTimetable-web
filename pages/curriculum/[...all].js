@@ -63,14 +63,20 @@ function TimetablePage(props) {
           <TermSelect type={type} id={id} />
         </SideBar>
         <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
-          {process.browser && <Content {...props} loading={loading}></Content>}
+          {process.browser && (
+            <Content
+              {...props}
+              icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
+              loading={loading}
+            ></Content>
+          )}
         </div>
       </div>
     </Layout>
   )
 }
 
-function Content({ ownerName, ownerType, data, loading }) {
+function Content({ ownerName, ownerType, data, loading, icsUrl }) {
   const isMobile = useMediaQuery('(max-width: 768px)', true, false)
   const { courses, rawUrl } = data
   const { show7DaysOnMobile } = usePreference()
@@ -87,6 +93,10 @@ function Content({ ownerName, ownerType, data, loading }) {
       ) : (
         '这里一节课都没有呀'
       )}
+      <div className=" mx-6 mt-4 self-start break-all font-thin leading-6 text-blue-500">
+        <h4 className="text-medium text-gray-500"> 日历订阅 (experimental):</h4>
+        <div className="text-xs">{icsUrl}</div>
+      </div>
     </>
   )
 }
