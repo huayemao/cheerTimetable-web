@@ -15,11 +15,11 @@
 }
 
 .course-title {
-  @apply text-sm truncate font-medium mb-0.5;
+  @apply mb-0.5 truncate text-sm font-medium;
 }
 
 .cell {
-  @apply rounded-l-xl rounded-b-xl border border-blue-500;
+  @apply relative flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none;
 }
 
 @media screen and (max-width: 768px) {

@@ -18,13 +18,23 @@ export default function Timetable({ courses, show7days }) {
 
   const getCourses = useCallback(
     (row, col) => {
-      const data = courses.filter((course) => {
-        const { day, start } = parseTime(course.开课时间)
-        if (!show7days && day > 5) {
-          return false
-        }
-        return day === col && Math.ceil(start / 2) === row
-      })
+      const data = courses
+        .filter((course) => {
+          const { day, start, end } = parseTime(course.开课时间)
+          if (!show7days && day > 5) {
+            return false
+          }
+          return day === col && Math.ceil(start / 2) === row
+        })
+        .map((course) => {
+          if (course) {
+            const { day, start, end } = parseTime(course.开课时间)
+            const rowSpan = Math.ceil((end - start) / 2)
+            return { ...course, rowSpan }
+          } else {
+            return course
+          }
+        })
       return data
     },
     [courses, show7days]
@@ -37,6 +47,11 @@ export default function Timetable({ courses, show7days }) {
     )
   )
 
+  const getRowSpan = (courses) => {
+    return courses.reduce((maxSpan, item) => Math.max(maxSpan, item.rowSpan), 0)
+  }
+  const rowSpanInfo = cells.map(getRowSpan)
+
   return (
     <div className="lg:mx-5">
       <div
@@ -45,14 +60,17 @@ export default function Timetable({ courses, show7days }) {
         })}
         style={{ gridAutoRows: '1fr' }}
       >
-        {cells.map((e, i) => (
-          <Cell
-            showModal={parseInt(modal, 10) === i}
-            key={i}
-            num={i}
-            courses={e}
-          />
-        ))}
+        {cells.map((e, i) =>
+          rowSpanInfo[i - columnCount] === 2 && !e.length ? null : (
+            <Cell
+              showModal={parseInt(modal, 10) === i}
+              key={i}
+              num={i}
+              courses={e}
+              rowSpan={rowSpanInfo[i]}
+            />
+          )
+        )}
       </div>
     </div>
   )

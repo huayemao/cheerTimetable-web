@@ -44,7 +44,7 @@ const CourseChoose = ({ courseList, router, num }) => {
   return map(courseList, (course) => {
     const params = {
       pathname: router.asPath.split('?')[0],
-      query: { modal: num, courseId: course.开课编号 },
+      query: { modal: num, courseId: course.开课编号, seq: course.序号 },
     }
     return (
       <div>
@@ -56,7 +56,7 @@ const CourseChoose = ({ courseList, router, num }) => {
   })
 }
 
-export const Cell = ({ courses, onClick, showModal, num }) => {
+export const Cell = ({ courses, onClick, showModal, num, rowSpan }) => {
   const isFirstRow = Math.floor(num / 7) === 0
   const isFirstCol = Math.floor(num % 7) === 0
   const router = useRouter()
@@ -81,14 +81,12 @@ export const Cell = ({ courses, onClick, showModal, num }) => {
       onClickCapture={() => {
         courses.length && router.push(...params)
       }}
-      className={cn(
-        'relative flex flex-col items-center justify-center px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none',
-        {
-          [s['first-row']]: isFirstRow,
-          [s['first-col']]: isFirstCol,
-          [s.cell]: true,
-        }
-      )}
+      className={cn(s.cell, {
+        [s['first-row']]: isFirstRow,
+        [s['first-col']]: isFirstCol,
+        'row-span-1': rowSpan === 1,
+        'row-span-2': rowSpan === 2,
+      })}
     >
       {courses[0] && (
         <>
@@ -118,16 +116,16 @@ export const Cell = ({ courses, onClick, showModal, num }) => {
 }
 function CourseDetailModal({ courses, router, num }) {
   const { query } = router
-  const { modal, courseId } = query
+  const { modal, courseId, seq } = query
   const isChoosing = courses.length > 1 && !courseId
   const activeCourse =
     courses.length > 1
-      ? courses.find((e) => e.开课编号 === courseId)
+      ? courses.find((e) => e.开课编号 === courseId && e.序号 === seq)
       : courses[0]
   const courseTitle = activeCourse?.开课课程
 
   const data = activeCourse
-    ? mapValues(omit(activeCourse, ['序号', '操作']), getValue(true))
+    ? mapValues(omit(activeCourse, ['序号', '操作', 'rowSpan']), getValue(true))
     : null
 
   return (
