@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import dayjs from 'dayjs'
 import { getNameById, searchByName } from 'lib/api/getMeta'
 import { getTimeTable } from 'lib/api/getTimeTable'
 import { parseLocation, parseTime, parseTeacher } from 'lib/parseCourseFields'
-
-import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import timezone from 'dayjs/plugin/timezone'
 import ical, {
   ICalEvent,
   ICalEventRepeatingFreq,
@@ -15,6 +15,12 @@ import ical, {
 
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
+dayjs.extend(timezone)
+
+const TIME_ZONE = 'Asia/Shanghai'
+const getDate = (str) => {
+  return dayjs.tz(str, 'YYYY-MM-DD-HH-mm', TIME_ZONE)
+}
 
 const dateMapping = {
   '2021-2022-2': '2022-02-20',
@@ -95,16 +101,17 @@ const buildEventWithLoop = (
     interval: hasGap ? 1 : 0,
   }
 
-  const datetime = `${dateMapping[term]}-${timeMapping[String(course.start)]}`
+  const datetimeStr = `${dateMapping[term]}-${
+    timeMapping[String(course.start)]
+  }`
 
-  const termStartDay = dayjs(datetime, 'YYYY-MM-DD-HH-mm')
+  const termStartDay = getDate(datetimeStr)
 
-  const endDateTime = `${dateMapping[term]}-${timeMapping[String(course.end)]}`
+  const endDateTimeStr = `${dateMapping[term]}-${
+    timeMapping[String(course.end)]
+  }`
 
-  const termStartDayCourseEndTime = dayjs(endDateTime, 'YYYY-MM-DD-HH-mm')
-  console.log(course.end)
-  console.log(datetime)
-  // console.log(endDateTime)
+  const termStartDayCourseEndTime = getDate(endDateTimeStr)
 
   const start = termStartDay
     .add(actualStartWeek - 1, 'week')
@@ -122,6 +129,7 @@ const buildEventWithLoop = (
       description: course.description,
       location: course.location,
       repeating,
+      timezone: 'Asia/Shanghai',
     },
     cal
   )
