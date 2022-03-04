@@ -13,6 +13,8 @@ import ical, {
   ICalRepeatingOptions,
 } from 'ical-generator'
 
+// todo:clean code，整理课程字段
+
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 dayjs.extend(timezone)
@@ -68,6 +70,7 @@ const transformData = (course) => {
     end,
     location,
     weekStr,
+    单双周,
   }
 }
 
@@ -78,10 +81,17 @@ const buildEvent = (cal, term, course, week) => {
   if (week.includes('-')) {
     const [startWeek, endWeek] = week.split('-')
     const actualStartWeek =
-      course.单双周 === '全部'
+      course.单双周 !== '全部'
         ? getFirstMatchedWeek(course.单双周, startWeek, endWeek)
         : startWeek
-    return buildEventWithLoop(cal, term, course, actualStartWeek, endWeek, true)
+    return buildEventWithLoop(
+      cal,
+      term,
+      course,
+      actualStartWeek,
+      endWeek,
+      course.单双周 !== '全部'
+    )
   } else {
     return buildEventWithLoop(cal, term, course, week, week, false)
   }
@@ -95,10 +105,22 @@ const buildEventWithLoop = (
   endWeek,
   hasGap
 ) => {
+  const literalCount = parseInt(endWeek) - parseInt(actualStartWeek) + 1
+  const mapping = {
+    双周: 0,
+    单周: 1,
+  }
+  const count = hasGap
+    ? Array.from(
+        { length: literalCount },
+        (e, i) => i + parseInt(actualStartWeek)
+      ).filter((e) => e % 2 === mapping[course.单双周]).length
+    : literalCount
+
   const repeating: ICalRepeatingOptions = {
     freq: ICalEventRepeatingFreq.WEEKLY,
-    count: parseInt(endWeek) - parseInt(actualStartWeek) + 1,
-    interval: hasGap ? 1 : 0,
+    count,
+    interval: hasGap ? 2 : 0,
   }
 
   const datetimeStr = `${dateMapping[term]}-${
@@ -140,7 +162,12 @@ const getFirstMatchedWeek = (weekDescription, startWeek, endWeek) => {
     双周: 0,
     单周: 1,
   }
-  return startWeek % 2 === mapping[weekDescription] ? startWeek : startWeek + 1
+  const week =
+    startWeek % 2 === mapping[weekDescription]
+      ? startWeek
+      : parseInt(startWeek, 10) + 1
+
+  return week
 }
 
 // http://localhost:3000/api/ical/student/8305180722/2018-2019-2.ics
@@ -164,6 +191,5 @@ export default async function handler(
   calendar.events(events)
 
   // console.log(calendar.toJSON())
-
-  calendar.serve(res)
+  calendar.serve(res, `${term}.ics`)
 }

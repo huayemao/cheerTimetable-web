@@ -27,10 +27,14 @@ export default function Timetable({ courses, show7days }) {
           return day === col && Math.ceil(start / 2) === row
         })
         .map((course) => {
+          const 上课周次 =
+            course.上课周次 +
+            ' ' +
+            (course.单双周 === '全部' ? '周' : course.单双周)
           if (course) {
             const { day, start, end } = parseTime(course.开课时间)
             const rowSpan = Math.ceil((end - start) / 2)
-            return { ...course, rowSpan }
+            return { ...course, rowSpan, 上课周次 }
           } else {
             return course
           }
