@@ -37,21 +37,10 @@ const getSlot = (str: string): TimetaleSlot => {
 const getLocation = (str: string) => str.split(',')[0]
 //'4080107,T107'=>'T107'
 
-const getWeekInterval = (str: string): WeekInterval => {
-  const mapping = {
-    全部: 'none',
-    单周: 'odd',
-    双周: 'even',
-  }
-  return mapping[str]
-}
-//'4080107,T107'=>'T107'
-
 export const valueMapper = {
   授课教师: getTeacherIds,
   开课时间: getSlot,
   上课地点: getLocation,
-  单双周: getWeekInterval, //'全部',
 }
 
 export default function parseCourseItem(obj: Object): CourseItem {

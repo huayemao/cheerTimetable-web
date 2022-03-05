@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { getNameById } from 'lib/api/getMeta'
 import { getTimeTable } from 'lib/api/getTimeTable'
-import { Timetable, TimetableTitle } from 'components/Timetable'
-import useMediaQuery from 'lib/hooks/useMediaQuery'
+import parseCourseItem from 'lib/parseCourseItem'
+import { TimetableTitle } from 'components/Timetable/index.ts'
 import Layout from 'components/Layout'
 import Container from 'components/Container'
 import Modal from 'components/Modal'
@@ -13,30 +12,24 @@ import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import Select from 'components/Select'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
-import Loading from '../../components/Loading'
-import {
-  usePreferenceDispatch,
-  usePreference,
-} from 'contexts/preferenceContext'
+import { usePreferenceDispatch } from 'contexts/preferenceContext'
+import { Content } from '../../components/Content'
+import { getTimeTableOwner } from '../../lib/api/getTimeTableOwner'
 
 function TimetablePage(props) {
   const router = useRouter()
   const loading = useLinkTransition()
-
   const dispath = usePreferenceDispatch()
+
   if (router.isFallback) {
     return <div>Loading...</div>
   }
 
   const [type, id, term = '2021-2022-2'] = router.query.all
+
   return (
     <Layout
-      extraNavBarChildren={
-        <TimetableTitle
-          ownerName={props.ownerName}
-          ownerType={props.ownerType}
-        />
-      }
+      extraNavBarChildren={<TimetableTitle owner={props.owner} />}
       renderMenuItems={(toggleCollapsed) => (
         <div className="menu-wrapper bg-white">
           <TermSelect handleOnchange={toggleCollapsed} />
@@ -55,7 +48,7 @@ function TimetablePage(props) {
       )}
     >
       <Head>
-        <title>{props.ownerName}的课表-绮课</title>
+        <title>{props.owner.name}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="grid grid-cols-5 ">
@@ -76,54 +69,20 @@ function TimetablePage(props) {
   )
 }
 
-function Content({ ownerName, ownerType, data, loading, icsUrl }) {
-  const isMobile = useMediaQuery('(max-width: 768px)', true, false)
-  const { courses, rawUrl } = data
-  const { show7DaysOnMobile } = usePreference()
-  if (loading) {
-    return <Loading size={60} />
-  }
-  return (
-    <>
-      {courses?.length ? (
-        <Timetable
-          courses={courses}
-          show7days={!isMobile || (isMobile && show7DaysOnMobile)}
-        ></Timetable>
-      ) : (
-        '这里一节课都没有呀'
-      )}
-      <div className=" mx-6 mt-4 self-start break-all font-thin leading-6 text-blue-500">
-        <h4 className="text-medium text-gray-500"> 日历订阅 (experimental):</h4>
-        <div className="text-xs">{icsUrl}</div>
-      </div>
-    </>
-  )
-}
-
 export async function getStaticProps(context) {
   const { all } = context.params
   const [type, id, term = '2021-2022-2'] = all
 
-  const data = await Promise.all(
-    [term].map((term) => getTimeTable(type, id, term))
-  )
-  const timetables = Object.fromEntries(data.map((e, i) => [[term][i], e]))
+  const { courses: rawCourses, rawUrl } = await getTimeTable(type, id, term)
+  const courses = rawCourses.map(parseCourseItem)
 
-  const typeMapping = {
-    student: '学生',
-    teacher: '教职工',
-    location: '授课地点',
-  }
-  const ownerType = typeMapping[type]
-
-  const ownerName = getNameById(type, id)
+  const owner = getTimeTableOwner(type, id)
 
   return {
     props: {
-      data: timetables[term],
-      ownerType,
-      ownerName,
+      courses,
+      owner,
+      rawUrl,
     },
     revalidate: 60 * 60 * 48,
   }

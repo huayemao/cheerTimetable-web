@@ -37,7 +37,7 @@ export default function Modal({
           <div className="relative rounded-lg bg-white shadow">
             {(title || showCloseButton) && (
               <div className="flex items-start justify-between rounded-t border-b p-5">
-                <h3 className="text-xl font-semibold text-gray-900 lg:text-2xl">
+                <h3 className="text-lg font-semibold text-gray-900 lg:text-xl">
                   {title}
                 </h3>
                 {showCloseButton && (
@@ -63,10 +63,8 @@ export default function Modal({
                 )}
               </div>
             )}
-            <div className="space-y-6 p-6">
-              <p className="text-base leading-relaxed text-gray-500">
-                {children}
-              </p>
+            <div className="space-y-6 p-6 text-base leading-relaxed text-gray-500">
+              {children}
             </div>
             {/* <div className="flex items-center space-x-2 rounded-b border-t border-gray-200 p-6 dark:border-gray-600">
               <button

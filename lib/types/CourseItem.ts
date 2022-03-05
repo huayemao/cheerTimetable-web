@@ -4,9 +4,9 @@ export type TimetaleSlot = {
 }
 
 export enum WeekInterval {
-  'even',
-  'odd',
-  'none',
+  'even' = '双周',
+  'odd' = '单周',
+  'none' = '全部',
 }
 
 export type CourseItem = {

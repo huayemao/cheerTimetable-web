@@ -1,2 +1,7 @@
 export { default as Search } from './Search'
 export { default as Info } from './Info'
+export { default as Location } from './Location'
+export { default as Group } from './Group'
+export { default as Users } from './Users'
+export { default as Calendar } from './Calendar'
+export { default as Hash } from './Hash'

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Timetable, TimetableTitle } from 'components/Timetable'
+import { Timetable, TimetableTitle } from 'components/Timetable/index.ts'
 import List from '../../components/List'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Layout from 'components/Layout'

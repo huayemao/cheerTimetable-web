@@ -22,6 +22,10 @@
   @apply relative flex flex-col items-center justify-center rounded-l-xl rounded-b-xl border border-blue-500 px-1 py-2 text-sm text-blue-500 hover:bg-blue-50 focus:outline-none;
 }
 
+.course-preview {
+  @apply md:text-sm max-w-full truncate font-light;
+}
+
 @media screen and (max-width: 768px) {
   .show-7-days .cell {
     @apply rounded-none border-l-0 border-t-0 border-r border-b border-blue-300;
