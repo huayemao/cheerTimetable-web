@@ -73,15 +73,30 @@ export const SideBar = ({ children }) => {
 
   return (
     <div
-      className="hidden flex-col overflow-y-auto lg:flex "
+      className="hidden flex-col overflow-y-auto lg:flex"
       style={{ height: 'calc(100vh - 4rem)' }}
     >
       <aside
-        className="fixed drop-shadow-sm top-16 h-full w-full flex-1 overflow-y-auto bg-blue-100"
+        className="fixed top-16 h-full w-full flex-1 overflow-y-auto  drop-shadow-sm"
         aria-label="Sidebar"
         style={{ maxWidth: '18vw' }}
       >
-        <div className="backdrop-blur-sm h-full w-full bg-slate-50 bg-opacity-95 px-3 py-4 backdrop-filter">
+        <div
+          className="absolute top-0 bottom-0 right-0 left-0 overflow-hidden"
+          dangerouslySetInnerHTML={{
+            __html: `<css-doodle class="doodle">
+            :doodle {
+           @grid: 20 / 100vmax;
+           grid-gap: 1em;
+            }
+           
+           --hue: calc(217 + .5 * @row() * @col());
+               background: hsla(var(--hue), 91%, 50%, @r(.1, .9));
+           clip-path: ellipse(100% 100% at @pick('0 0', '0 100%', '100% 0', '100% 100%'));
+           </css-doodle>`,
+          }}
+        />
+        <div className="h-full w-full bg-white bg-opacity-80 px-3 py-4 backdrop-blur-lg backdrop-filter">
           <ul className="space-y-2 ">{children}</ul>
         </div>
       </aside>

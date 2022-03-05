@@ -9,6 +9,7 @@
   "dependencies": {
     "@prisma/client": "^3.10.0",
     "clsx": "^1.1.1",
+    "css-doodle": "^0.26.0",
     "dayjs": "^1.10.8",
     "ical-generator": "^3.2.1",
     "jsdom": "^19.0.0",

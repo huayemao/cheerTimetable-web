@@ -3,6 +3,7 @@ import cn from 'clsx'
 import useCollapsible from 'lib/hooks/useCollapsible'
 import { SideBar } from './SideBar'
 import { noop } from 'lodash'
+import 'css-doodle'
 
 const Menu = ({ collapsed, children, toggleCollapsed }) => (
   <div

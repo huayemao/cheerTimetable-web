@@ -1738,6 +1738,11 @@ crypto-random-string@^2.0.0:
   resolved "https://registry.npmmirror.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
   integrity sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==
 
+css-doodle@^0.26.0:
+  version "0.26.0"
+  resolved "https://registry.npmmirror.com/css-doodle/-/css-doodle-0.26.0.tgz#cf0b67933da77f4a9978f9514e93812e9ed22ae0"
+  integrity sha512-jZe+MntaM8Vjkq9bayVWL87YPZammgkJWGq9iBJrT47qkxqYx/3WUdVbp3qt7xvkUev0DvwOXqmIatNR1eEiOQ==
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/cssesc/download/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"

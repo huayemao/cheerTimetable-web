@@ -5,6 +5,7 @@ import Search from '../components/Search'
 import Loading from '../components/Loading'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { useState } from 'react'
+import 'css-doodle'
 
 export default function Home() {
   const router = useRouter()
@@ -32,13 +33,27 @@ export default function Home() {
         <title>绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center  text-center">
-        <h1 className="mx-20 text-6xl font-bold">
+      <main className="flex w-full flex-1 flex-col items-center justify-center text-center">
+        <div
+          className="mb-4 -mt-20 h-32 w-64 overflow-hidden border border-slate-50 lg:-mt-32 lg:h-48 lg:w-80"
+          dangerouslySetInnerHTML={{
+            __html: `<css-doodle click-to-update class="doodle">
+            :doodle {
+           @grid: 10 / 40em;
+           grid-gap: .4em;
+            }
+           
+           --hue: calc(217 + .5 * @row() * @col());
+               background: hsla(var(--hue), 91%, 50%, @r(.1, .9));
+           clip-path: ellipse(100% 100% at @pick('0 0', '0 100%', '100% 0', '100% 100%'));
+           </css-doodle>`,
+          }}
+        ></div>
+        <h1 className="relative mx-20 text-6xl font-bold">
           Welcome to{' '}
-          <Link href="/">
-            <a className="text-blue-600">绮课!</a>
-          </Link>
+          <div className="relative inline-block text-blue-600">
+            <span className="relative">绮课!</span>
+          </div>
         </h1>
 
         <div className="mx-10 mt-4 w-full items-center justify-center">
@@ -47,24 +62,12 @@ export default function Home() {
             onClick={() => {
               handleSearch(q)
             }}
-            className="mx-2 select-none items-center rounded-full border border-blue-500 px-5 text-sm leading-8 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none"
+            className="ml-2 select-none items-center rounded-full border border-blue-500 px-5 text-sm leading-8 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none"
           >
             {loading ? <Loading size={'2rem'} /> : '搜索'}
           </button>
         </div>
       </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="ml-2 h-4" />
-        </a>
-      </footer>
     </div>
   )
 }
