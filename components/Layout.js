@@ -19,6 +19,7 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
 )
 
 export default function Layout({
+  sidebarContent,
   preview,
   children,
   extraNavBarChildren,
@@ -30,18 +31,23 @@ export default function Layout({
 
   return (
     <>
-      <div className="min-h-screen sm:h-screen">
-        <NavBar
-          toggleCollapsed={toggleCollapsed}
-          renderMenuItems={renderMenuItems}
-        >
-          {extraNavBarChildren}
-        </NavBar>
-        <main className="h-screen pt-16 ">{children}</main>
-        <div className="large:hidden">
-          <Menu collapsed={collapsed} toggleCollapsed={toggleCollapsed}>
-            {renderMenuItems(toggleCollapsed)}
-          </Menu>
+      <div className="min-h-screen">
+        <div className="grid lg:grid-cols-5">
+          <SideBar>{sidebarContent}</SideBar>
+          <div className="col-span-4 flex flex-col">
+            <NavBar
+              toggleCollapsed={toggleCollapsed}
+              renderMenuItems={renderMenuItems}
+            >
+              {extraNavBarChildren}
+            </NavBar>
+            <main className="pt-4">{children}</main>
+            <div className="large:hidden">
+              <Menu collapsed={collapsed} toggleCollapsed={toggleCollapsed}>
+                {renderMenuItems(toggleCollapsed)}
+              </Menu>
+            </div>
+          </div>
         </div>
       </div>
     </>

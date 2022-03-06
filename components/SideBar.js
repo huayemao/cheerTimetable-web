@@ -72,19 +72,14 @@ export const SideBar = ({ children }) => {
   const router = useRouter()
 
   return (
-    <div
-      className="hidden flex-col overflow-y-auto lg:flex"
-      style={{ height: 'calc(100vh - 4rem)' }}
+    <aside
+      className="sticky top-0 hidden  h-screen w-full flex-col drop-shadow-sm  lg:flex"
+      aria-label="Sidebar"
     >
-      <aside
-        className="fixed top-16 h-full w-full flex-1 overflow-y-auto  drop-shadow-sm"
-        aria-label="Sidebar"
-        style={{ maxWidth: '18vw' }}
-      >
-        <div
-          className="absolute top-0 bottom-0 right-0 left-0 overflow-hidden"
-          dangerouslySetInnerHTML={{
-            __html: `<css-doodle class="doodle">
+      <div
+        className="absolute top-0 bottom-0 right-0 left-0 overflow-hidden"
+        dangerouslySetInnerHTML={{
+          __html: `<css-doodle class="doodle">
             :doodle {
            @grid: 10 / 100vh;
            grid-gap: .5em;
@@ -94,12 +89,16 @@ export const SideBar = ({ children }) => {
                background: hsla(var(--hue), 91%, 50%, @r(.1, .9));
            clip-path: ellipse(100% 100% at @pick('0 0', '0 100%', '100% 0', '100% 100%'));
            </css-doodle>`,
-          }}
-        />
-        <div className="h-full w-full bg-white bg-opacity-40 backdrop-blur-xl backdrop-filter px-3 py-4">
-          <ul className="space-y-3 px-3 py-4 bg-white bg-opacity-80 backdrop-blur-xl backdrop-filter">{children}</ul>
-        </div>
-      </aside>
-    </div>
+        }}
+      />
+      <div
+        className="h-full w-full  bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
+        style={{ height: 'inherit' }}
+      >
+        <ul className="space-y-3 bg-white bg-opacity-80 px-3 py-4 backdrop-blur-xl backdrop-filter">
+          {children}
+        </ul>
+      </div>
+    </aside>
   )
 }

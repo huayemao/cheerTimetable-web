@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { getTimeTable } from 'lib/api/getTimeTable'
 import parseCourseItem from 'lib/parseCourseItem'
 import { TimetableTitle } from 'components/Timetable/index.ts'
@@ -46,18 +47,20 @@ function TimetablePage(props) {
           />
         </div>
       )}
-    >
-      <Head>
-        <title>{props.owner.name}的课表-绮课</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="grid grid-cols-5 ">
-        <SideBar>
-          <TermSelect
-            // className="bg-white bg-opacity-80 backdrop-blur-xl backdrop-filter"
-            type={type}
-            id={id}
-          />
+      sidebarContent={
+        <>
+          <div className="w-full text-center">
+            <Link href={'/'}>
+              <a
+                className={
+                  'text-3xl text-blue-400 hover:text-blue-500 lg:flex-1'
+                }
+              >
+                绮课
+              </a>
+            </Link>
+          </div>
+          <TermSelect type={type} id={id} />
           <div className="w-full text-sm text-slate-500 hover:text-blue-500">
             <a
               href="https://github.com/huayemao/cheerTimetable-web"
@@ -82,16 +85,21 @@ function TimetablePage(props) {
               github
             </a>
           </div>
-        </SideBar>
-        <div className="col-span-5 flex flex-col items-center overflow-y-auto py-2 lg:col-span-4">
-          {process.browser && (
-            <Content
-              {...props}
-              icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
-              loading={loading}
-            ></Content>
-          )}
-        </div>
+        </>
+      }
+    >
+      <Head>
+        <title>{props.owner.name}的课表-绮课</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="flex flex-col items-center overflow-y-auto py-2">
+        {process.browser && (
+          <Content
+            {...props}
+            icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
+            loading={loading}
+          ></Content>
+        )}
       </div>
     </Layout>
   )
