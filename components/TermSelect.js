@@ -4,14 +4,19 @@ import Select from 'components/Select'
 import { getTermsByStudent } from 'lib/term'
 import { useRouter } from 'next/router'
 
-export default function TermSelect({ handleOnchange = console.log }) {
+export default function TermSelect({
+  handleOnchange = console.log,
+  className,
+}) {
   const router = useRouter()
   const [type, id, term = '2021-2022-2'] = router.query.all
-  const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS.baseTerms
+  const rawTermList =
+    type === 'student' ? getTermsByStudent(id) : TERMS.baseTerms
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
 
   return (
     <Select
+      className={className}
       onChange={handleOnchange}
       options={termItems}
       renderOption={({ label, key, isActive }) => (

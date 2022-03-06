@@ -86,8 +86,8 @@ export const SideBar = ({ children }) => {
           dangerouslySetInnerHTML={{
             __html: `<css-doodle class="doodle">
             :doodle {
-           @grid: 20 / 100vmax;
-           grid-gap: 1em;
+           @grid: 10 / 100vh;
+           grid-gap: .5em;
             }
            
            --hue: calc(217 + .5 * @row() * @col());
@@ -96,8 +96,8 @@ export const SideBar = ({ children }) => {
            </css-doodle>`,
           }}
         />
-        <div className="h-full w-full bg-white bg-opacity-80 px-3 py-4 backdrop-blur-lg backdrop-filter">
-          <ul className="space-y-2 ">{children}</ul>
+        <div className="h-full w-full bg-white bg-opacity-40 backdrop-blur-xl backdrop-filter px-3 py-4">
+          <ul className="space-y-3 px-3 py-4 bg-white bg-opacity-80 backdrop-blur-xl backdrop-filter">{children}</ul>
         </div>
       </aside>
     </div>

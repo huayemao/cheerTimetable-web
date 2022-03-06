@@ -1,29 +1,48 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState, useRef } from 'react'
 import cn from 'clsx'
-import { useRef } from 'react'
+import { noop } from 'lodash'
 import useClickOutside from 'lib/hooks/useClickOutside'
 import useCollapsible from 'lib/hooks/useCollapsible'
 
+type SelectOption = {
+  key: string
+  label: string
+  isActive?: boolean
+}
+
+type SelectProps = {
+  options: SelectOption[]
+  defaultValue: string
+  onChange: (key: string) => void
+  renderOption: (option: SelectOption) => ReactNode
+  className?: string
+  defaultLabel?: string
+}
+
+const defaultOptionRenderer = (e) => e.label
+
 export default function Select({
   options,
-  defaultValue,
-  onChange = () => {},
-  renderOption = (e) => e.label,
-}) {
+  defaultValue = options[0].key,
+  onChange = noop,
+  renderOption = defaultOptionRenderer,
+  className = '',
+  defaultLabel = '',
+}: SelectProps) {
   const { collapsed, toggleCollapsed } = useCollapsible({
     initialState: true,
   })
-  const [activeKey, setActiveKey] = useState(defaultValue || options[0].key)
+  const [activeKey, setActiveKey] = useState(defaultValue)
 
-  const label = options.find((e) => e.key === activeKey).label
+  const label = options.find((e) => e.key === activeKey)?.label || defaultLabel
 
-  const ref = useRef()
+  const ref = useRef(null)
   useClickOutside(ref, () => {
     !collapsed && toggleCollapsed()
   })
 
   return (
-    <div ref={ref} className="relative inline-block w-full">
+    <div ref={ref} className={'relative inline-block w-full ' + className}>
       <span className="rounded-md shadow-sm">
         <button
           type="button"

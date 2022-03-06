@@ -68,6 +68,16 @@ export default function Home() {
           </button>
         </div>
       </main>
+      <footer className="flex h-24 w-full items-center justify-center border-t">
+        <a
+          className="hover:text-blue-500"
+          href="https://github.com/huayemao/cheerTimetable-web"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github
+        </a>
+      </footer>
     </div>
   )
 }
