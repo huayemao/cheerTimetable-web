@@ -8,15 +8,22 @@ export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
   const isTimeTablePage = router.pathname.includes('curriculum')
 
   return (
-    <nav className="sticky top-0 z-10 flex h-14 w-full items-center justify-center border-gray-200 bg-white bg-opacity-80 drop-shadow-sm backdrop-blur-lg backdrop-filter">
-      <div className="flex flex-1  flex-wrap items-center justify-center py-1">
+    <nav className="sticky top-0 z-10 flex h-14 w-full items-center justify-around border-gray-200 bg-white bg-opacity-80 drop-shadow-sm backdrop-blur-lg backdrop-filter">
+      <div className="lg:hidden">
+        <Link href={'/'}>
+          <a className={'text-3xl text-blue-400 hover:text-blue-500 flex-1'}>
+            绮课
+          </a>
+        </Link>
+      </div>
+      <div className="flex flex-wrap items-center justify-center py-1">
         {children}
       </div>
       <button
         onClick={toggleCollapsed}
         data-collapse-toggle="mobile-menu"
         type="button"
-        className="absolute right-2 top-2 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 lg:hidden"
+        className="rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 lg:hidden"
         aria-controls="mobile-menu-2"
         aria-expanded="false"
       >

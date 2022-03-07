@@ -27,10 +27,10 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
   const { locationId, teacherIds } = course
   return (
     <>
-      <div className={cn(s['course-preview'], s['course-title'])}>
+      <div key={'name'} className={cn(s['course-preview'], s['course-title'])}>
         {course.name}
       </div>
-      <div className={cn(s['course-preview'])}>
+      <div key={'location'} className={cn(s['course-preview'])}>
         {' '}
         <TextOrLink
           key={locationId}
@@ -38,7 +38,7 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
           id={locationId}
         ></TextOrLink>
       </div>
-      <div className={cn(s['course-preview'])}>
+      <div key={'teachers'} className={cn(s['course-preview'])}>
         {teacherIds.map((id, i, arr) => (
           <>
             <TextOrLink key={id} type={OwnerType.teacher} id={id} />
@@ -46,7 +46,9 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
           </>
         ))}
       </div>
-      <div className={cn(s['course-preview'], 'text-xs')}>{weekStr}</div>
+      <div key={'weeks'} className={cn(s['course-preview'], 'text-xs')}>
+        {weekStr}
+      </div>
     </>
   )
 }
@@ -60,7 +62,8 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   const hasCourse = courses.length > 0
 
   const handleNav = useCallback(() => {
-    courses.length &&
+    !router.query.modal &&
+      courses.length &&
       router.push(
         {
           pathname: router.asPath.split('?')[0],

@@ -49,10 +49,10 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     {
       icon: IconUsers,
       content: activeCourse?.teacherIds.map((id, i, arr) => (
-        <>
+        <div key={id}>
           <TextOrLink canLink key={id || i} type={OwnerType.teacher} id={id} />
           {i < arr.length - 1 && '、'}
-        </>
+        </div>
       )),
     },
     {

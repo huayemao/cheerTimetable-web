@@ -20,6 +20,13 @@ export default function Modal({
     [onClose]
   )
 
+  const handleClose = useCallback(
+    (e) => {
+      onClose()
+    },
+    [onClose]
+  )
+
   useEffect(() => {
     const modal = ref.current
 
@@ -42,7 +49,7 @@ export default function Modal({
                 </h3>
                 {showCloseButton && (
                   <button
-                    onClick={(e) => onClose()}
+                    onClick={handleClose}
                     aria-label="Close panel"
                     className={s.close}
                     type="button"
