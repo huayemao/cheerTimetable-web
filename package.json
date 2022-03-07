@@ -4,7 +4,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "node prisma/seed.js"
+    "db:generate": "prisma generate --schema=./prisma/schema.prisma --skip-seed",
+    "db:migrate": "prisma migrate dev --schema=./prisma/schema.prisma --skip-seed",
+    "db:reset": "prisma migrate reset --schema=./prisma/schema.prisma --skip-seed",
+    "db:push": "prisma db push --schema=./prisma/schema.prisma --skip-seed",
+    "db:seed": "npx prisma db seed",
+    "db:studio": "prisma studio --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",
@@ -21,6 +26,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/node": "17.0.4",
     "@types/react": "17.0.38",
@@ -32,6 +40,7 @@
     "prettier-plugin-tailwindcss": "^0.1.1",
     "prisma": "^3.10.0",
     "tailwindcss": "^3.0.7",
+    "ts-node": "^10.7.0",
     "typescript": "4.5.4"
   }
 }

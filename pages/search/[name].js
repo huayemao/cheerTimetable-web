@@ -10,12 +10,19 @@ import Head from 'next/head'
 import { keyBy, omit } from 'lodash'
 import { SideBar } from 'components/SideBar'
 import MappedTable from 'components/MappedTable'
-import { getFieldDetail } from 'lib/api/getFieldDetail'
+import { searchOwner } from 'lib/api/searchOwner'
 import Link from 'next/link'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 
 function SearchPage({ data, name }) {
-  const omitFields = ['序号', '年级', '单位名称', '专业名称', '学号', '性别']
+  const omitFields = [
+    'seq',
+    'grade',
+    'facultyName',
+    'professionName',
+    'id',
+    'sex',
+  ]
   const loading = useLinkTransition()
 
   const router = useRouter()
@@ -44,8 +51,8 @@ function SearchPage({ data, name }) {
               (e) => !omitFields.includes(e)
             )}
             customCell={({ propertyName, value, item }) =>
-              propertyName === '姓名' && item.年级 > '2016' ? (
-                <Link href={`/curriculum/student/${item.学号}`}>
+              propertyName === 'name' && item.grade > '2016' ? (
+                <Link href={`/curriculum/student/${item.id}`}>
                   <a className="text-blue-500 transition duration-75">
                     {value}
                   </a>
@@ -72,7 +79,7 @@ function SearchPage({ data, name }) {
 
 export async function getStaticProps(context) {
   const { name } = context.params
-  const data = await getFieldDetail(name)
+  const data = await searchOwner(name)
 
   return {
     props: {

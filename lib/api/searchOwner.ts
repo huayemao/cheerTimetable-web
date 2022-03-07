@@ -1,12 +1,11 @@
 import _ from 'lodash'
 import qs from 'qs'
-import { JSDOM } from 'jsdom'
 import perseTable from '../parseTable'
-import prisma from '../prisma'
+import { OwnerType } from 'lib/types/Owner'
 import fetchWithCookie, { retrieveCookie } from '../fetchWithCookie'
-import { COOKIE } from 'constants'
+import prisma from 'lib/prisma'
 
-var myHeaders = {
+const myHeaders = {
   Connection: 'keep-alive',
   Pragma: 'no-cache',
   'Cache-Control': 'no-cache',
@@ -20,15 +19,19 @@ var myHeaders = {
   Referer:
     'http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&name=xs0101xm&type=1&where=',
   'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-  Cookie:
-    'BIGipServerpool_jwctest=2017969610.20480.0000; JSESSIONID=2286A73456EE436777CD46D01C8BAFA5',
 }
 
 const { map, mapKeys } = _
 
-export async function getFieldDetail(name, type) {
+const mapping = {
+  [OwnerType.student]: 'xs0101',
+  [OwnerType.teacher]: 'jg0101',
+  [OwnerType.location]: 'js',
+}
+
+export async function searchOwnerR(name, type) {
   const c = await retrieveCookie()
-  const url = `http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&name=xs0101xm&type=1&where=`
+  const url = `http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
 
   const data = qs.stringify({
     searchName: 'xm',
@@ -68,4 +71,11 @@ export async function getFieldDetail(name, type) {
   const obj = perseTable(html)
 
   return obj
+}
+
+export async function searchOwner(name, type) {
+  return await prisma.student.findMany({
+    where: { name: { contains: name } },
+    orderBy: { grade: 'desc' },
+  })
 }

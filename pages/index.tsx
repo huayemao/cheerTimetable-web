@@ -13,18 +13,7 @@ export default function Home() {
   const [q, setQ] = useState('')
 
   const handleSearch = (v: string) => {
-    fetch('/api/searchMetaByName?q=' + v + '&type=student')
-      .then((res) => res.json())
-      .then((students) => {
-        if (students.length === 1) {
-          const [s] = students
-          router.push('/curriculum/student/' + s.xs0101id)
-        } else if (students.length > 1) {
-          router.push('/search/' + v)
-        } else {
-          alert('没有找到这个人哟')
-        }
-      })
+    router.push('/search/' + v)
   }
 
   return (
