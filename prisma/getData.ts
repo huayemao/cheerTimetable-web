@@ -4,11 +4,6 @@ import qs from 'qs'
 import { JSDOM } from 'jsdom'
 import { Student } from 'prisma/prisma-client'
 
-// const _ = require('lodash')
-// const fetch = require('node-fetch')
-// const qs = require('qs')
-// const { JSDOM } = require('jsdom')
-
 const { map, mapKeys, mapValues } = _
 
 const mapping = {
@@ -22,7 +17,11 @@ const mapping = {
   性别: 'sex',
 }
 
-function parseTable(html, fieldExtractorMapping = {}) {
+const fieldExtractorMapping = {
+  序号: (e) => parseInt(e.textContent, 10),
+}
+
+function parseTable<T>(html, fieldExtractorMapping = {}, mapping) {
   const doc = new JSDOM(html)
   const table = doc.window.document.querySelector('#dataTables')
   const rows = [...table.rows]
@@ -38,11 +37,8 @@ function parseTable(html, fieldExtractorMapping = {}) {
         return fn(e)
       }),
     }
-    const res = mapKeys(obj, (v, k) => mapping[ths[k]])
-    const student = mapValues(res, (v, k) =>
-      k === 'seq' ? parseInt(v, 10) : v
-    )
-    return student as Student
+    const item = mapKeys(obj, (v, k) => mapping[ths[k]])
+    return item as T
   })
   return data
 }
@@ -100,7 +96,7 @@ export async function getData(pageNum, pageSize = '10') {
 
   const html = await res.text()
 
-  const list = parseTable(html)
+  const list = parseTable<Student>(html, fieldExtractorMapping, mapping)
 
   return list
 }

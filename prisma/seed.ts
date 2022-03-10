@@ -16,7 +16,7 @@ async function saveOnePage(pageNum) {
       }
     })
     .then(({ payload, grade }) => {
-      console.log('page ' + pageNum + ' done with ' + payload.count + 'items')
+      console.log('page ' + pageNum + ' done with ' + payload.count + ' items')
       return {
         grade: grade,
       }
@@ -24,9 +24,9 @@ async function saveOnePage(pageNum) {
 }
 
 async function run() {
-  let pageNum = 20
+  let pageNum = 71
   let { grade } = await saveOnePage(pageNum)
-  while (grade > 2016) {
+  while (grade > 2013) {
     grade = (await saveOnePage(++pageNum)).grade
   }
 }
