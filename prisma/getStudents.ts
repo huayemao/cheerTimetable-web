@@ -1,8 +1,11 @@
 import _ from 'lodash'
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { JSDOM } from 'jsdom'
 import { Student } from 'prisma/prisma-client'
+import { parseTable } from './util/parseTable'
+import { COOKIE } from '../constants'
+import prisma from '../lib/prisma'
+import STUDENTS from '../_data/students.json'
 
 const { map, mapKeys, mapValues } = _
 
@@ -18,29 +21,7 @@ const mapping = {
 }
 
 const fieldExtractorMapping = {
-  序号: (e) => parseInt(e.textContent, 10),
-}
-
-function parseTable<T>(html, fieldExtractorMapping = {}, mapping) {
-  const doc = new JSDOM(html)
-  const table = doc.window.document.querySelector('#dataTables')
-  const rows = [...table.rows]
-  const ths = [...rows[0].cells].map((e) => e.innerHTML)
-
-  const data = rows.slice(1).map((row) => {
-    const cells = [...row.cells]
-
-    const obj = {
-      ...cells.map((e, i) => {
-        const defaultFn = (e) => e.textContent
-        const fn = fieldExtractorMapping[ths[i]] || defaultFn
-        return fn(e)
-      }),
-    }
-    const item = mapKeys(obj, (v, k) => mapping[ths[k]])
-    return item as T
-  })
-  return data
+  序号: (e) => parseInt(e.textContent.trim(), 10),
 }
 
 const myHeaders = {
@@ -57,11 +38,10 @@ const myHeaders = {
   Referer:
     'http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&name=xs0101xm&type=1&where=',
   'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-  Cookie:
-    'JSESSIONID=EF987E4182496DE8EB2C354BCDD078FE; BIGipServerpool_jwctest=2085078474.20480.0000',
+  Cookie: COOKIE,
 }
 
-export async function getData(pageNum, pageSize = '10') {
+export async function getStudents(pageNum, pageSize = '10') {
   const url = `http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
 
   const data = qs.stringify({
@@ -99,4 +79,18 @@ export async function getData(pageNum, pageSize = '10') {
   const list = parseTable<Student>(html, fieldExtractorMapping, mapping)
 
   return list
+}
+
+async function getLackedStudents() {
+  const students = await prisma.student.findMany({
+    select: {
+      id: true,
+    },
+  })
+  const studentIds = students.map((e) => e.id)
+
+  const lacked = STUDENTS.filter(
+    (e) => !studentIds.includes(e.xh) && e.xh.localeCompare('2014') > 1
+  )
+  return lacked
 }

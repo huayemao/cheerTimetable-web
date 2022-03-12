@@ -4,10 +4,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "db:generate": "prisma generate --schema=./prisma/schema.prisma --skip-seed",
+    "db:generate": "prisma generate --schema=./prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=./prisma/schema.prisma --skip-seed",
     "db:reset": "prisma migrate reset --schema=./prisma/schema.prisma --skip-seed",
-    "db:push": "prisma db push --schema=./prisma/schema.prisma --skip-seed",
+    "db:push": "prisma db push --schema=./prisma/schema.prisma",
     "db:seed": "npx prisma db seed",
     "db:studio": "prisma studio --schema=./prisma/schema.prisma"
   },
@@ -27,7 +27,7 @@
     "react-dom": "^17.0.2"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node  --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "devDependencies": {
     "@types/node": "17.0.4",

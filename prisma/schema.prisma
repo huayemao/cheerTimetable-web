@@ -15,13 +15,91 @@ model Cookie {
     date  DateTime @default("2020-03-19T14:21:00+02:00")
 }
 
+model Teacher {
+    id            String    @id
+    name          String
+    title         String
+    facultyName   String
+    eduBackground String
+    tuitions      Tuition[]
+}
+
 model Student {
-    id             String    @id
-    seq            Int    @unique
+    id             String       @id
+    seq            Int          @unique
     grade          String
     name           String
     facultyName    String
     professionName String
     className      String
     sex            String
+    enrollments    Enrollment[]
+}
+
+model Subject {
+    id                String   @id @unique
+    name              String
+    department        String
+    credit            Int
+    category          String
+    tuitionHour       Int
+    tuitionHourDetail String
+    courses           Course[]
+    tooOld            Boolean  @default(false)
+}
+
+model Course {
+    id          String       @id @unique
+    subject     Subject      @relation(fields: [subjectId], references: [id])
+    subjectId   String
+    term        String
+    className   String
+    lessons     Lesson[]
+    electCount  Int
+    mergeCount  Int
+    enrollments Enrollment[]
+}
+
+model Lesson {
+    id         String    @id
+    course     Course    @relation(fields: [courseId], references: [id])
+    courseId   String
+    timeSlot   String
+    location   Location  @relation(fields: [locationId], references: [id])
+    locationId String    @default("00default")
+    weeks      String
+    weekFreq   Int
+    tuition    Tuition[]
+
+    @@unique([courseId, timeSlot, weeks])
+}
+
+model Enrollment {
+    student   Student @relation(fields: [studentId], references: [id])
+    studentId String
+    course    Course  @relation(fields: [courseId], references: [id])
+    courseId  String
+
+    @@id([studentId, courseId])
+}
+
+model Tuition {
+    teacher   Teacher @relation(fields: [teacherId], references: [id])
+    teacherId String
+    lesson    Lesson  @relation(fields: [lessonId], references: [id])
+    lessonId  String
+
+    @@id([teacherId, lessonId])
+}
+
+model Location {
+    id                 String   @id @unique
+    name               String
+    category           String
+    seatCount          Int
+    availableSeatCount Int
+    examSeatCount      Int
+    campus             String
+    building           String
+    lessons            Lesson[]
 }

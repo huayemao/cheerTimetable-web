@@ -20,4 +20,4 @@ const baseTerms = (() => {
   })
 })()
 
-export default { baseTerms }
+export default baseTerms
