@@ -1,3 +1,5 @@
+import { Teacher } from "@prisma/client"
+
 export type TimetaleSlot = {
   day: number
   rowIds: number[]
@@ -14,10 +16,11 @@ export type CourseItem = {
   courseId: string //开课编号：202120221012243
   name: string
   locationId: string
-  teacherIds: string[]
+  teachers: Teacher[]
   studentCount: number
   classId: string
   slot: TimetaleSlot //在课表中的位置
   weeks: string
   weekInterval: WeekInterval
+  term: string
 }

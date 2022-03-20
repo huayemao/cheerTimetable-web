@@ -18,7 +18,7 @@ const getTeacherIds = (str: string): string[] =>
   str.split(',').filter((e) => /\w+/.test(e))
 //'803213,李跃辉' = > ['803213']
 
-const getSlot = (str: string): TimetaleSlot => {
+export const parseSlot = (str: string): TimetaleSlot => {
   const day = parseInt(str[0], 10)
   const rest = str.slice(1)
 
@@ -39,7 +39,7 @@ const getLocation = (str: string) => str.split(',')[0]
 
 export const valueMapper = {
   授课教师: getTeacherIds,
-  开课时间: getSlot,
+  开课时间: parseSlot,
   上课地点: getLocation,
 }
 

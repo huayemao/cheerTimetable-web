@@ -29,53 +29,41 @@ const mapping = {
   [OwnerType.location]: 'js',
 }
 
-export async function searchOwnerR(name, type) {
-  const c = await retrieveCookie()
-  const url = `http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
-
-  const data = qs.stringify({
-    searchName: 'xm',
-    // searchJsfh: 'like',
-    searchJsfh: '=',
-    searchVal: name,
-    OrderField: 'ksnd',
-    OrderTpye: 'desc',
-    pageSize: '40',
-    PageNum: '1',
-    totalPages: '12401',
-    oPageSize: '40',
-    scrollx: 'false',
-    where1: 'null',
-    where2: 'null',
-    OrderBy: 'ksnd desc',
-    isOutJoin: 'false',
-    sqlArgs: '',
-    isSql: 'true',
-    beanName: '',
-    tableFields:
-      '单位名称:1:1:130:dwmc,专业名称:2:1:130:zymc,年级:3:1:50:ksnd,班级:6:1:90:z.bj,学号:4:1:90:xh,姓名:5:1:80:xm,性别:7:1:40:xb',
-    otherFields: '',
-  })
-
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: data,
-    // redirect: 'follow',
-  }
-
-  const res = await fetchWithCookie(url, c, requestOptions)
-
-  const html = await res.text()
-
-  const obj = perseTable(html)
-
-  return obj
-}
-
 export async function searchOwner(name, type) {
-  return await prisma.student.findMany({
-    where: { name: { contains: name } },
+  const students = prisma.student.findMany({
+    where: { name: { equals: name } },
     orderBy: { grade: 'desc' },
   })
+
+  const teachers = Promise.all([
+    prisma.teacher.findMany({
+      where: {
+        name: { equals: name },
+      },
+      orderBy: {
+        facultyName: 'desc',
+      },
+    }),
+    prisma.teacher.findMany({
+      where: {
+        name: {
+          contains: name + '（',
+        },
+      },
+      orderBy: {
+        facultyName: 'desc',
+      },
+    }),
+  ]).then((e) => e.flat())
+
+  const locations = prisma.location.findMany({
+    where: {
+      name: { contains: name },
+    },
+    orderBy: {
+      building: 'desc',
+    },
+  })
+
+  return await Promise.all([students, teachers, locations])
 }

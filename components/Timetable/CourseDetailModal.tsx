@@ -35,6 +35,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     router.replace(
       {
         pathname: router.asPath.split('?')[0],
+        query: omit(router.query, ['all', 'modal', 'seq']),
       },
       undefined,
       { shallow: true }
@@ -48,9 +49,16 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     },
     {
       icon: IconUsers,
-      content: activeCourse?.teacherIds.map((id, i, arr) => (
+      content: activeCourse?.teachers.map(({ id, name }, i, arr) => (
         <div key={id}>
-          <TextOrLink canLink key={id || i} type={OwnerType.teacher} id={id} />
+          <Link
+            key={id || i}
+            href={{
+              pathname: `/curriculum/${OwnerType.teacher}/${id}`,
+            }}
+          >
+            <a className="underline">{name}</a>
+          </Link>
           {i < arr.length - 1 && '、'}
         </div>
       )),
@@ -102,7 +110,7 @@ const CourseChoose = ({ courses, router, num }: Props) => {
   return map(courses, (course: CourseItem) => {
     const params = {
       pathname: router.asPath.split('?')[0],
-      query: { modal: num, seq: course.seq },
+      query: { ...omit(router.query, 'all'), modal: num, seq: course.seq },
     }
     const weekStr = getWeekStr(course)
 

@@ -85,6 +85,7 @@ export default function Select({
                   onClick={() => {
                     setActiveKey(option.key)
                     onChange(option.key)
+                    toggleCollapsed()
                   }}
                   key={option.key}
                   className={cn(

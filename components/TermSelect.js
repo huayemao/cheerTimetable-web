@@ -9,9 +9,9 @@ export default function TermSelect({
   className,
 }) {
   const router = useRouter()
-  const [type, id, term = '2021-2022-2'] = router.query.all
-  const rawTermList =
-    type === 'student' ? getTermsByStudent(id) : TERMS.baseTerms
+  const [type, id] = router.query.all
+  const { term = '2021-2022-2' } = router.query
+  const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
 
   return (
@@ -20,7 +20,7 @@ export default function TermSelect({
       onChange={handleOnchange}
       options={termItems}
       renderOption={({ label, key, isActive }) => (
-        <Link href={`/curriculum/${type}/${id}/${key}`}>
+        <Link href={`/curriculum/${type}/${id}?term=${key}`} shallow>
           <a
             href="#"
             className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal transition duration-75"

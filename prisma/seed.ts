@@ -1,5 +1,4 @@
 import { Course, Lesson, PrismaClient, Subject, Tuition } from '@prisma/client'
-import parseCourseItem from '../lib/parseCourseItem'
 import {
   checkInvalidLocations,
   getLocationNameAndIds,
@@ -222,9 +221,4 @@ async function checkInvalidCourseIds(locations) {
   }
 }
 
-async function clearStorage() {
-  await prisma.tuition.deleteMany({})
-  await prisma.lesson.deleteMany({})
-  await prisma.course.deleteMany({})
-  await prisma.subject.deleteMany({})
-}
+

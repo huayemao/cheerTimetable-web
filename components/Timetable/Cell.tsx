@@ -10,6 +10,8 @@ import { OwnerType } from 'lib/types/Owner'
 import { getWeekStr } from 'lib/getGridCells'
 import { TextOrLink } from './TextOrLink'
 import { useCallback } from 'react'
+import Link from 'next/link'
+import { omit } from 'lodash'
 
 type CellProps = {
   courses: CourseItem[]
@@ -24,7 +26,7 @@ type CoursePreviewProps = {
 
 export default function CoursePreview({ course }: CoursePreviewProps) {
   const weekStr = getWeekStr(course)
-  const { locationId, teacherIds } = course
+  const { locationId, teachers } = course
   return (
     <>
       <div key={'name'} className={cn(s['course-preview'], s['course-title'])}>
@@ -39,9 +41,9 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
         ></TextOrLink>
       </div>
       <div key={'teachers'} className={cn(s['course-preview'])}>
-        {teacherIds.map((id, i, arr) => (
+        {teachers.map(({ id, name }, i, arr) => (
           <>
-            <TextOrLink key={id} type={OwnerType.teacher} id={id} />
+            {name}
             {i < arr.length - 1 && '、'}
           </>
         ))}
@@ -67,7 +69,7 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
       router.push(
         {
           pathname: router.asPath.split('?')[0],
-          query: { modal: num },
+          query: { ...omit(router.query, 'all'), modal: num },
         },
         undefined,
         { shallow: true }

@@ -16,6 +16,10 @@ import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { usePreferenceDispatch } from 'contexts/preferenceContext'
 import { Content } from '../../components/Content'
 import { getTimeTableOwner } from '../../lib/api/getTimeTableOwner'
+import { OwnerType } from 'lib/types/Owner'
+import { getTimetableByStudentId } from 'lib/api/getTimetableByStudentId'
+import { getTimetableByTeacherId } from '../../lib/api/getTimetableByTeacherId'
+import { getTimetableByLocationId } from 'lib/api/getTimetableByLocationId'
 
 function TimetablePage(props) {
   const router = useRouter()
@@ -26,7 +30,8 @@ function TimetablePage(props) {
     return <div>Loading...</div>
   }
 
-  const [type, id, term = '2021-2022-2'] = router.query.all
+  const [type, id] = router.query.all
+  const { term = '2021-2022-2' } = router.query
 
   return (
     <Layout
@@ -60,7 +65,7 @@ function TimetablePage(props) {
       <div className="flex flex-col items-center overflow-y-auto py-2">
         {process.browser && (
           <Content
-            {...props}
+            courses={props.courses.filter((e) => e.term === term)}
             icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
             loading={loading}
           ></Content>
@@ -72,18 +77,21 @@ function TimetablePage(props) {
 
 export async function getStaticProps(context) {
   const { all } = context.params
-  const [type, id, term = '2021-2022-2'] = all
+  const [type, id] = all
 
-  const { courses: rawCourses, rawUrl } = await getTimeTable(type, id, term)
-  const courses = rawCourses.map(parseCourseItem)
+  const fnMapping = {
+    [OwnerType.teacher]: getTimetableByTeacherId,
+    [OwnerType.student]: getTimetableByStudentId,
+    [OwnerType.location]: getTimetableByLocationId,
+  }
 
-  const owner = getTimeTableOwner(type, id)
+  const { courses, owner } = await fnMapping[type](id)
 
   return {
     props: {
       courses,
       owner,
-      rawUrl,
+      // rawUrl,
     },
     revalidate: 60 * 60 * 48,
   }

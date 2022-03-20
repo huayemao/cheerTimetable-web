@@ -95,7 +95,7 @@ export const SideBar = ({ children }) => {
         className="h-full w-full  bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
         style={{ height: 'inherit' }}
       >
-        <ul className="space-y-3 bg-white bg-opacity-80 px-3 py-4 backdrop-blur-xl backdrop-filter">
+        <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
           <div className="w-full text-center">
             <Link href={'/'}>
               <a
@@ -107,6 +107,7 @@ export const SideBar = ({ children }) => {
               </a>
             </Link>
           </div>
+          {children}
           <div className="w-full text-sm text-slate-500 hover:text-blue-500">
             <a
               href="https://github.com/huayemao/cheerTimetable-web"
@@ -131,7 +132,6 @@ export const SideBar = ({ children }) => {
               github
             </a>
           </div>
-          {children}
         </ul>
       </div>
     </aside>
