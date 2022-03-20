@@ -12,6 +12,7 @@ import {
   Users as IconUsers,
   Calendar as IconCalendar,
   Hash as IconHash,
+  Academic as IconAcademic,
 } from 'components/Icons'
 import { getWeekStr } from 'lib/getGridCells'
 import { TextOrLink } from './TextOrLink'
@@ -75,7 +76,19 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     },
     {
       icon: IconGroup,
-      content: activeCourse?.studentCount + ' 人',
+      content: (
+        <Link
+          href={{
+            pathname: `/course/${activeCourse?.courseId}`,
+          }}
+        >
+          <a className="underline">{activeCourse?.studentCount + ' 人'}</a>
+        </Link>
+      ),
+    },
+    {
+      icon: IconAcademic,
+      content: activeCourse ? activeCourse.classId : null,
     },
     {
       icon: IconCalendar,

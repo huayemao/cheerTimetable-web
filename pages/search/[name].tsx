@@ -24,14 +24,6 @@ function SearchPage({
   name: any
   data: [Student[], Teacher[], Location[]]
 }) {
-  const omitFields = [
-    'seq',
-    'grade',
-    'facultyName',
-    'professionName',
-    'id',
-    'sex',
-  ]
   const loading = useLinkTransition()
 
   const router = useRouter()

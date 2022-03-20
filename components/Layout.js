@@ -19,9 +19,9 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
 )
 
 export default function Layout({
-  sidebarContent,
+  sidebarContent = <></>,
   children,
-  extraNavBarChildren,
+  extraNavBarChildren = <></>,
   renderMenuItems = noop,
 }) {
   const { collapsed, toggleCollapsed } = useCollapsible({
