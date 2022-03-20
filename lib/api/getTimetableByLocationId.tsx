@@ -24,13 +24,10 @@ export async function getTimetableByLocationId(id: any) {
     },
   })
 
-  const courses: CourseItem[] = location?.lessons.map((e) => ({
-    ...parseCourseItemByLesson(e),
-    term: e.course.term,
-  }))
+  const courses = location?.lessons?.map((e) => parseCourseItemByLesson(e))
 
   const owner: Owner = {
-    name: location.name,
+    name: location?.name,
     label: location?.building,
   }
   return { courses, owner }

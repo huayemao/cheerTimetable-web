@@ -7,9 +7,7 @@ import { OwnerType } from 'lib/types/Owner'
 
 export function SearchResult({
   data,
-  name,
 }: {
-  name: any
   data: [Student[], Teacher[], Location[]]
 }) {
   const [students, teachers, locations] = data
@@ -31,7 +29,7 @@ export function SearchResult({
         key: 'building',
       },
     }
-    return mapping[type]
+    return mapping[type as string]
   }, [locations, students, teachers, type])
 
   return (

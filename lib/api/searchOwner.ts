@@ -29,7 +29,7 @@ const mapping = {
   [OwnerType.location]: 'js',
 }
 
-export async function searchOwner(name, type) {
+export async function searchOwner(name) {
   const students = prisma.student.findMany({
     where: { name: { equals: name } },
     orderBy: { grade: 'desc' },

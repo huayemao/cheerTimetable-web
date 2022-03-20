@@ -20,7 +20,6 @@ const Menu = ({ collapsed, children, toggleCollapsed }) => (
 
 export default function Layout({
   sidebarContent,
-  preview,
   children,
   extraNavBarChildren,
   renderMenuItems = noop,

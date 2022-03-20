@@ -1,23 +1,22 @@
-import { parseSlot } from 'lib/parseCourseItem';
-import { Course, Lesson, Subject, Tuition, Teacher } from '@prisma/client';
-import { CourseItem, WeekInterval } from 'lib/types/CourseItem';
-
+import { parseSlot } from 'lib/parseCourseItem'
+import { Course, Lesson, Subject, Tuition, Teacher } from '@prisma/client'
+import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
 
 export function parseCourseItemByLesson(
   lesson: Lesson & {
     tuition: (Tuition & {
-      teacher: Teacher;
-    })[];
+      teacher: Teacher
+    })[]
     course: Course & {
-      subject: Subject;
-    };
+      subject: Subject
+    }
   }
 ): CourseItem {
   const mapping = {
     0: WeekInterval.none,
     1: WeekInterval.even,
     2: WeekInterval.odd,
-  };
+  }
   return {
     seq: lesson.id,
     courseId: lesson.courseId,
@@ -29,5 +28,6 @@ export function parseCourseItemByLesson(
     slot: parseSlot(lesson.timeSlot),
     weeks: lesson.weeks,
     weekInterval: mapping[lesson.weekFreq],
-  };
+    term: lesson.course.term,
+  }
 }

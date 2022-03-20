@@ -30,14 +30,13 @@ export async function getTimetableByTeacherId(id: any) {
     },
   })
 
-  const courses: CourseItem[] = teacher?.tuitions.flatMap((e) => ({
-    ...parseCourseItemByLesson(e.lesson),
-    term: e.lesson.course.term,
-  }))
+  const courses = teacher?.tuitions?.flatMap((e) =>
+    parseCourseItemByLesson(e.lesson)
+  )
 
   const owner: Owner = {
-    name: teacher.name,
-    label: teacher?.facultyName + teacher?.title,
+    name: teacher?.name,
+    label: (teacher?.facultyName || '') + teacher?.title,
   }
 
   return { courses, owner }

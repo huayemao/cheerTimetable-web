@@ -1,6 +1,6 @@
 export type Owner = {
-  label: string
-  name: string
+  label: string | undefined
+  name: string | undefined
   ownerInfo?: string
 }
 

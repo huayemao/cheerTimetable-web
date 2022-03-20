@@ -12,9 +12,9 @@ type SelectOption = {
 
 type SelectProps = {
   options: SelectOption[]
-  defaultValue: string
+  defaultValue?: string
   onChange: (key: string) => void
-  renderOption: (option: SelectOption) => ReactNode
+  renderOption?: (option: SelectOption) => ReactNode
   className?: string
   defaultLabel?: string
 }

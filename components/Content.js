@@ -1,4 +1,4 @@
-import { Timetable } from 'components/Timetable/index.ts'
+import { Timetable } from 'components/Timetable'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Loading from './Loading'
 import { usePreference } from 'contexts/preferenceContext'

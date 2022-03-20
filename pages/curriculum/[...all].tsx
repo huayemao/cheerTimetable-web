@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { getTimeTable } from 'lib/api/getTimeTable'
 import parseCourseItem from 'lib/parseCourseItem'
-import { TimetableTitle } from 'components/Timetable/index.ts'
+import { TimetableTitle } from 'components/Timetable/index'
 import Layout from 'components/Layout'
 import Container from 'components/Container'
 import Modal from 'components/Modal'
@@ -30,7 +30,7 @@ function TimetablePage(props) {
     return <div>Loading...</div>
   }
 
-  const [type, id] = router.query.all
+  const [type, id] = router.query.all as string[]
   const { term = '2021-2022-2' } = router.query
 
   return (
@@ -54,7 +54,7 @@ function TimetablePage(props) {
       )}
       sidebarContent={
         <>
-          <TermSelect type={type} id={id} />
+          <TermSelect/>
         </>
       }
     >

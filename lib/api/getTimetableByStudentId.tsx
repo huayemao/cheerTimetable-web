@@ -1,7 +1,7 @@
-import prisma from '../prisma';
-import { CourseItem } from 'lib/types/CourseItem';
-import { Owner } from 'lib/types/Owner';
-import { parseCourseItemByLesson } from "./parseCourseItemByLesson";
+import prisma from '../prisma'
+import { CourseItem } from 'lib/types/CourseItem'
+import { Owner } from 'lib/types/Owner'
+import { parseCourseItemByLesson } from './parseCourseItemByLesson'
 
 export async function getTimetableByStudentId(id: any) {
   const student = await prisma.student.findUnique({
@@ -30,17 +30,15 @@ export async function getTimetableByStudentId(id: any) {
         },
       },
     },
-  });
+  })
 
-  const courses: CourseItem[] = student?.enrollments.flatMap((e) => e.course.lessons.map((e) => ({
-    ...parseCourseItemByLesson(e),
-    term: e.course.term,
-  }))
-  );
+  const courses = student?.enrollments?.flatMap((e) =>
+    e.course.lessons.map((e) => parseCourseItemByLesson(e))
+  )
 
   const owner: Owner = {
-    name: student.name,
+    name: student?.name,
     label: student?.className,
-  };
-  return { courses, owner };
+  }
+  return { courses, owner }
 }

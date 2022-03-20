@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 export default function TermSelect({
   handleOnchange = console.log,
-  className,
+  className = '',
 }) {
   const router = useRouter()
   const [type, id] = router.query.all

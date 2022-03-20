@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Timetable, TimetableTitle } from 'components/Timetable/index.ts'
+import { Timetable, TimetableTitle } from 'components/Timetable'
 import List from '../../components/List'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Layout from 'components/Layout'
@@ -73,7 +73,7 @@ function SearchPage({
       </Head>
       <SearchResult data={data} />
       {loading && (
-        <Modal showCloseButton={false}>
+        <Modal showCloseButton={false} title="loading">
           <Loading size={60}></Loading>
         </Modal>
       )}
@@ -86,7 +86,7 @@ function TypeSelect({
   handleOnchange = console.log,
 }: {
   router: any
-  handleOnchange: () => void
+  handleOnchange?: () => void
 }) {
   const typeMapping = {
     student: '学生',
