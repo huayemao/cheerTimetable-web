@@ -16,7 +16,7 @@ export default function Search({ onChange = noop, onSubmit = noop }) {
         onSubmit={(e) => {
           onSubmit(e.target.value)
         }}
-        className="w-48 md:w-72 rounded-l-xl rounded-t-xl border border-slate-200 bg-slate-200 p-2 pl-11 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-64 md:w-72 rounded-l-xl rounded-t-xl border border-slate-200 bg-slate-200 p-2 pl-11 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="搜索学生、教师、授课地点"
         autoComplete="off"
         autoCorrect="off"
