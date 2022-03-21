@@ -51,7 +51,7 @@ export default function Home() {
             onClick={() => {
               handleSearch(q)
             }}
-            className="ml-2 select-none items-center rounded-full border border-blue-500 px-5 text-sm leading-8 text-blue-500 hover:bg-blue-500 hover:text-white focus:outline-none"
+            className="ml-2 box-border select-none  items-center rounded-full border border-blue-500 px-5 align-middle text-sm leading-8 text-blue-500 hover:bg-blue-500 hover:text-white"
           >
             {loading ? <Loading size={'2rem'} /> : '搜索'}
           </button>

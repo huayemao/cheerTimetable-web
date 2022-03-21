@@ -45,19 +45,6 @@ function SearchPage({
       extraNavBarChildren={
         <h2 className="text-xl font-thin text-blue-500">{title}</h2>
       }
-      sidebarContent={
-        <>
-          <div className="flex justify-center text-lg text-blue-400">
-            {title}
-          </div>
-          <TypeSelect router={router}></TypeSelect>
-        </>
-      }
-      renderMenuItems={(toggleCollapsed) => (
-        <div className="menu-wrapper bg-white">
-          <TypeSelect router={router} handleOnchange={toggleCollapsed} />
-        </div>
-      )}
     >
       <Head>
         <title>{title}-绮课</title>

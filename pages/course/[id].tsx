@@ -53,7 +53,7 @@ function CoursePage({
         <title>{course.subject.name}-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="lg:mx-20 flex flex-col items-center overflow-y-auto py-2 shadow-lg">
+      <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
         <h2 className="text-lg font-light text-blue-500">{course.className}</h2>
         <List
           data={course.enrollments}
@@ -67,7 +67,7 @@ function CoursePage({
               </a>
             </Link>
           )}
-        ></List>
+        />
       </div>
     </Layout>
   )

@@ -5,14 +5,14 @@ export default function List({ data, renderListItem, className = '' }) {
   return (
     <ul
       className={
-        'divide-y lg:divide-y-0 lg:grid grid-cols-2 gap-x-4 gap-y-1 self-stretch p-2 lg:p-4 text-gray-900 ' +
+        'grid-cols-2 gap-x-4 gap-y-1 divide-y self-stretch text-gray-900 lg:grid  lg:divide-y-0 ' +
         className
       }
     >
       {data.map((e, i) => (
         <li
-          className="relative py-2 px-4 lg:px-10 font-light  hover:bg-blue-50 hover:text-blue-500"
-          key={e.id}
+          className="relative py-2 px-4 font-light hover:bg-blue-50  hover:text-blue-500 lg:px-10"
+          key={e.id || String(i)}
         >
           {renderListItem(e, i)}
         </li>
