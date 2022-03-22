@@ -1,12 +1,12 @@
-import { parseTable } from './util/parseTable'
+import { parseTable } from '../util/parseTable'
 import qs from 'qs'
 import fetch from 'node-fetch'
 import { Location } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
-import { COOKIE } from '../constants'
-import { HEADERS } from './util/header'
-import prisma from '../lib/prisma'
-import LOCATIONS from '../_data/locations.json'
+import { COOKIE } from '../../constants'
+import { HEADERS } from '../util/header'
+import prisma from '../../lib/prisma'
+import LOCATIONS from '../../_data/locations.json'
 
 const mapping = {
   教室编号: 'id',
@@ -34,46 +34,6 @@ const parseLocation = (obj): Location => {
 
 const fieldExtractorMapping = {
   序号: (e) => parseInt(e.textContent.trim(), 10),
-}
-
-// 不用改，将来再 upsert 好了
-export async function checkInvalidLocations() {
-  const { id } =
-    (await prisma.location.findFirst({
-      select: {
-        id: true,
-      },
-      where: {
-        name: {
-          equals: LOCATIONS.find((e) => e.jsid === '4080282')?.jsmc.trim(),
-        },
-      },
-    })) || {}
-
-  if (id) {
-    await prisma.lesson.updateMany({
-      where: {
-        locationId: '4080282',
-      },
-      data: {
-        locationId: id,
-      },
-    })
-  }
-
-  const locations = await prisma.location.findMany({ select: { id: true } })
-  const locationIds = locations.map((e) => e.id)
-
-  const locationsInLessons = await prisma.lesson.findMany({
-    select: {
-      locationId: true,
-    },
-  })
-  const locationsInLessonIds = locationsInLessons.map((e) => e.locationId)
-  const nonValidIds = locationsInLessonIds.filter(
-    (e) => !locationIds.includes(e)
-  )
-  console.log(Array.from(new Set(nonValidIds)))
 }
 
 export async function getLocationNameAndIds() {

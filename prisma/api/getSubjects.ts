@@ -1,12 +1,11 @@
-import { parseTable } from './util/parseTable'
+import { parseTable } from '../util/parseTable'
 import qs from 'qs'
 import fetch from 'node-fetch'
 import { Subject } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
-import { COOKIE } from '../constants'
-import { getCourseStuffs } from './getCoursesAndLessons'
-import prisma from '../lib/prisma'
-import { HEADERS } from './util/header'
+import { COOKIE } from '../../constants'
+import { getCourseStuffs } from '../getCoursesAndLessons'
+import { HEADERS } from '../util/header'
 
 const mapping = {
   课程号: 'id',
@@ -74,45 +73,4 @@ export async function getSubjects(pageNum, pageSize = '10', version) {
   const list = parseTable<any>(html, extractorMapping)
 
   return list.map(parseSubject)
-}
-
-async function seedSubject() {
-  async function saveOnePage(pageNum, version) {
-    return await getSubjects(pageNum, '1000', version).then(async (list) => {
-      const payload = await prisma.subject.createMany({
-        data: list,
-        skipDuplicates: true,
-      })
-      if (list.length) {
-        console.log(list[0].name)
-      }
-
-      console.log(
-        'page ' +
-          pageNum +
-          ' done with ' +
-          payload.count +
-          ' items in version ' +
-          version
-      )
-
-      return {
-        payload,
-        finished: list.length === 0,
-      }
-    })
-  }
-
-  const versions = [
-    2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021,
-    2022,
-  ]
-
-  for (const version of versions) {
-    let pageNum = 1
-    let { finished } = await saveOnePage(pageNum, version)
-    while (!finished) {
-      finished = (await saveOnePage(++pageNum, version)).finished
-    }
-  }
 }

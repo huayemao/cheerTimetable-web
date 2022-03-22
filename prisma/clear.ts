@@ -1,4 +1,4 @@
-import { prisma } from './seed';
+import prisma from "lib/prisma";
 
 
 async function clearStorage() {

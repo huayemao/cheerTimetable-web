@@ -107,9 +107,6 @@ export async function getCourseStuffs(
     (e) => e.term + '_' + e.课堂名称 + e.教学班名称 + e.上课班级名称
   ) //课堂名称相同，教学班名称可能不同
 
-  // console.log(others)
-  // console.log(Object.keys(others))
-
   const { 讲课学时, 实践学时, 上机学时, 实验学时, 见习学时 } = sample1 || {}
   const tuitionHourArr = [讲课学时, 实践学时, 上机学时, 实验学时, 见习学时]
   const getInt = (str: string | undefined) => parseInt(str?.trim() || '0')

@@ -1,215 +1,77 @@
 import { Course, Lesson, PrismaClient, Subject, Tuition } from '@prisma/client'
-import {
-  checkInvalidLocations,
-  getLocationNameAndIds,
-  getLocations,
-} from './getLocations'
-import { getStudents } from './getStudents'
-import { getLessonsById, LessonRes } from './api/getLessonsByID'
-import COURSES from '../_data/courses.json'
-import STUDENTS from '../_data/students.json'
-import LOCATIONS from '../_data/locations.json'
-import {
-  getCourseIdsByStudentId,
-  seedEnrollment,
-  checkInvalidCourseIdsFromEnrollment,
-  checkInvalidStudentIdsFromEnrollment,
-} from './seedEnrollment'
 import { chunk, omit } from 'lodash'
+import COURSES from '../_data/courses.json'
+import LOCATIONS from '../_data/locations.json'
+import STUDENTS from '../_data/students.json'
+import { getLessons, LessonRes1 } from './api/getLessons'
+import { getLessonsById, LessonRes } from './api/getLessonsByID'
+import { getLocationNameAndIds, getLocations } from './api/getLocations'
+import { getTeachers } from './api/getTeachers'
 import {
-  getCourseStuffs,
   seedCourses,
   seedSubjectByIds,
   supplementSubjectAndSeedCources,
 } from './getCoursesAndLessons'
-import { getLessons, LessonRes1 } from './api/getLessons'
-import { getTeachers } from './getTeachers'
+import {
+  checkInvalidCourseIdsFromEnrollment,
+  checkInvalidStudentIdsFromEnrollment,
+  seedEnrollment,
+} from './seedEnrollments'
+import { seedStudents } from './seedStudents'
+import { seedSubjects } from './seedSubjects'
+import { seedUtilNoData } from './util/seedUtilNoData'
 
-export async function seedUtilNoData(getList, model) {
-  async function saveOnePage(pageNum) {
-    return await getList(pageNum, '1000').then(async (list) => {
-      const payload = await model.createMany({
-        data: list,
-        skipDuplicates: true,
-      })
-
-      if (list.length) {
-        console.log(list[0]?.id || list[0])
-      }
-
-      console.log('page ' + pageNum + ' done with ' + payload.count + ' items')
-
-      return {
-        payload,
-        finished: list.length === 0,
-      }
-    })
-  }
-
-  let pageNum = 1
-  let { finished } = await saveOnePage(pageNum)
-  while (!finished) {
-    finished = await (await saveOnePage(++pageNum)).finished
-  }
-}
-
-export const prisma = new PrismaClient()
-
-async function saveOnePageStudents(pageNum) {
-  return await getStudents(pageNum, '1000')
-    .then(async (list) => {
-      console.log(list[0].name)
-      return {
-        payload: await prisma.student.createMany({ data: list }),
-        grade: list.reduce(
-          (maxGrade, item, i) => Math.min(parseInt(item.grade), maxGrade),
-          2021
-        ),
-      }
-    })
-    .then(({ payload, grade }) => {
-      console.log('page ' + pageNum + ' done with ' + payload.count + ' items')
-      return {
-        grade: grade,
-      }
-    })
-}
-
-async function seedStudents() {
-  let pageNum = 71
-  let { grade } = await saveOnePageStudents(pageNum)
-  while (grade > 2013) {
-    grade = (await saveOnePageStudents(++pageNum)).grade
-  }
-}
-
-export async function seedLocations() {
-  async function saveOnePage(pageNum) {
-    return await getLocations(pageNum, '1000').then(async (list) => {
-      const payload = await prisma.location.createMany({
-        data: list,
-      })
-      if (list.length) {
-        console.log(list[0].name)
-      }
-
-      console.log('page ' + pageNum + ' done with ' + payload.count + ' items')
-
-      return {
-        payload,
-        finished: list.length === 0,
-      }
-    })
-  }
-
-  let pageNum = 1
-  let { finished } = await saveOnePage(pageNum)
-  while (!finished) {
-    finished = await (await saveOnePage(++pageNum)).finished
-  }
-}
+const prisma = new PrismaClient()
 
 async function run() {
-  // await seedUtilNoData(getTeachers, prisma.teacher)
+  // these code remains mess, needs test and refactor
+
+  await seedUtilNoData(getTeachers, prisma.teacher)
+  await seedUtilNoData(getLocations, prisma.location)
+  await seedStudents()
 
   const locations = await getLocationNameAndIds()
-  // const res = await getCourseStuffs('180501T20', false, locations)
-  // console.log(res)
 
-  // await seedSubjects()
+  await seedSubjects()
 
-  await seedSubjectByIds(['150803Z1'], locations)
-  for (const e of [
-    '201620172',
-    '201620171',
-  ]) {
-    console.log(await checkInvalidCourseIdsFromEnrollment(locations, e))
-  }
+  await seedEnrollment(0, 9)
 
-  // [ '202020212002099', '8206200701' ],
-  // [ '202020212002373', '8210202002' ]
-  // [ '201920201024349', '8102190214' ],
-  // [ '201920201024194', '8109190203' ]
+  await supplementSubjectAndSeedCources(locations)
 
-  // await checkInvalidStudentIdsFromEnrollment()
-  // await seedEnrollment(0, 9)
+  await checkInvalidStudentIdsFromEnrollment()
+  await checkInvalidCourseIdsFromEnrollment(locations, '201620171')
+  await checkInvalidCourseIdsFromLesson(locations, '2016-2017-2')
 
-  // await supplementSubjectAndSeedCources(locations)
-  // await checkInvalidCourseIds(locations)
-
-  // const res = await getCourseIdsByStudentId('8305180722')
-  // console.log(res.length)
-  // console.log(Array.from(new Set(res)).length)
-
-  // await seedCourses(0, locations)
-
-  // await checkInvalidCourseIds(locations)
-
-  const subjects = await prisma.subject.findMany({
-    where: {
-      AND: {
-        id: {
-          in: COURSES.map((e) => e.kch),
-        },
-        courses: {
-          none: {},
-        },
-        tooOld: false,
-        // courses: {
-        //   some: {
-        //     lessons: {
-        //       none: {},
-        //     },
-        //   },
-        // },
-        // courses: {
-        //   some: {
-        //     lessons: {
-        //       every: {
-        //         tuition: { none: {} },
-        //       },
-        //     },
-        //   },
-        // },
-      },
-    },
-  })
-  console.log(
-    123,
-    subjects.map((e) => e.id)
-  )
-
-  // 再验证一边异常的 record: tuition<1 的 lesson 和 lesson<2 的 course
+  await seedCourses(0, locations)
 }
 
 run()
 
-async function checkInvalidCourseIds(locations) {
-  // const validIds = (
-  //   await prisma.course.findMany({
-  //     select: {
-  //       id: true,
-  //     },
-  //   })
-  // ).map((e) => e.id)
+async function checkInvalidCourseIdsFromLesson(locations, term) {
+  const validIds = (
+    await prisma.course.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        term,
+      },
+    })
+  ).map((e) => e.id)
+
+  console.log(validIds.length)
 
   const lessons: Lesson[] = await prisma.lesson.findMany({
     where: {
-      course: {
-        lessons: {
-          none: {},
-        },
+      id: {
+        startsWith: term.split('-').join(),
       },
-      // courseId: { notIn: validIds },
-      // locationId: '00default',
+      courseId: { notIn: validIds },
     },
     distinct: ['courseId'],
   })
 
-  console.log(
-    345,
-    lessons.map((e) => e.courseId)
-  )
+  console.log(lessons.map((e) => e.courseId))
 
   const lessonsWithInvalidCourseId = lessons
   for (const e of lessonsWithInvalidCourseId) {
