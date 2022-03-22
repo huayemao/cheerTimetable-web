@@ -52,6 +52,7 @@ const getSubjectCategory = async (jx02id, term) => {
   return doc.querySelector('font[title=课程类别]')?.textContent.trim()
 }
 
+// 恭喜你得到了一坨屎山
 export async function getCourseStuffs(
   subjectId,
   needSubjectCat = false,
@@ -103,7 +104,7 @@ export async function getCourseStuffs(
 
   const others = groupBy(
     compact(itemsAlt),
-    (e) => e.term + '_' + e.课堂名称 + e.教学班名称 + e['上课班级名称']
+    (e) => e.term + '_' + e.课堂名称 + e.教学班名称 + e.上课班级名称
   ) //课堂名称相同，教学班名称可能不同
 
   // console.log(others)
@@ -210,6 +211,7 @@ export async function getCourseStuffs(
     if (candidateId && /^\w+$/.test(candidateId)) {
       // 上课班级是数字也不一定是开课编号
       const composited = sample.term.split('-').join('') + candidateId
+
       if (
         items.find((e) => e.开课编号 === composited) &&
         items.filter((e) => e.开课编号 === composited).length ===
@@ -222,11 +224,24 @@ export async function getCourseStuffs(
     } else {
       getId()
     }
+
     return id
 
     function getId() {
       const reflectItems = items.filter((e) => {
         const value = e.上课班级.trim()
+        const t1 = e.授课教师
+          ?.trim()
+          ?.match(/[\u4e00-\u9fa5]+/g)
+          ?.sort()
+          .join(',')
+
+        const t2 = sample.任课教师
+          ?.trim()
+          ?.match(/[\u4e00-\u9fa5]+/g)
+          ?.sort()
+          .join(',')
+
         const matching1 =
           value &&
           value === candidateId &&
@@ -240,21 +255,17 @@ export async function getCourseStuffs(
           e.term === sample.term &&
           e.开课时间 === sample.节次 &&
           e.上课周次 === sample.周次.split('/')[0] &&
-          (e.授课教师?.trim() && sample.任课教师?.trim()
-            ? e.授课教师
-                .match(/[\u4e00-\u9fa5]+/g)
-                ?.sort()
-                .join(',') ===
-              sample.任课教师
-                .match(/[\u4e00-\u9fa5]+/g)
-                ?.sort()
-                .join(',')
+          (t1 && t2 ? t1 === t2 || t1.includes(t2) : true) &&
+          (e.上课地点?.trim() && sample.上课地点.trim()
+            ? e.上课地点?.split(',')?.[1]?.trim() === sample.上课地点.trim()
             : true)
 
         return matching1 || matching2
       })
+
       if (reflectItems.length > 0) {
         id = reflectItems[0].开课编号
+
         if (reflectItems.length > 1) {
           const best =
             reflectItems.find(
@@ -264,12 +275,33 @@ export async function getCourseStuffs(
           id = best.开课编号
         }
       } else {
-        id = items.find(
-          (e: LessonRes & { term: string }) =>
-            e.term === sample.term &&
-            e.开课时间 === sample.节次 &&
-            e.上课周次 === sample.周次.split('/')[0]
-        )?.开课编号
+        id = items.find((e: LessonRes & { term: string }) => {
+          const t1 = e.授课教师
+            ?.trim()
+            ?.match(/[\u4e00-\u9fa5]+/g)
+            ?.sort()
+            .join(',')
+
+          const t2 = sample.任课教师
+            ?.trim()
+            ?.match(/[\u4e00-\u9fa5]+/g)
+            ?.sort()
+            .join(',')
+
+          return (
+            (e.term === sample.term &&
+              e.开课时间 === sample.节次 &&
+              e.上课周次 === sample.周次.split('/')[0] &&
+              t1 === t2) ||
+            (t1 &&
+            t2 &&
+            t1?.includes(t2 as string) &&
+            e.上课地点?.trim() &&
+            sample.上课地点.trim()
+              ? e.上课地点?.split(',')?.[1]?.trim() === sample.上课地点.trim()
+              : true)
+          )
+        })?.开课编号
       }
     }
   }

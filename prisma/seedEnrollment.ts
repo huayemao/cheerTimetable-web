@@ -1,7 +1,7 @@
 import { parseTable } from './util/parseTable'
 import qs from 'qs'
 import fetch from 'node-fetch'
-import { groupBy, map } from 'lodash'
+import { map } from 'lodash'
 import { Course, Lesson, Location, Subject, Enrollment } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
 import { COOKIE, TERMS } from '../constants'

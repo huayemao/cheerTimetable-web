@@ -112,16 +112,27 @@ export async function seedLocations() {
 async function run() {
   // await seedUtilNoData(getTeachers, prisma.teacher)
 
-  // const locations = await getLocationNameAndIds()
+  const locations = await getLocationNameAndIds()
   // const res = await getCourseStuffs('180501T20', false, locations)
   // console.log(res)
 
   // await seedSubjects()
 
-  // await seedSubjectByIds(['xxx'], locations)
-  // await checkInvalidCourseIdsFromEnrollment(locations,'202120222')
+  await seedSubjectByIds(['150803Z1'], locations)
+  for (const e of [
+    '201620172',
+    '201620171',
+  ]) {
+    console.log(await checkInvalidCourseIdsFromEnrollment(locations, e))
+  }
+
+  // [ '202020212002099', '8206200701' ],
+  // [ '202020212002373', '8210202002' ]
+  // [ '201920201024349', '8102190214' ],
+  // [ '201920201024194', '8109190203' ]
+
   // await checkInvalidStudentIdsFromEnrollment()
-  await seedEnrollment(0, 9)
+  // await seedEnrollment(0, 9)
 
   // await supplementSubjectAndSeedCources(locations)
   // await checkInvalidCourseIds(locations)
@@ -220,5 +231,3 @@ async function checkInvalidCourseIds(locations) {
     console.log(e.id, l[0].课堂名称, l[0].课程)
   }
 }
-
-
