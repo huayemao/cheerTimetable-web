@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { getTimeTable } from 'lib/api/getTimeTable'
-import parseCourseItem from 'lib/parseCourseItem'
-import { TimetableTitle } from 'components/Timetable/index'
-import Layout from 'components/Layout'
 import Container from 'components/Container'
+import Layout from 'components/Layout'
 import Modal from 'components/Modal'
-import Head from 'next/head'
-import { keyBy } from 'lodash'
+import Select from 'components/Select'
 import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
-import Select from 'components/Select'
-import useLinkTransition from 'lib/hooks/useLinkTransition'
+import { TimetableTitle } from 'components/Timetable/index'
 import { usePreferenceDispatch } from 'contexts/preferenceContext'
+import useLinkTransition from 'lib/hooks/useLinkTransition'
+import { keyBy } from 'lodash'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { Content } from '../../components/Content'
 import { getTimeTableOwner } from '../../lib/api/getTimeTableOwner'
-import { OwnerType } from 'lib/types/Owner'
-import { getTimetableByStudentId } from 'lib/api/getTimetableByStudentId'
-import { getTimetableByTeacherId } from '../../lib/api/getTimetableByTeacherId'
-import { getTimetableByLocationId } from 'lib/api/getTimetableByLocationId'
+import { getTimetable } from '../../lib/api/getTimetable'
 
 function TimetablePage(props) {
   const router = useRouter()
@@ -54,7 +49,7 @@ function TimetablePage(props) {
       )}
       sidebarContent={
         <>
-          <TermSelect/>
+          <TermSelect />
         </>
       }
     >
@@ -79,13 +74,7 @@ export async function getStaticProps(context) {
   const { all } = context.params
   const [type, id] = all
 
-  const fnMapping = {
-    [OwnerType.teacher]: getTimetableByTeacherId,
-    [OwnerType.student]: getTimetableByStudentId,
-    [OwnerType.location]: getTimetableByLocationId,
-  }
-
-  const { courses, owner } = await fnMapping[type](id)
+  const { courses, owner } = await getTimetable(type, id)
 
   return {
     props: {

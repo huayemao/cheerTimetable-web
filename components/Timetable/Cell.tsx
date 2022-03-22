@@ -26,7 +26,7 @@ type CoursePreviewProps = {
 
 export default function CoursePreview({ course }: CoursePreviewProps) {
   const weekStr = getWeekStr(course)
-  const { locationId, teachers } = course
+  const { location, teachers } = course
   return (
     <>
       <div key={'name'} className={cn(s['course-preview'], s['course-title'])}>
@@ -34,11 +34,7 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
       </div>
       <div key={'location'} className={cn(s['course-preview'])}>
         {' '}
-        <TextOrLink
-          key={locationId}
-          type={OwnerType.location}
-          id={locationId}
-        ></TextOrLink>
+        {location.name}
       </div>
       <div key={'teachers'} className={cn(s['course-preview'])}>
         {teachers.map(({ id, name }, i, arr) => (

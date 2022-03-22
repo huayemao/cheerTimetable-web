@@ -13,6 +13,7 @@ export async function getTimetableByTeacherId(id: any) {
         include: {
           lesson: {
             include: {
+              location: true,
               tuition: {
                 include: {
                   teacher: true,

@@ -1,17 +1,9 @@
 import { parseSlot } from 'lib/parseCourseItem'
 import { Course, Lesson, Subject, Tuition, Teacher } from '@prisma/client'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
+import { MyLesson } from 'lib/types/Lesson'
 
-export function parseCourseItemByLesson(
-  lesson: Lesson & {
-    tuition: (Tuition & {
-      teacher: Teacher
-    })[]
-    course: Course & {
-      subject: Subject
-    }
-  }
-): CourseItem {
+export function parseCourseItemByLesson(lesson: MyLesson): CourseItem {
   const mapping = {
     0: WeekInterval.none,
     1: WeekInterval.even,
@@ -21,7 +13,7 @@ export function parseCourseItemByLesson(
     seq: lesson.id,
     courseId: lesson.courseId,
     name: lesson.course.subject.name,
-    locationId: lesson.locationId,
+    location: lesson.location,
     teachers: lesson.tuition.map((e) => e.teacher),
     studentCount: lesson.course.electCount,
     classId: lesson.course.className,

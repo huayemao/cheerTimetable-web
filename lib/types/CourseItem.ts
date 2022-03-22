@@ -1,4 +1,4 @@
-import { Teacher } from "@prisma/client"
+import { Location, Teacher } from "@prisma/client"
 
 export type TimetaleSlot = {
   day: number
@@ -15,7 +15,7 @@ export type CourseItem = {
   seq: string // 序号
   courseId: string //开课编号：202120221012243
   name: string
-  locationId: string
+  location: Location
   teachers: Teacher[]
   studentCount: number
   classId: string

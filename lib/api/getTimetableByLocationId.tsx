@@ -11,6 +11,7 @@ export async function getTimetableByLocationId(id: any) {
     include: {
       lessons: {
         include: {
+          location: true,
           course: {
             include: { subject: true },
           },

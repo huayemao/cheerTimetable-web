@@ -15,6 +15,7 @@ export async function getTimetableByStudentId(id: any) {
             include: {
               lessons: {
                 include: {
+                  location: true,
                   course: {
                     include: { subject: true },
                   },

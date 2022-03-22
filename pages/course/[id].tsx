@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { getTimeTable } from 'lib/api/getTimeTable'
-import parseCourseItem from 'lib/parseCourseItem'
 import { TimetableTitle } from 'components/Timetable/index'
 import Layout from 'components/Layout'
 import Container from 'components/Container'

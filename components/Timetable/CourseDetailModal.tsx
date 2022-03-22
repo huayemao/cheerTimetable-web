@@ -67,11 +67,13 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     {
       icon: IconLocation,
       content: activeCourse ? (
-        <TextOrLink
-          canLink
-          type={OwnerType.location}
-          id={activeCourse.locationId}
-        />
+        <Link
+          href={{
+            pathname: `/curriculum/${OwnerType.location}/${activeCourse.location.id}`,
+          }}
+        >
+          <a className="underline">{activeCourse.location.name}</a>
+        </Link>
       ) : null,
     },
     {

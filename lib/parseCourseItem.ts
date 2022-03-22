@@ -1,22 +1,5 @@
-import { chunk, mapValues, mapKeys, isFunction, pick } from 'lodash'
+import { chunk, isFunction, mapKeys, mapValues, pick } from 'lodash'
 import { CourseItem, TimetaleSlot, WeekInterval } from './types/CourseItem'
-
-export const keyMapping = {
-  序号: 'seq',
-  上课班级: 'classId',
-  排课人数: 'studentCount',
-  开课编号: 'courseId',
-  开课课程: 'name',
-  授课教师: 'teacherIds',
-  开课时间: 'slot',
-  上课地点: 'locationId',
-  上课周次: 'weeks',
-  单双周: 'weekInterval',
-}
-
-const getTeacherIds = (str: string): string[] =>
-  str.split(',').filter((e) => /\w+/.test(e))
-//'803213,李跃辉' = > ['803213']
 
 export const parseSlot = (str: string): TimetaleSlot => {
   const day = parseInt(str[0], 10)
@@ -32,22 +15,4 @@ export const parseSlot = (str: string): TimetaleSlot => {
     day,
     rowIds,
   }
-}
-
-const getLocation = (str: string) => str.split(',')[0]
-//'4080107,T107'=>'T107'
-
-export const valueMapper = {
-  授课教师: getTeacherIds,
-  开课时间: parseSlot,
-  上课地点: getLocation,
-}
-
-export default function parseCourseItem(obj: Object): CourseItem {
-  const item = mapValues(obj, (v, k) => {
-    const mapper = valueMapper[k]
-    return isFunction(mapper) ? mapper(v) : v
-  })
-  const keys = Object.keys(keyMapping)
-  return mapKeys(pick(item, keys), (v, k) => keyMapping[k])
 }

@@ -1,20 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
-
+import { Teacher } from '@prisma/client'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import timezone from 'dayjs/plugin/timezone'
-
-import { getNameById, searchByName } from 'lib/api/getMeta'
-import { getTimeTable } from 'lib/api/getTimeTable'
-import { parseLocation, parseTime, parseTeacher } from 'lib/parseCourseFields'
-
+import utc from 'dayjs/plugin/utc'
 import ical, {
   ICalEvent,
   ICalEventRepeatingFreq,
   ICalRepeatingOptions,
 } from 'ical-generator'
+import { getTimetable } from 'lib/api/getTimetable'
+import { parseLocation, parseTeacher, parseTime } from 'lib/parseCourseFields'
+import { CourseItem, TimetaleSlot, WeekInterval } from 'lib/types/CourseItem'
+import { OwnerType } from 'lib/types/Owner'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { DATE_TIME } from '../../../../../constants'
 
 const { dateMapping, timeMapping } = DATE_TIME
@@ -28,66 +27,83 @@ const getDate = (str) => {
   return dayjs.tz(str, 'YYYY-MM-DD-HH-mm', TIME_ZONE)
 }
 
-const transformData = (course) => {
-  const { 开课时间, 授课教师, 上课地点, 上课周次, 单双周, 开课课程 } = course
-  const { title: location } = parseLocation(上课地点)
-  const teachers = parseTeacher(授课教师)
-  const teacherStr = teachers.map((e) => e.title).join('、')
-  const weekStr = 上课周次
-  const { day, start, end } = parseTime(开课时间)
+type CourseEventRaw = {
+  description: string
+  summary: string
+  day: number
+  start: number
+  end: number
+  location: string
+  weeks: string
+  weekInterval: WeekInterval
+  term: string
+}
+
+const getSlotStartAndEnd = (slot: TimetaleSlot) => {
+  const { day, rowIds } = slot
+  const start = rowIds[0] * 2 - 1
+  const end = rowIds[rowIds.length - 1] * 2
   return {
-    description: `教师：${teacherStr}\n周次：${weekStr} ${单双周}`,
-    summary: 开课课程,
-    day,
     start,
     end,
-    location,
-    weekStr,
-    单双周,
   }
 }
 
-const buildEvent = (cal, term, course, week) => {
+const transformData = (course: CourseItem): CourseEventRaw => {
+  const { slot, teachers, location, weeks, weekInterval, name, term } = course
+  const teacherStr = getTeacherStr(teachers)
+  const { start, end } = getSlotStartAndEnd(slot)
+
+  return {
+    description: `教师：${teacherStr}\n周次：${
+      course.weeks + course.weekInterval
+    } ${weekInterval}\n from 绮课`,
+    summary: name,
+    day: slot.day,
+    start,
+    end,
+    location: location.name,
+    weeks,
+    weekInterval,
+    term,
+  }
+}
+
+const buildEvent = (cal, item: CourseEventRaw, week: string) => {
   if (week.includes(',')) {
-    return week.split(',').map((w) => buildEvent(cal, term, course, w))
+    return week
+      .split(',')
+      .map((singleWeek) => buildEvent(cal, item, singleWeek))
   }
   if (week.includes('-')) {
     const [startWeek, endWeek] = week.split('-')
     const actualStartWeek =
-      course.单双周 !== '全部'
-        ? getFirstMatchedWeek(course.单双周, startWeek, endWeek)
-        : startWeek
-    return buildEventWithLoop(
-      cal,
-      term,
-      course,
-      actualStartWeek,
-      endWeek,
-      course.单双周 !== '全部'
-    )
+      item.weekInterval !== WeekInterval.none
+        ? getFirstMatchedWeek(item.weekInterval, startWeek)
+        : Number(startWeek)
+    return buildEventWithLoop(cal, item, actualStartWeek, parseInt(endWeek, 10))
   } else {
-    return buildEventWithLoop(cal, term, course, week, week, false)
+    return buildEventWithLoop(cal, item, Number(week), Number(week))
   }
 }
 
 const buildEventWithLoop = (
   cal,
-  term,
-  course,
-  actualStartWeek,
-  endWeek,
-  hasGap
+  item: CourseEventRaw,
+  actualStartWeek: number,
+  endWeek: number
 ) => {
-  const literalCount = parseInt(endWeek) - parseInt(actualStartWeek) + 1
+  const hasGap = item.weekInterval !== WeekInterval.none
+  const literalCount = endWeek - actualStartWeek + 1
   const mapping = {
-    双周: 0,
-    单周: 1,
+    [WeekInterval.even]: 0,
+    [WeekInterval.odd]: 1,
   }
   const count = hasGap
     ? Array.from(
         { length: literalCount },
-        (e, i) => i + parseInt(actualStartWeek)
-      ).filter((e) => e % 2 === mapping[course.单双周]).length
+        (e, i) => i + actualStartWeek
+      ).filter((e) => e % 2 === mapping[item.weekInterval]).length
     : literalCount
 
   const repeating: ICalRepeatingOptions = {
@@ -96,33 +112,35 @@ const buildEventWithLoop = (
     interval: hasGap ? 2 : 0,
   }
 
-  const datetimeStr = `${dateMapping[term]}-${
-    timeMapping[String(course.start)]
+  const datetimeStr = `${dateMapping[item.term]}-${
+    timeMapping[String(item.start)]
   }`
 
   const termStartDay = getDate(datetimeStr)
 
-  const endDateTimeStr = `${dateMapping[term]}-${
-    timeMapping[String(course.end)]
+  const endDateTimeStr = `${dateMapping[item.term]}-${
+    timeMapping[String(item.end)]
   }`
+
+  const offset = termStartDay.day()
 
   const termStartDayCourseEndTime = getDate(endDateTimeStr)
 
   const start = termStartDay
     .add(actualStartWeek - 1, 'week')
-    .add(course.day, 'day')
+    .add(item.day - offset, 'day')
 
   const end = termStartDayCourseEndTime
     .add(actualStartWeek - 1, 'week')
-    .add(course.day, 'day')
+    .add(item.day - offset, 'day')
 
   return new ICalEvent(
     {
       start,
       end,
-      summary: course.summary,
-      description: course.description,
-      location: course.location,
+      summary: item.summary,
+      description: item.description,
+      location: item.location,
       repeating,
       timezone: 'Asia/Shanghai',
     },
@@ -130,17 +148,21 @@ const buildEventWithLoop = (
   )
 }
 
-const getFirstMatchedWeek = (weekDescription, startWeek, endWeek) => {
+const getFirstMatchedWeek = (weekDescription, startWeek: string): number => {
   const mapping = {
-    双周: 0,
-    单周: 1,
+    [WeekInterval.even]: 0,
+    [WeekInterval.odd]: 1,
   }
   const week =
-    startWeek % 2 === mapping[weekDescription]
-      ? startWeek
+    Number(startWeek) % 2 === mapping[weekDescription]
+      ? parseInt(startWeek, 10)
       : parseInt(startWeek, 10) + 1
 
   return week
+}
+
+function getTeacherStr(teachers: Teacher[]) {
+  return teachers.map((e) => e.name + e.title).join('、')
 }
 
 // http://localhost:3000/api/ical/student/8305180722/2018-2019-2.ics
@@ -152,16 +174,19 @@ export default async function handler(
   const { id, type } = req.query
   const virtualFilename = req.query.term as string
   const term = virtualFilename.replace('.ics', '')
-  const { courses } = await getTimeTable(type, id, term)
-  const title = getNameById(type, id)
 
-  const calendar = ical({ name: title + ' ' + term + ' 学期的课表' })
+  const { courses, owner } = await getTimetable(type as OwnerType, id)
+
+  const title = owner.name + ' ' + '的课表'
+
+  const calendar = ical({ name: owner.name + ' ' + '的课表' })
 
   const events = courses
+    ?.filter((e) => e.term === term)
     .map(transformData)
-    .flatMap((e) => buildEvent(calendar, term, e, e.weekStr))
+    .flatMap((e) => buildEvent(calendar, e, e.weeks))
 
-  calendar.events(events)
+  calendar.events(events as ICalEvent[])
 
   // console.log(calendar.toJSON())
   calendar.serve(res, `${term}.ics`)
