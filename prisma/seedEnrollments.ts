@@ -68,49 +68,7 @@ export const getCourseIdsByStudentId = async (studentId) => {
   return Array.from(new Set(res))
 }
 
-export async function checkInvalidCourseIdsFromEnrollment(locations, termStr) {
-  const ids = await prisma.course.findMany({
-    select: {
-      id: true,
-    },
-    distinct: ['id'],
-    where: {
-      id: {
-        startsWith: termStr,
-      },
-    },
-  })
-
-  console.log(ids.length)
-
-  const enrollments = await prisma.enrollment.findMany({
-    where: {
-      courseId: { notIn: ids.map((e) => e.id), startsWith: termStr },
-    },
-    distinct: ['courseId'],
-  })
-
-  console.log(enrollments.map((e) => [e.courseId, e.studentId]))
-}
-
-export async function checkInvalidStudentIdsFromEnrollment() {
-  const existedIds = await getExistedStudentIds()
-
-  const needDeleteIds = existedIds.filter(
-    (e) => !parseGrade(e) || (parseGrade(e) as number) < 14
-  )
-
-  console.log(needDeleteIds.length)
-  console.log(needDeleteIds)
-  const res = await prisma.enrollment.deleteMany({
-    where: {
-      studentId: { in: needDeleteIds },
-    },
-  })
-  console.log(res.count)
-}
-
-async function getExistedStudentIds() {
+export async function getExistedStudentIds() {
   const res =
     (await prisma.$queryRaw`SELECT DISTINCT studentId FROM Enrollment; `) as {
       studentId: string

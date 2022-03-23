@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 import { Subject } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
 import { COOKIE } from '../../constants'
-import { getCourseStuffs } from '../getCoursesAndLessons'
+import { getCourseStuffs } from "../util/getCourseStuffs"
 import { HEADERS } from '../util/header'
 
 const mapping = {

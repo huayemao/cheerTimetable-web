@@ -9,10 +9,17 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
-model Cookie {
-    id    Int      @id @default(autoincrement())
-    value String
-    date  DateTime @default("2020-03-19T14:21:00+02:00")
+model SeedStatus {
+    id         Int      @id @default(autoincrement())
+    updatedAt  DateTime @updatedAt
+    student    Int
+    teacher     Int
+    subject    Int
+    course     Int
+    lesson     Int
+    enrollment Int
+    tuition    Int
+    location   Int
 }
 
 model Teacher {

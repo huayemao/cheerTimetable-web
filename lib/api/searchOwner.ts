@@ -2,7 +2,7 @@ import _ from 'lodash'
 import qs from 'qs'
 import perseTable from '../parseTable'
 import { OwnerType } from 'lib/types/Owner'
-import prisma from 'lib/prisma'
+import prisma from '../lib/prisma'
 
 const { map, mapKeys } = _
 

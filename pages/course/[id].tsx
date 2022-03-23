@@ -15,7 +15,7 @@ import { usePreferenceDispatch } from 'contexts/preferenceContext'
 import { Content } from '../../components/Content'
 import { getTimeTableOwner } from '../../lib/api/getTimeTableOwner'
 import { OwnerType } from 'lib/types/Owner'
-import prisma from 'lib/prisma'
+import prisma from '../lib/prisma'
 import { Enrollment, Student, Subject, Course } from '@prisma/client'
 import List from 'components/List'
 

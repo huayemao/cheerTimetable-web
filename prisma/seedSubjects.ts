@@ -1,4 +1,4 @@
-import prisma from 'lib/prisma'
+import prisma from '../lib/prisma'
 import { getSubjects } from './api/getSubjects'
 import { seedUtilNoData } from './util/seedUtilNoData'
 

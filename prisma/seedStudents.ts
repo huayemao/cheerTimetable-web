@@ -1,10 +1,9 @@
-import prisma from 'lib/prisma'
+import prisma from '../lib/prisma'
 import { getStudents } from './api/getStudents'
 
 async function saveOnePageStudents(pageNum) {
   return await getStudents(pageNum, '1000')
     .then(async (list) => {
-      console.log(list[0].name)
       return {
         payload: await prisma.student.createMany({ data: list }),
         grade: list.reduce(
