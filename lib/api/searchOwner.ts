@@ -6,12 +6,6 @@ import prisma from '../../lib/prisma'
 
 const { map, mapKeys } = _
 
-const mapping = {
-  [OwnerType.student]: 'xs0101',
-  [OwnerType.teacher]: 'jg0101',
-  [OwnerType.location]: 'js',
-}
-
 export async function searchOwner(name) {
   const students = prisma.student.findMany({
     where: { name: { equals: name } },

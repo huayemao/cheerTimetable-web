@@ -13,6 +13,8 @@ import {
   Calendar as IconCalendar,
   Hash as IconHash,
   Academic as IconAcademic,
+  Calculator as IconCalculator,
+  Collection as IconCollection,
 } from 'components/Icons'
 import { getWeekStr } from 'lib/getGridCells'
 import { OwnerType } from 'lib/types/Owner'
@@ -95,6 +97,14 @@ export function CourseDetailModal({ courses, router, num }: Props) {
       icon: IconCalendar,
       content: activeCourse ? getWeekStr(activeCourse) : null,
     },
+    {
+      icon: IconCollection,
+      content: activeCourse?.category,
+    },
+    {
+      icon: IconCalculator,
+      content: activeCourse ? (activeCourse.credit || '') + ' 学分' : null,
+    },
   ]
 
   return (
@@ -108,7 +118,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
             {list.map(({ icon: Icon, content }, i) => (
               <li
                 key={i}
-                className="relative inline-flex w-full items-center rounded-t-lg  py-2 px-4 text-sm font-medium hover:bg-gray-100"
+                className=" text-sm md:text-lg relative inline-flex w-full items-center  rounded-t-lg py-2 px-4 font-medium hover:bg-gray-100"
               >
                 <Icon className="mr-2 h-4 w-4" /> {content}
               </li>

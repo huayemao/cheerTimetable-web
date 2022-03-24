@@ -21,5 +21,7 @@ export function parseCourseItemByLesson(lesson: MyLesson): CourseItem {
     weeks: lesson.weeks,
     weekInterval: mapping[lesson.weekFreq],
     term: lesson.course.term,
+    credit: lesson.course.subject.credit,
+    category: lesson.course.subject.category,
   }
 }

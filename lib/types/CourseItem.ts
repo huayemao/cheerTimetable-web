@@ -1,4 +1,4 @@
-import { Location, Teacher } from "@prisma/client"
+import { Location, Teacher } from '@prisma/client'
 
 export type TimetaleSlot = {
   day: number
@@ -23,4 +23,6 @@ export type CourseItem = {
   weeks: string
   weekInterval: WeekInterval
   term: string
+  credit: number
+  category: string
 }
