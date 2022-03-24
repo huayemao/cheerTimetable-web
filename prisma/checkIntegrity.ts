@@ -1,7 +1,7 @@
 import { Lesson } from '@prisma/client'
 import prisma from '../lib/prisma'
 import { parseGrade } from '../lib/term'
-import LOCATIONS from '../_data/locations.json'
+import { LOCATIONS } from '../_data/metas'
 import { getLessons, LessonRes1 } from './api/getLessons'
 import { getExistedStudentIds } from './seedEnrollments'
 
@@ -34,7 +34,7 @@ export async function checkInvalidCourseIdsFromLesson(locations, term) {
   const lessonsWithInvalidCourseId = lessons
   for (const e of lessonsWithInvalidCourseId) {
     const name = locations.find((l) => l.id === e.locationId).name
-    const jsid = LOCATIONS.find((l) => l.jsmc === name)?.jsid
+    const jsid = (await LOCATIONS).find((l) => l.jsmc === name)?.jsid
     const params = {
       jsid: jsid,
       day: Number(e.timeSlot.slice(0, 1)),
@@ -79,4 +79,3 @@ export async function checkInvalidCourseIdsFromEnrollment(locations, termStr) {
 
   console.log(enrollments.map((e) => [e.courseId, e.studentId]))
 }
-

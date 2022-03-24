@@ -5,7 +5,10 @@ async function saveOnePageStudents(pageNum) {
   return await getStudents(pageNum, '1000')
     .then(async (list) => {
       return {
-        payload: await prisma.student.createMany({ data: list }),
+        payload: await prisma.student.createMany({
+          data: list,
+          skipDuplicates: true,
+        }),
         grade: list.reduce(
           (maxGrade, item, i) => Math.min(parseInt(item.grade), maxGrade),
           2021

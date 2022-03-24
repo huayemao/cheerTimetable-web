@@ -4,22 +4,48 @@ generator client {
 }
 
 datasource db {
-    provider             = "mysql"
-    url                  = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
     referentialIntegrity = "prisma"
 }
 
 model SeedStatus {
-    id         Int      @id @default(autoincrement())
-    updatedAt  DateTime @updatedAt
-    student    Int
-    teacher     Int
-    subject    Int
-    course     Int
-    lesson     Int
-    enrollment Int
-    tuition    Int
-    location   Int
+    id           Int      @id @default(autoincrement())
+    updatedAt    DateTime @updatedAt
+    student      Int      @default(0)
+    teacher      Int      @default(0)
+    subject      Int      @default(0)
+    course       Int      @default(0)
+    lesson       Int      @default(0)
+    enrollment   Int      @default(0)
+    tuition      Int      @default(0)
+    location     Int      @default(0)
+    studentMeta  Int      @default(0)
+    locationMeta Int      @default(0)
+    teacherMeta  Int      @default(0)
+    courseMeta   Int      @default(0)
+}
+
+model StudentMeta {
+    xs0101id String @id
+    xm       String
+    xh       String
+}
+
+model TeacherMeta {
+    jg0101id String @id
+    jgxm     String
+}
+
+model LocationMeta {
+    jsid String @id
+    jsmc String
+}
+
+model CourseMeta {
+    jx02id String @id
+    kcmc   String
+    kch    String
 }
 
 model Teacher {
@@ -102,11 +128,11 @@ model Tuition {
 model Location {
     id                 String   @id @unique
     name               String
-    category           String
-    seatCount          Int
-    availableSeatCount Int
-    examSeatCount      Int
-    campus             String
-    building           String
+    category           String   @default("unknown")
+    seatCount          Int      @default(0)
+    availableSeatCount Int      @default(0)
+    examSeatCount      Int      @default(0)
+    campus             String   @default("unknown")
+    building           String   @default("unknown")
     lessons            Lesson[]
 }

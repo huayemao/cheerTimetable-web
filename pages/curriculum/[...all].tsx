@@ -13,7 +13,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Content } from '../../components/Content'
-import { getTimeTableOwner } from '../../lib/api/getTimeTableOwner'
 import { getTimetable } from '../../lib/api/getTimetable'
 
 function TimetablePage(props) {

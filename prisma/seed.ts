@@ -3,7 +3,7 @@ import { seedRelations } from './seedRelations'
 
 async function run() {
   await seedEntities()
-  await seedRelations()
+  // await seedRelations()
 }
 
 run()

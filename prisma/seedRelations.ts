@@ -1,6 +1,4 @@
 import { Course, Subject } from '@prisma/client'
-import COURSES from '../_data/courses.json'
-import STUDENTS from '../_data/students.json'
 import { getLessonsById } from './api/getLessonsByID'
 import { getLocationNameAndIds } from './api/getLocations'
 import { supplementSubjectAndSeedCourses } from './seedCoursesAndLessons'

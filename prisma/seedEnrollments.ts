@@ -5,10 +5,9 @@ import { map } from 'lodash'
 import { Course, Lesson, Location, Subject, Enrollment } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
 import { COOKIE, TERMS } from '../constants'
-import COURSES from '../_data/courses.json'
 import { getLessonsById, LessonRes } from './api/getLessonsByID'
 
-import STUDENTS from '../_data/students.json'
+import { STUDENTS } from '../_data/metas'
 import prisma from '../lib/prisma'
 import { parseGrade } from '../lib/term'
 
@@ -17,7 +16,7 @@ const GAP = 7
 export async function seedEnrollment(offset = 0, gap = GAP) {
   const existedIds = await getExistedStudentIds()
 
-  const needFetchIds = STUDENTS.filter(
+  const needFetchIds = (await STUDENTS).filter(
     (e) =>
       !(existedIds as string[]).includes(e.xh) &&
       parseGrade(e.xh) &&

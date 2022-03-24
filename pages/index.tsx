@@ -67,6 +67,6 @@ export async function getStaticProps(context) {
     props: {
       sentences,
     },
-    revalidate: 60 * 2,
+    revalidate: 30,
   }
 }

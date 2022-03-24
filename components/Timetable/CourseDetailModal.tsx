@@ -15,7 +15,6 @@ import {
   Academic as IconAcademic,
 } from 'components/Icons'
 import { getWeekStr } from 'lib/getGridCells'
-import { TextOrLink } from './TextOrLink'
 import { OwnerType } from 'lib/types/Owner'
 
 type Props = {

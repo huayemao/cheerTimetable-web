@@ -5,7 +5,6 @@ import { Student } from 'prisma/prisma-client'
 import { parseTable } from '../util/parseTable'
 import { COOKIE } from '../../constants'
 import prisma from '../../lib/prisma'
-import STUDENTS from '../../_data/students.json'
 import { HEADERS } from '../util/header'
 
 const { map, mapKeys, mapValues } = _

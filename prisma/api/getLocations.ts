@@ -6,7 +6,6 @@ import { mapKeys, pick } from 'lodash'
 import { COOKIE } from '../../constants'
 import { HEADERS } from '../util/header'
 import prisma from '../../lib/prisma'
-import LOCATIONS from '../../_data/locations.json'
 
 const mapping = {
   教室编号: 'id',

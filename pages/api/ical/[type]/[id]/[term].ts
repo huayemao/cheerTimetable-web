@@ -10,7 +10,7 @@ import ical, {
   ICalRepeatingOptions,
 } from 'ical-generator'
 import { getTimetable } from 'lib/api/getTimetable'
-import { parseLocation, parseTeacher, parseTime } from 'lib/parseCourseFields'
+import { parseLocation, parseTime } from 'lib/parseCourseFields'
 import { CourseItem, TimetaleSlot, WeekInterval } from 'lib/types/CourseItem'
 import { OwnerType } from 'lib/types/Owner'
 import type { NextApiRequest, NextApiResponse } from 'next'

@@ -1,7 +1,6 @@
 import { omit } from 'lodash'
 import { Course, Lesson, Location, Subject, Tuition } from '@prisma/client'
-import COURSES from '../_data/courses.json'
-import LOCATIONS from '../_data/locations.json'
+import { COURSES } from '../_data/metas'
 import prisma from '../lib/prisma'
 import crypto from 'crypto'
 import { getCourseStuffs } from './util/getCourseStuffs'
@@ -17,9 +16,6 @@ const mapping = {
   教室名称: 'name',
 }
 
-export const getLocationName = (id) =>
-  LOCATIONS.find((t) => t.jsid === id)?.jsmc || 'unknown'
-
 export async function supplementSubjectAndSeedCourses(locations) {
   const subjects = await prisma.subject.findMany({
     select: {
@@ -28,7 +24,9 @@ export async function supplementSubjectAndSeedCourses(locations) {
   })
 
   const existedIds = subjects.map((e) => e.id)
-  const ids = COURSES.map((e) => e.kch).filter((e) => !existedIds.includes(e))
+  const ids = (await COURSES)
+    .map((e) => e.kch)
+    .filter((e) => !existedIds.includes(e))
   await seedSubjectByIds(ids, locations)
 }
 
@@ -44,7 +42,7 @@ async function upsertSubject(data, subjectId: string) {
 
 export async function seedSubjectByIds(ids, locations) {
   for (let i = 0; i < ids.length; i++) {
-    const element = COURSES.find((e) => e.kch === ids[i])
+    const element = (await COURSES).find((e) => e.kch === ids[i])
     const subjectId = element?.kch?.trim()
 
     if (!subjectId) continue
@@ -82,6 +80,7 @@ export async function seedSubjectByIds(ids, locations) {
           ids.length
         )
       } catch (error) {
+        console.log(error)
         await prisma.student.delete({
           where: {
             id: subjectId,
