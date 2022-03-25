@@ -37,10 +37,10 @@ export default function CoursePreview({ course }: CoursePreviewProps) {
       </div>
       <div key={'teachers'} className={cn(s['course-preview'])}>
         {teachers.map(({ id, name }, i, arr) => (
-          <>
+          <span key={id}>
             {name}
             {i < arr.length - 1 && '、'}
-          </>
+          </span>
         ))}
       </div>
       <div key={'weeks'} className={cn(s['course-preview'], 'text-xs')}>

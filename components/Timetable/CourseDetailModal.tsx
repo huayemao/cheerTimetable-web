@@ -68,13 +68,17 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     {
       icon: IconLocation,
       content: activeCourse ? (
-        <Link
-          href={{
-            pathname: `/curriculum/${OwnerType.location}/${activeCourse.location.id}`,
-          }}
-        >
-          <a className="underline">{activeCourse.location.name}</a>
-        </Link>
+        activeCourse.location.name === '无' ? (
+          '无上课地点信息'
+        ) : (
+          <Link
+            href={{
+              pathname: `/curriculum/${OwnerType.location}/${activeCourse.location.id}`,
+            }}
+          >
+            <a className="underline">{activeCourse.location.name}</a>
+          </Link>
+        )
       ) : null,
     },
     {
@@ -118,7 +122,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
             {list.map(({ icon: Icon, content }, i) => (
               <li
                 key={i}
-                className=" text-sm md:text-lg relative inline-flex w-full items-center  rounded-t-lg py-2 px-4 font-medium hover:bg-gray-100"
+                className=" relative inline-flex w-full items-center rounded-t-lg py-2  px-4 text-sm font-medium hover:bg-gray-100 md:text-lg"
               >
                 <Icon className="mr-2 h-4 w-4" /> {content}
               </li>

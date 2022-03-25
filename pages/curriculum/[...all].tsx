@@ -58,7 +58,7 @@ function TimetablePage(props) {
         <title>{props.owner.name}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-col items-center overflow-y-auto py-2">
+      <div className="flex flex-col items-center overflow-y-auto mb-2">
         {process.browser && (
           <Content
             courses={props.courses.filter((e) => e.term === term)}
