@@ -6,8 +6,8 @@ import { MyLesson } from 'lib/types/Lesson'
 export function parseCourseItemByLesson(lesson: MyLesson): CourseItem {
   const mapping = {
     0: WeekInterval.none,
-    1: WeekInterval.even,
-    2: WeekInterval.odd,
+    1: WeekInterval.odd,
+    2: WeekInterval.even,
   }
   return {
     seq: lesson.id,

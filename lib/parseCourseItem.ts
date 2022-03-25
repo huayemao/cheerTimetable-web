@@ -1,5 +1,5 @@
 import { chunk, isFunction, mapKeys, mapValues, pick } from 'lodash'
-import { CourseItem, TimetaleSlot, WeekInterval } from './types/CourseItem'
+import { CourseItem, TimetaleSlot } from './types/CourseItem'
 
 export const parseSlot = (str: string): TimetaleSlot => {
   const day = parseInt(str[0], 10)
