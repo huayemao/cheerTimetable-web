@@ -4,6 +4,7 @@ import useCollapsible from 'lib/hooks/useCollapsible'
 import { SideBar } from './SideBar'
 import { noop } from 'lodash'
 import 'css-doodle'
+import useMediaQuery from '../lib/hooks/useMediaQuery'
 
 const Menu = ({ collapsed, children, toggleCollapsed }) => (
   <div
@@ -28,11 +29,16 @@ export default function Layout({
     initialState: true,
   })
 
+  const isMobile =
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    (process.browser && useMediaQuery('(max-width: 768px)', true, false)) ||
+    false
+
   return (
     <>
       <div className="min-h-screen">
         <div className="grid lg:grid-cols-5">
-          <SideBar>{sidebarContent}</SideBar>
+          {process.browser && !isMobile && <SideBar>{sidebarContent}</SideBar>}
           <div className="col-span-4 flex flex-col">
             <NavBar
               toggleCollapsed={toggleCollapsed}
@@ -40,12 +46,14 @@ export default function Layout({
             >
               {extraNavBarChildren}
             </NavBar>
-            <main className="pt-4">{children}</main>
-            <div className="large:hidden">
-              <Menu collapsed={collapsed} toggleCollapsed={toggleCollapsed}>
-                {renderMenuItems(toggleCollapsed)}
-              </Menu>
-            </div>
+            <main>{children}</main>
+            {process.browser && isMobile && (
+              <div className="large:hidden">
+                <Menu collapsed={collapsed} toggleCollapsed={toggleCollapsed}>
+                  {renderMenuItems(toggleCollapsed)}
+                </Menu>
+              </div>
+            )}
           </div>
         </div>
       </div>

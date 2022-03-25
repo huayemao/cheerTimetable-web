@@ -5,7 +5,10 @@ import Select from 'components/Select'
 import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import { TimetableTitle } from 'components/Timetable/index'
-import { usePreferenceDispatch } from 'contexts/preferenceContext'
+import {
+  usePreference,
+  usePreferenceDispatch,
+} from 'contexts/preferenceContext'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { keyBy } from 'lodash'
 import Head from 'next/head'
@@ -19,6 +22,7 @@ function TimetablePage(props) {
   const router = useRouter()
   const loading = useLinkTransition()
   const dispath = usePreferenceDispatch()
+  const { show7DaysOnMobile } = usePreference()
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -30,27 +34,25 @@ function TimetablePage(props) {
   return (
     <Layout
       extraNavBarChildren={<TimetableTitle owner={props.owner} />}
-      renderMenuItems={(toggleCollapsed) => (
-        <div className="menu-wrapper bg-white">
-          <TermSelect handleOnchange={toggleCollapsed} />
-          <Select
-            options={[
-              { label: '展示5天', key: '5' },
-              { label: '展示7天', key: '7' },
-            ]}
-            onChange={(key) => {
-              dispath({ type: `SHOW_${key}_DAYS_ON_MOBILE` })
-              toggleCollapsed()
-            }}
-            defaultValue={'5'}
-          />
-        </div>
-      )}
-      sidebarContent={
-        <>
-          <TermSelect />
-        </>
+      renderMenuItems={(toggleCollapsed) =>
+        process.browser && (
+          <div className="menu-wrapper bg-white">
+            <TermSelect handleOnchange={toggleCollapsed} />
+            <Select
+              options={[
+                { label: '展示5天', key: '5' },
+                { label: '展示7天', key: '7' },
+              ]}
+              onChange={(key) => {
+                dispath({ type: `SHOW_${key}_DAYS_ON_MOBILE` })
+                toggleCollapsed()
+              }}
+              defaultValue={show7DaysOnMobile ? '7' : '5'}
+            />
+          </div>
+        )
       }
+      sidebarContent={<>{process.browser && <TermSelect />}</>}
     >
       <Head>
         <title>{props.owner.name}的课表-绮课</title>

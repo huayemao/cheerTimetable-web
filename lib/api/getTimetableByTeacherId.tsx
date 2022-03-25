@@ -1,5 +1,4 @@
 import prisma from '../prisma'
-import { CourseItem } from 'lib/types/CourseItem'
 import { Owner } from 'lib/types/Owner'
 import { parseCourseItemByLesson } from './parseCourseItemByLesson'
 

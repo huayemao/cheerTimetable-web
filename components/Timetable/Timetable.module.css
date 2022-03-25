@@ -6,13 +6,13 @@
   @apply grid-cols-7;
 }
 
-.timetable.show-7-days > .first-row {
+/* .timetable.show-7-days > .first-row {
   @apply border-t;
 }
 
 .timetable.show-7-days > .first-col {
   @apply border-l;
-}
+} */
 
 .course-title {
   @apply mb-0.5 truncate text-sm font-medium;
@@ -23,15 +23,22 @@
 }
 
 .course-preview {
-  @apply md:text-sm max-w-full truncate font-light;
+  @apply max-w-full truncate font-light md:text-sm;
 }
 
 @media screen and (max-width: 768px) {
-  .show-7-days .cell {
+  /* .show-7-days .cell {
     @apply rounded-none border-l-0 border-t-0 border-r border-b border-blue-300;
+  } */
+  .cell {
+    @apply border-0 bg-white font-normal text-blue-400 text-base shadow-sm;
+  }
+  .timetable {
+    @apply bg-blue-50 py-2;
   }
 
   .course-title {
+    @apply font-normal text-base;
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -40,6 +47,6 @@
   }
 
   .show-7-days {
-    @apply mx-0 gap-0;
+    @apply mx-0 gap-1 bg-blue-50;
   }
 }

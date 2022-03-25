@@ -1,8 +1,9 @@
-import React, { ReactNode, useState, useRef } from 'react'
+import React, { ReactNode, useState, useRef, useCallback } from 'react'
 import cn from 'clsx'
 import { noop } from 'lodash'
 import useClickOutside from 'lib/hooks/useClickOutside'
 import useCollapsible from 'lib/hooks/useCollapsible'
+import { useDerivedState } from 'lib/hooks/useDerivedState'
 
 type SelectOption = {
   key: string
@@ -32,7 +33,7 @@ export default function Select({
   const { collapsed, toggleCollapsed } = useCollapsible({
     initialState: true,
   })
-  const [activeKey, setActiveKey] = useState(defaultValue)
+  const [activeKey, setActiveKey] = useDerivedState(defaultValue)
 
   const label = options.find((e) => e.key === activeKey)?.label || defaultLabel
 
@@ -40,6 +41,15 @@ export default function Select({
   useClickOutside(ref, () => {
     !collapsed && toggleCollapsed()
   })
+
+  const handleItemClick = useCallback(
+    (option) => {
+      setActiveKey(option.key)
+      onChange(option.key)
+      toggleCollapsed()
+    },
+    [onChange, setActiveKey, toggleCollapsed]
+  )
 
   return (
     <div ref={ref} className={'relative inline-block w-full ' + className}>
@@ -82,14 +92,10 @@ export default function Select({
               {options.map((option) => (
                 <li
                   role="menuitem"
-                  onClick={() => {
-                    setActiveKey(option.key)
-                    onChange(option.key)
-                    toggleCollapsed()
-                  }}
+                  onClick={handleItemClick.bind(null, option)}
                   key={option.key}
                   className={cn(
-                    'pointer-cursor focus:bg-accent-1 block cursor-pointer py-0.5 text-sm leading-5 hover:bg-blue-50 hover:text-blue-500 focus:text-blue-500 ',
+                    'pointer-cursor focus:bg-accent-1 block cursor-pointer py-0.5 pl-4 text-sm leading-5 hover:bg-blue-50 hover:text-blue-500 focus:text-blue-500 ',
                     {
                       'text-blue-500': option.key === activeKey,
                     }
