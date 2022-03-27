@@ -1,27 +1,64 @@
-# Next.js + Tailwind CSS Example
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+## Overview
 
-## Preview
+见 [绮课简介](https://www.yuque.com/huayemao/cheer-timetable/overview)
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## 技术栈
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+- [React.js](https://beta.reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [TailwindCss](https://tailwindcss.com/)
+- [Prisma](https://www.prisma.io/)
 
-## Deploy your own
+## get Started
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+:::info
+此文档可能并不足够详尽，如遇到问题，请联系作者
+:::
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+### 0. 安装 Node.JS 运行环境
 
-## How to use
+请安装 [Node.js 12.22.0](https://nodejs.org/) 或更新版本
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+### 1. 克隆代码仓库
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+`git clone [https://github.com/huayemao/cheerTimetable-web.git](https://github.com/huayemao/cheerTimetable-web.git)`或 `git clone git@github.com:huayemao/cheerTimetable-web.git`
+
+### 2. 配置数据库
+
+准备一个 mysql 数据库实例，或者使用 [PlanetScale ](https://planetscale.com/)提供的服务，这也是目前绮课在生产环境所使用的。
+在项目根目录创建环境变量文件 .env，并添加数据库连接字符串的环境变量，如
+
+```latex
+DATABASE_URL='mysql://root:huayemao123@localhost:3306/cheerTimetable'
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+### 3. 安装依赖
+使用 `npm install`或 `yarn`命令安装 npm 依赖
+
+### 4. 导入数据
+
+运行 `yarn db:seed` 将自动从教务系统导入数据
+
+:::warning
+
+- 如果因为网络问题而导致进程退出，可直接重新执行。
+- 如果遇到外键约束相关的错误，请尝试注释掉 `prisma/schema.prisma`文件中的 `referentialIntegrity="prisma"` 一行，并运行 `yarn db:generate`，再重新运行 `yarn db:seed`
+:::
+
+### 5. 开发调试
+
+运行 `yarn dev`将以开发模式启动 Next.js 项目，更多请见 [Next.js 文档](https://nextjs.org/docs/getting-started) 
+
+## 主要目录结构
+
+```latex
+
+├── _data // 以异步 IIFE 导出从教务系统获取数据所需的 JSON
+├── components // React 组件
+├── constants // 常量
+├── contexts // 存放 React Contexts
+├── lib // 抽出的工具函数
+├── pages // Next.js 路由页面
+├── prisma // 数据库相关，包括模式定义和数据库导入脚本
+```
