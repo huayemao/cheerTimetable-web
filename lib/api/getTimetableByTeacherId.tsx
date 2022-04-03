@@ -1,6 +1,8 @@
 import prisma from '../prisma'
 import { Owner } from 'lib/types/Owner'
 import { parseCourseItemByLesson } from './parseCourseItemByLesson'
+import { chunk } from 'lodash'
+import { getLessonByIds } from './getLessonByIds'
 
 export async function getTimetableByTeacherId(id: any) {
   const teacher = await prisma.teacher.findUnique({
@@ -8,31 +10,18 @@ export async function getTimetableByTeacherId(id: any) {
       id: id,
     },
     include: {
-      tuitions: {
-        include: {
-          lesson: {
-            include: {
-              location: true,
-              tuition: {
-                include: {
-                  teacher: true,
-                },
-              },
-              course: {
-                include: {
-                  subject: true,
-                },
-              },
-            },
-          },
-        },
-      },
+      tuitions: true,
     },
   })
 
-  const courses = teacher?.tuitions?.flatMap((e) =>
-    parseCourseItemByLesson(e.lesson)
+  const chunked = chunk(
+    teacher?.tuitions.map((e) => e.lessonId),
+    64
   )
+
+  const lessons = (await Promise.all(chunked.map(getLessonByIds))).flat()
+
+  const courses = lessons?.map(parseCourseItemByLesson)
 
   const owner: Owner = {
     name: teacher?.name,
@@ -41,3 +30,4 @@ export async function getTimetableByTeacherId(id: any) {
 
   return { courses, owner }
 }
+

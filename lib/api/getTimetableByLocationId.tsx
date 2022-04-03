@@ -2,6 +2,8 @@ import prisma from '../prisma'
 import { CourseItem } from 'lib/types/CourseItem'
 import { Owner } from 'lib/types/Owner'
 import { parseCourseItemByLesson } from './parseCourseItemByLesson'
+import { chunk } from 'lodash'
+import { getLessonByIds } from './getLessonByIds'
 
 export async function getTimetableByLocationId(id: any) {
   const location = await prisma.location.findUnique({
@@ -9,27 +11,20 @@ export async function getTimetableByLocationId(id: any) {
       id: id,
     },
     include: {
-      lessons: {
-        include: {
-          location: true,
-          course: {
-            include: { subject: true },
-          },
-          tuition: {
-            include: {
-              teacher: true,
-            },
-          },
-        },
-      },
+      lessons: true,
     },
   })
 
-  const courses = location?.lessons?.map((e) => parseCourseItemByLesson(e))
+  const chunked = chunk(
+    location?.lessons.map((e) => e.id),
+    64
+  )
+  const lessons = (await Promise.all(chunked.map(getLessonByIds))).flat()
+  const courses = lessons?.map(parseCourseItemByLesson)
 
   const owner: Owner = {
     name: location?.name,
-    label: location?.building,
+    label: location?.campus,
   }
   return { courses, owner }
 }

@@ -19,7 +19,7 @@ export default function TermSelect({
       <Link href={`/curriculum/${type}/${id}?term=${key}`} shallow>
         <a
           href="#"
-          className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal transition duration-75"
+          className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal"
         >
           {label}
         </a>

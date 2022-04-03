@@ -57,7 +57,7 @@ export default function Select({
         <button
           type="button"
           onClick={toggleCollapsed}
-          className="border-accent-3 bg-accent-0 focus:outline:none flex w-full justify-between rounded-md border px-4 py-3 text-sm leading-5 text-slate-500 transition  duration-150 ease-in-out hover:text-slate-700 focus:border-blue-300 active:bg-slate-100 active:text-slate-700"
+          className="border-accent-3 bg-accent-0 focus:outline:none flex w-full justify-between rounded-md border px-4 py-3 text-sm leading-5 text-slate-500  duration-150 ease-in-out hover:text-slate-700 focus:border-blue-300 active:bg-slate-100 active:text-slate-700"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
