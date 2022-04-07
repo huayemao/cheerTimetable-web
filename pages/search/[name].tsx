@@ -28,17 +28,11 @@ function SearchPage({
 
   const router = useRouter()
 
-  const { type } = router.query
+  const { type, name: paramName } = router.query
 
-  const title = router.isFallback ? '搜索结果' : `${name}的搜索结果`
-
-  if (router.isFallback) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loading size={60} />
-      </div>
-    )
-  }
+  const title = router.isFallback
+    ? '搜索结果'
+    : `${decodeURIComponent(paramName as string)}的搜索结果`
 
   return (
     <Layout

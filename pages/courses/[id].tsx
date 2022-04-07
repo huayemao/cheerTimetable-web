@@ -31,40 +31,43 @@ function CoursePage({
   const loading = useLinkTransition()
   const dispath = usePreferenceDispatch()
 
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
   const { id } = router.query
 
   return (
     <Layout
       extraNavBarChildren={
         <div className="text-xl font-light text-blue-500">
-          {course.subject.name}
+          {router.isFallback ? '加载中' : course.subject.name}
         </div>
       }
     >
-      <Head>
-        <title>{course.subject.name}-绮课</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
-        <h2 className="text-lg font-light text-blue-500">{course.className}</h2>
-        <List
-          data={course.enrollments}
-          renderListItem={(e, i) => (
-            <Link href={`/curriculum/student/${e.student.id}`}>
-              <a>
-                <span className="font-medium text-blue-400">#{i + 1}</span>
-                &emsp;
-                <span className="text-lg">{e.student.name}</span>&emsp;
-                {e.student.facultyName} {e.student.className}
-              </a>
-            </Link>
-          )}
-        />
-      </div>
+      {!router.isFallback ? (
+        <>
+          {' '}
+          <Head>
+            <title>{course.subject.name}-绮课</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
+            <h2 className="text-lg font-light text-blue-500">
+              {course.className}
+            </h2>
+            <List
+              data={course.enrollments}
+              renderListItem={(e, i) => (
+                <Link href={`/curriculum/student/${e.student.id}`}>
+                  <a>
+                    <span className="font-medium text-blue-400">#{i + 1}</span>
+                    &emsp;
+                    <span className="text-lg">{e.student.name}</span>&emsp;
+                    {e.student.facultyName} {e.student.className}
+                  </a>
+                </Link>
+              )}
+            />
+          </div>
+        </>
+      ) : null}
     </Layout>
   )
 }

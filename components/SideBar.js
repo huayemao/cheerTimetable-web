@@ -121,11 +121,11 @@ export const SideBar = ({ children }) => {
         className="w-full flex-grow-0 bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
         style={{ height: 'inherit' }}
       >
-        {
+        {children && (
           <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
             {children}
           </ul>
-        }
+        )}
       </div>
     </aside>
   )

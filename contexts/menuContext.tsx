@@ -1,6 +1,6 @@
 import useCollapsible from 'lib/hooks/useCollapsible'
 import React, { createContext, useReducer, useContext, useEffect } from 'react'
-export const MenuContext = createContext({})
+export const MenuContext = createContext({ collapsed: true })
 export const MenuDispatch = createContext(() => {})
 
 const MenuProvider = ({ children }) => {

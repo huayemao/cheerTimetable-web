@@ -6,11 +6,12 @@ import { EyeIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Subject } from '@prisma/client'
+import List from './List'
 
 export function SubjectPreview({ subject }: { subject: Subject }) {
   const router = useRouter()
   return (
-    <Popover className="relative">
+    <Popover className="relative bg-white">
       {({ open }) => (
         <>
           <Popover.Button
@@ -22,6 +23,7 @@ export function SubjectPreview({ subject }: { subject: Subject }) {
               <h5 className="mt-4 font-semibold text-gray-600">
                 {subject.name}
               </h5>
+              <p className="mt-2 text-sm text-gray-500">#{subject.id}</p>
               <p className="mt-2 text-sm text-gray-500">{subject.department}</p>
 
               <ul className="flex flex-wrap">
@@ -42,7 +44,7 @@ export function SubjectPreview({ subject }: { subject: Subject }) {
                 >
                   <a
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex  items-center justify-center rounded border mt-2  px-2 py-1 text-gray-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring active:bg-blue-500"
+                    className="mt-2  inline-flex items-center justify-center rounded border  px-2 py-1 text-gray-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring active:bg-blue-500"
                   >
                     <span className="text-sm font-medium">开课详情</span>
                     <svg
@@ -73,9 +75,27 @@ export function SubjectPreview({ subject }: { subject: Subject }) {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-1/2 z-10  mt-3 max-w-sm -translate-x-1/2 transform bg-white px-4 sm:px-0 lg:max-w-3xl">
-              {subject.category}
-              {subject.tuitionHourDetail}
+            <Popover.Panel className="absolute left-1/2 z-10 mt-3 min-w-full ml-2 -translate-x-1/2 transform rounded-2xl bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500  p-1  shadow-xl  lg:max-w-3xl">
+              <div className="absolute -top-3 left-24 inline-block w-8 overflow-hidden">
+                <div className="h-4 w-4 origin-bottom-left rotate-45 transform bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
+              </div>
+              <ul className="block space-y-1  rounded-xl bg-white p-4 text-gray-700 ">
+                <li>课程类型： {subject.category}</li>
+                {subject.tuitionHourDetail.split('-').map((hour, i) => (
+                  <li key={i}>
+                    {
+                      [
+                        '讲课学时',
+                        '实践学时',
+                        '上机学时',
+                        '实验学时',
+                        '见习学时',
+                      ][i]
+                    }{'：'}
+                    {hour}
+                  </li>
+                ))}
+              </ul>
             </Popover.Panel>
           </Transition>
         </>

@@ -34,13 +34,14 @@ export function Pagination({ pageCount }) {
 
   return (
     <ol className="flex justify-center space-x-1 text-xs font-medium">
-      {pageNum && pageNum !== 1 && (
+      {(pageNum && pageNum !== 1 && (
         <li onClick={navPrev}>
           <a className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100">
             <ChevronLeftIcon className="h-3 w-3" />
           </a>
         </li>
-      )}
+      )) ||
+        undefined}
 
       {nums.slice(begin, begin + 10).map((e, i) => (
         <li key={e}>

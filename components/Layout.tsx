@@ -10,21 +10,22 @@ import Loading from 'components/Loading'
 import { GithubLink } from './Links/GithubLink'
 import { YuqueLink } from './Links/YuequeLink'
 import MenuProvider, { useMenu } from '../contexts/menuContext'
+import { FC, ReactElement, ReactNode } from 'react'
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()
 
   return (
-    <div className="fixed left-0 top-12 bottom-0 flex w-full flex-col bg-black bg-opacity-40 drop-shadow md:flex-row md:space-x-8 md:pt-0 md:text-sm md:font-medium lg:static">
-      <div className="w-full bg-white px-2 py-5">{children}</div>
+    <div className="fixed left-0 top-12 bottom-0 flex w-full flex-col bg-black bg-opacity-40 drop-shadow  md:space-x-8 md:pt-0 md:font-medium lg:static">
+      <div className="w-full bg-white px-2 py-5 md:px-10">{children}</div>
     </div>
   )
 }
 
-const Menu = ({ children, toggleCollapsed }) => {
+const Menu: FC = ({ children }) => {
   const { collapsed } = useMenu()
   return (
-    !collapsed && (
+    (!collapsed && (
       <div className={cn('w-full lg:hidden lg:w-auto')} id="mobile-menu">
         <MenuBody>
           {children}
@@ -38,16 +39,24 @@ const Menu = ({ children, toggleCollapsed }) => {
           </ul>
         </MenuBody>
       </div>
-    )
+    )) ||
+    null
   )
 }
 
+type props = {
+  children: ReactNode | null
+  sidebarContent?: ReactElement | null
+  extraNavBarChildren?: ReactElement | null
+  menuItems?: ReactElement | null
+}
+
 export default function Layout({
-  sidebarContent = <></>,
+  sidebarContent,
   children,
-  extraNavBarChildren = <></>,
-  menuItems = noop,
-}) {
+  extraNavBarChildren,
+  menuItems,
+}: props) {
   const router = useRouter()
 
   const isDeskTop =
@@ -60,7 +69,7 @@ export default function Layout({
       <div className="grid min-h-screen lg:grid-cols-5">
         {process.browser && isDeskTop && <SideBar>{sidebarContent}</SideBar>}
         <div className="col-span-4 flex flex-col">
-          <NavBar menuItems={menuItems}>{extraNavBarChildren}</NavBar>
+          <NavBar>{extraNavBarChildren}</NavBar>
           <main className="h-full flex-1">
             {router.isFallback ? (
               <div className="flex h-full items-center justify-center">
