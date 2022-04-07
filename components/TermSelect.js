@@ -4,12 +4,14 @@ import Select from 'components/Select'
 import { getTermsByStudent } from 'lib/term'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
+import { useMenuDispatch } from 'contexts/menuContext'
 
 export default function TermSelect({
   handleOnchange = console.log,
   className = '',
 }) {
   const router = useRouter()
+  const toggleCollapsed = useMenuDispatch()
   const [type, id] = router.query.all
   const { term = '2021-2022-2' } = router.query
   const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
@@ -31,7 +33,10 @@ export default function TermSelect({
   return (
     <Select
       className={className}
-      onChange={handleOnchange}
+      onChange={() => {
+        handleOnchange()
+        toggleCollapsed()
+      }}
       options={termItems}
       defaultValue={term}
       renderOption={renderOption}

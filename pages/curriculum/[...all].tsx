@@ -1,3 +1,4 @@
+import { Switch } from '@headlessui/react'
 import Container from 'components/Container'
 import Layout from 'components/Layout'
 import Modal from 'components/Modal'
@@ -34,21 +35,31 @@ function TimetablePage(props) {
   return (
     <Layout
       extraNavBarChildren={<TimetableTitle owner={props.owner} />}
-      renderMenuItems={(toggleCollapsed) =>
+      menuItems={
         process.browser && (
           <div className="menu-wrapper bg-white">
-            <TermSelect handleOnchange={toggleCollapsed} />
-            <Select
-              options={[
-                { label: '展示5天', key: '5' },
-                { label: '展示7天', key: '7' },
-              ]}
-              onChange={(key) => {
-                dispath({ type: `SHOW_${key}_DAYS_ON_MOBILE` })
-                toggleCollapsed()
-              }}
-              defaultValue={show7DaysOnMobile ? '7' : '5'}
-            />
+            <TermSelect />
+            {show7DaysOnMobile}
+            <div className="flex items-center justify-between">
+              <div className='text-gray-700 mx-2'>展示7天</div>
+              <Switch
+                checked={show7DaysOnMobile}
+                onChange={(v) => {
+                  dispath({ type: `SHOW_7_DAYS_ON_MOBILE`, payload: v })
+                }}
+                className={`${show7DaysOnMobile ? 'bg-blue-500' : 'bg-blue-200'}
+          relative inline-flex h-[24px] w-[48px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              >
+                <span className="sr-only">展示7天</span>
+                <span
+                  aria-hidden="true"
+                  className={`${
+                    show7DaysOnMobile ? 'translate-x-6' : 'translate-x-0'
+                  }
+            pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                />
+              </Switch>
+            </div>
           </div>
         )
       }
@@ -58,7 +69,7 @@ function TimetablePage(props) {
         <title>{props.owner.name}的课表-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-col items-center overflow-y-auto mb-2">
+      <div className="mb-2 flex flex-col items-center overflow-y-auto">
         {process.browser && (
           <Content
             courses={props.courses.filter((e) => e.term === term)}

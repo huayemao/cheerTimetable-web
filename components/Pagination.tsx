@@ -1,88 +1,79 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/solid'
+
+const nav =
+  (router, pageNum = 1, forward) =>
+  () => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          pageNum: forward ? Number(pageNum) + 1 : Number(pageNum) - 1,
+        },
+      },
+      undefined,
+      { shallow: true }
+    )
+  }
 
 export function Pagination({ pageCount }) {
-  const [begin, setBegin] = useState(0)
   const router = useRouter()
-  const { pageNum } = router.query
+  const { pageNum: pageNumRaw } = router.query
+
+  const pageNum = Number(pageNumRaw as string)
+
+  const [begin, setBegin] = useState(pageNum - 5 > 0 ? pageNum - 5 : 0)
+
+  const nums = Array.from({ length: pageCount }, (e, i) => i + 1)
+
+  const navNext = nav(router, pageNum, true)
+  const navPrev = nav(router, pageNum, false)
+
   return (
     <ol className="flex justify-center space-x-1 text-xs font-medium">
-      <li
-        onClick={() =>
-          pageNum &&
-          pageNum !== '1' &&
-          router.push(
-            {
+      {pageNum && pageNum !== 1 && (
+        <li onClick={navPrev}>
+          <a className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100">
+            <ChevronLeftIcon className="h-3 w-3" />
+          </a>
+        </li>
+      )}
+
+      {nums.slice(begin, begin + 10).map((e, i) => (
+        <li key={e}>
+          <Link
+            href={{
+              query: { ...router.query, pageNum: e },
               pathname: router.pathname,
-              query: {
-                ...router.query,
-                pageNum: Number(pageNum) - 1,
-              },
-            },
-            undefined,
-            { shallow: true }
-          )
-        }
-      >
-        <a className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-3 w-3"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            }}
+            shallow
           >
-            <path
-              fillRule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </a>
-      </li>
-
-      {Array.from({ length: pageCount })
-        .slice(begin, begin + 10)
-        .map((e, i) => (
-          <li key={i + 1}>
-            <Link
-              href={{
-                query: { ...router.query, pageNum: i + 1 },
-                pathname: router.pathname,
-              }}
-              shallow
+            <a
+              className={
+                'inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 leading-8' +
+                  ((pageNum ? pageNum === e : e === 1) &&
+                    ' border-blue-600 bg-blue-600 text-white') || ''
+              }
             >
-              <a
-                className={
-                  'inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 leading-8' +
-                    ((router.query.pageNum
-                      ? Number(router.query.pageNum) === i + 1
-                      : i === 0) &&
-                      ' border-blue-600 bg-blue-600 text-white') || ''
-                }
-              >
-                {i + 1}
-              </a>
-            </Link>
-          </li>
-        ))}
+              {e}
+            </a>
+          </Link>
+        </li>
+      ))}
 
-      <li>
-        <a className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-3 w-3"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      {pageNum !== Number(pageCount) && (
+        <li>
+          <a
+            onClick={navNext}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100"
           >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </a>
-      </li>
+            <ChevronRightIcon className="h-3 w-3" />
+          </a>
+        </li>
+      )}
     </ol>
   )
 }

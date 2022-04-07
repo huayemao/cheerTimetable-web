@@ -86,7 +86,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
       content: (
         <Link
           href={{
-            pathname: `/course/${activeCourse?.courseId}`,
+            pathname: `/courses/${activeCourse?.courseId}`,
           }}
         >
           <a className="underline">{activeCourse?.studentCount + ' 人'}</a>

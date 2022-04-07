@@ -9,10 +9,8 @@ const initialData = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SHOW_7_DAYS_ON_MOBILE': {
-      return Object.assign({}, state, { show7DaysOnMobile: true })
-    }
-    case 'SHOW_5_DAYS_ON_MOBILE': {
-      return Object.assign({}, state, { show7DaysOnMobile: false })
+      const { payload } = action
+      return Object.assign({}, state, { show7DaysOnMobile: payload })
     }
     default: {
       throw new Error('Unhandled action type.')

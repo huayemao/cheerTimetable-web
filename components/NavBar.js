@@ -2,8 +2,10 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import cn from 'clsx'
 import Link from 'next/link'
+import { useMenuDispatch } from 'contexts/menuContext'
 
-export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
+export default function NavBar({ children }) {
+  const toggleCollapsed = useMenuDispatch()
   const router = useRouter()
   const isTimeTablePage = router.pathname.includes('curriculum')
 
@@ -11,7 +13,7 @@ export default function NavBar({ children, renderMenuItems, toggleCollapsed }) {
     <nav className="sticky top-0 z-10 flex h-14 w-full items-center justify-around border-gray-200 bg-white bg-opacity-80 drop-shadow-sm backdrop-blur-lg backdrop-filter">
       <div className="lg:hidden">
         <Link href={'/'}>
-          <a className={'text-3xl text-blue-400 hover:text-blue-500 flex-1'}>
+          <a className={'flex-1 text-3xl text-blue-400 hover:text-blue-500'}>
             绮课
           </a>
         </Link>

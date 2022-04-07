@@ -34,7 +34,7 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
 
   const { type, pageNum, departmentName } = router.query
 
-  const title = `所有课程`
+  const title = `${departmentName ? departmentName + '开设的' : '所有'}课程`
 
   const { list, totalCount, isLoading, isError } = useSubjects(
     { departmentName: departmentName as string },
@@ -50,20 +50,27 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
         <h2 className="text-xl font-thin text-blue-500">{title}</h2>
       }
       sidebarContent={<DepartmentSelect departments={departments} />}
+      menuItems={<DepartmentSelect departments={departments} />}
     >
       <Head>
         <title>{title}-绮课</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-8 lg:px-12">
-        {(isLoading || router.isFallback) && 'loading...'}
-        {!isLoading &&
-          list.map((e: Subject, i) => (
-            <SubjectPreview key={e.id} subject={e}></SubjectPreview>
-          ))}
-      </div>
-      {!isLoading && list.length && (
-        <Pagination pageCount={Math.ceil(totalCount / PAGE_SIZE)} />
+      {isLoading ? (
+        <div className="flex h-full items-center justify-center">
+          <Loading size={50} />
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-8 lg:px-12">
+            {list.map((e: Subject, i) => (
+              <SubjectPreview key={e.id} subject={e}></SubjectPreview>
+            ))}
+          </div>
+          {list.length && (
+            <Pagination pageCount={Math.ceil(totalCount / PAGE_SIZE)} />
+          )}
+        </>
       )}
     </Layout>
   )
