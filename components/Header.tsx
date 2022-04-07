@@ -1,3 +1,5 @@
+import { YuqueLink } from './Links/YuequeLink'
+
 export function Header() {
   return (
     <header className="fixed top-0 z-10  flex w-full border-b bg-white bg-opacity-70 backdrop-blur-lg backdrop-filter">
@@ -11,13 +13,7 @@ export function Header() {
       </h1>
       <ul className="mr-8 flex flex-1 items-center  space-x-4 text-lg font-light text-gray-700">
         <li className="ml-auto">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.yuque.com/huayemao/cheer-timetable"
-          >
-            About
-          </a>
+          <YuqueLink />
         </li>
       </ul>
     </header>

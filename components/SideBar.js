@@ -2,7 +2,8 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import useCollapsible from 'lib/hooks/useCollapsible'
-import { GithubLink } from './GithubLink'
+import { GithubLink } from './Links/GithubLink'
+import { YuqueLink } from './Links/YuequeLink'
 
 const MenuItem = ({ children }) => (
   <li>
@@ -93,8 +94,8 @@ export const SideBar = ({ children }) => {
         }}
       />
       <div
-        className="h-full w-full  bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
-        style={{ height: 'inherit' }}
+        className="z-10 w-full bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
+        style={{ height: 'inherit', flex: 0 }}
       >
         <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
           <div className="w-full text-center">
@@ -108,11 +109,23 @@ export const SideBar = ({ children }) => {
               </a>
             </Link>
           </div>
-          {children}
-          <div className="w-full text-sm text-slate-500 hover:text-blue-500">
+          <li className="w-full text-sm text-slate-500 hover:text-blue-500">
             <GithubLink></GithubLink>
-          </div>
+          </li>
+          <li className="w-full text-sm text-slate-500 hover:text-blue-500">
+            <YuqueLink />
+          </li>
         </ul>
+      </div>
+      <div
+        className="w-full flex-grow-0 bg-white bg-opacity-40 px-3 py-4 backdrop-blur-xl backdrop-filter"
+        style={{ height: 'inherit' }}
+      >
+        {
+          <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
+            {children}
+          </ul>
+        }
       </div>
     </aside>
   )

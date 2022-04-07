@@ -6,7 +6,7 @@ import Loading from '../components/Loading'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { useCallback, useState } from 'react'
 import { HeroDoodle } from '../components/HeroDoodle'
-import { GithubLink } from '../components/GithubLink'
+import { GithubLink } from '../components/Links/GithubLink'
 import { Header } from '../components/Header'
 import { WordsOfTenderness } from '../components/WordsOfTenderness'
 

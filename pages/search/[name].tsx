@@ -60,41 +60,6 @@ function SearchPage({
   )
 }
 
-function TypeSelect({
-  router,
-  handleOnchange = console.log,
-}: {
-  router: any
-  handleOnchange?: () => void
-}) {
-  const typeMapping = {
-    student: '学生',
-    teacher: '教职工',
-    location: '授课地点',
-  }
-  const typeOptions = ['student', 'teacher', 'location'].map((e) => ({
-    key: e,
-    label: '按' + typeMapping[e] + '搜索',
-  }))
-
-  return (
-    <Select
-      onChange={handleOnchange}
-      options={typeOptions}
-      renderOption={({ label, key, isActive }) => (
-        <Link href={{ query: { type: key, name: router.query.name } }} shallow>
-          <a
-            href="#"
-            className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal"
-          >
-            {label}
-          </a>
-        </Link>
-      )}
-    ></Select>
-  )
-}
-
 export async function getStaticProps(context) {
   const { name } = context.params
   const data = await searchOwner(name)

@@ -6,4 +6,7 @@ module.exports = withPWA({
   pwa: {
     dest: 'public',
   },
+  images: {
+    domains: ['gw.alipayobjects.com'],
+  },
 })

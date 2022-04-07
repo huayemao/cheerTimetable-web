@@ -7,13 +7,11 @@ export function GithubLink() {
       className="inline-flex items-center"
     >
       <svg
-        height="1.5em"
         aria-hidden="true"
         viewBox="0 0 16 16"
         version="1.1"
-        width="1.5em"
         data-view-component="true"
-        className="octicon octicon-mark-github v-align-middle mr-2"
+        className="octicon octicon-mark-github mr-2 h-6 w-6 align-middle"
       >
         <path
           fillRule="evenodd"
@@ -22,5 +20,5 @@ export function GithubLink() {
       </svg>
       github
     </a>
-  );
+  )
 }
