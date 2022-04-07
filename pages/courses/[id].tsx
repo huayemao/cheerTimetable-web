@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { TimetableTitle } from 'components/Timetable/index'
 import Layout from 'components/Layout'
 import Container from 'components/Container'
 import Modal from 'components/Modal'
