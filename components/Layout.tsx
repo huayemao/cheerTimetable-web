@@ -9,8 +9,9 @@ import { useRouter } from 'next/router'
 import Loading from 'components/Loading'
 import { GithubLink } from './Links/GithubLink'
 import { YuqueLink } from './Links/YuequeLink'
-import MenuProvider, { useMenu } from '../contexts/menuContext'
+import MenuProvider, { useMenu, useMenuDispatch } from '../contexts/menuContext'
 import { FC, ReactElement, ReactNode } from 'react'
+import Link from 'next/link'
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()
@@ -24,16 +25,25 @@ const MenuBody = ({ children }) => {
 
 const Menu: FC = ({ children }) => {
   const { collapsed } = useMenu()
+  const toggle = useMenuDispatch()
   return (
     (!collapsed && (
       <div className={cn('w-full lg:hidden lg:w-auto')} id="mobile-menu">
         <MenuBody>
           {children}
           <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
-            <li className="w-full text-sm text-slate-500 hover:text-blue-500">
+            <li
+              onClick={toggle}
+              className="text w-full text-gray-600 hover:text-blue-500"
+            >
+              <Link href={'/subjects'}>
+                <a>全部课程</a>
+              </Link>
+            </li>
+            <li className="w-full text-sm text-gray-600 hover:text-blue-500">
               <GithubLink />
             </li>
-            <li className="w-full text-sm text-slate-500 hover:text-blue-500">
+            <li className="w-full text-sm text-gray-600 hover:text-blue-500">
               <YuqueLink />
             </li>
           </ul>

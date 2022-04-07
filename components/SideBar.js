@@ -109,10 +109,15 @@ export const SideBar = ({ children }) => {
               </a>
             </Link>
           </div>
-          <li className="w-full text-sm text-slate-500 hover:text-blue-500">
+          <li className="w-full text text-gray-600 hover:text-blue-500">
+            <Link href={'/subjects'}>
+              <a>全部课程</a>
+            </Link>
+          </li>
+          <li className="w-full text-sm text-gray-600 hover:text-blue-500">
             <GithubLink></GithubLink>
           </li>
-          <li className="w-full text-sm text-slate-500 hover:text-blue-500">
+          <li className="w-full text-sm text-gray-600 hover:text-blue-500">
             <YuqueLink />
           </li>
         </ul>

@@ -5,7 +5,7 @@ import { Search as IconSearch } from 'components/Icons'
 export default function Search({ onChange = noop, onSubmit = noop }) {
   return (
     <div id="search" className="dropdown relative inline-block text-left">
-      <IconSearch className="absolute left-3.5 top-2.5 h-6 w-6 text-slate-500"></IconSearch>
+      <IconSearch className="absolute left-3.5 top-2.5 h-6 w-6 text-gray-500"></IconSearch>
       <input
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {

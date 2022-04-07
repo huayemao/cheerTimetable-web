@@ -52,9 +52,10 @@ export function DepartmentSelect({ departments }) {
 
   const toggleCollapsed = useMenuDispatch()
 
-  const handleQueryChange = useCallback(() => {
-    ;(event) => setQuery(event.target.value)
-  }, [])
+  const handleQueryChange = useCallback(
+    (event) => setQuery(event.target.value),
+    []
+  )
 
   return (
     <Combobox
