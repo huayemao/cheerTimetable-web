@@ -4,6 +4,8 @@ import Link from 'next/link'
 import useCollapsible from 'lib/hooks/useCollapsible'
 import { GithubLink } from './Links/GithubLink'
 import { YuqueLink } from './Links/YuequeLink'
+import { HealthLink } from './Links/HealthLink'
+import { SubjectsLink } from './Links/SubjectsLink'
 
 const MenuItem = ({ children }) => (
   <li>
@@ -109,13 +111,14 @@ export const SideBar = ({ children }) => {
               </a>
             </Link>
           </div>
-          <li className="w-full text text-gray-600 hover:text-blue-500">
-            <Link href={'/subjects'}>
-              <a>全部课程</a>
-            </Link>
+          <li>
+            <SubjectsLink />
+          </li>
+          <li>
+            <HealthLink />
           </li>
           <li className="w-full text-sm text-gray-600 hover:text-blue-500">
-            <GithubLink></GithubLink>
+            <GithubLink />
           </li>
           <li className="w-full text-sm text-gray-600 hover:text-blue-500">
             <YuqueLink />

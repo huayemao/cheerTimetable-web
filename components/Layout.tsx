@@ -12,6 +12,8 @@ import { YuqueLink } from './Links/YuequeLink'
 import MenuProvider, { useMenu, useMenuDispatch } from '../contexts/menuContext'
 import { FC, ReactElement, ReactNode } from 'react'
 import Link from 'next/link'
+import { SubjectsLink } from './Links/SubjectsLink'
+import { HealthLink } from './Links/HealthLink'
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()
@@ -30,15 +32,20 @@ const Menu: FC = ({ children }) => {
     (!collapsed && (
       <div className={cn('w-full lg:hidden lg:w-auto')} id="mobile-menu">
         <MenuBody>
-          {children}
+          <div className="px-4">{children}</div>
+          {children && <hr className="mt-4" />}
           <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
             <li
               onClick={toggle}
               className="text w-full text-gray-600 hover:text-blue-500"
             >
-              <Link href={'/subjects'}>
-                <a>全部课程</a>
-              </Link>
+              <SubjectsLink />
+            </li>
+            <li
+              onClick={toggle}
+              className="text w-full text-gray-600 hover:text-blue-500"
+            >
+              <HealthLink />
             </li>
             <li className="w-full text-sm text-gray-600 hover:text-blue-500">
               <GithubLink />
