@@ -4,6 +4,7 @@ import { URLSearchParams } from 'url'
 import qs from 'qs'
 
 type SubjectFilters = {
+  q: string
   departmentName: string
 }
 
@@ -18,11 +19,12 @@ export function useSubjects(filters: SubjectFilters, pageInfo: PageInfo) {
     fetcher
   )
 
-  const [list, totalCount] = data || []
+  const [list, totalCount, credits] = data || []
 
   return {
     list,
     totalCount,
+    credits,
     isLoading: !error && !data,
     isError: error,
   }

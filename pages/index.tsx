@@ -34,7 +34,11 @@ export default function Home({ sentences, test }) {
         <Header />
         <HeroDoodle seed={activeIndex} />
         <div className="mx-10 w-full items-center justify-center">
-          <Search onSubmit={handleSearch} onChange={setQ}></Search>
+          <Search
+            onSubmit={handleSearch}
+            onChange={setQ}
+            placeholder={'搜索学生、教师、授课地点'}
+          />
           <button
             onClick={() => {
               handleSearch(q)

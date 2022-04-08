@@ -7,8 +7,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { departmentName, offset, pageSize } = req.query
-  const subjects = await getSubjects(departmentName as string, {
+  const { q, departmentName, offset, pageSize } = req.query
+  const subjects = await getSubjects(q, departmentName as string, {
     offset: (offset && Number(offset as string)) || 0,
     pageSize: (pageSize && Number(pageSize as string)) || 0,
   })

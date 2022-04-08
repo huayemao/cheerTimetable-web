@@ -39,7 +39,9 @@ export function DepartmentSelect({ departments }) {
         {
           pathname: router.pathname,
           query: {
+            ...router.query,
             departmentName: v,
+            pageNum: 1,
           },
         },
         undefined,

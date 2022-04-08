@@ -18,7 +18,7 @@ export default function NavBar({ children }) {
           </a>
         </Link>
       </div>
-      <div className="flex flex-wrap items-center justify-center py-1">
+      <div className="flex flex-wrap items-center justify-center py-1 space-x-8">
         {children}
       </div>
       <button

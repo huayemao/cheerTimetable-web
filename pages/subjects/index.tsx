@@ -24,20 +24,51 @@ import { useSubjects } from 'lib/hooks/useSubjects'
 import { DepartmentSelect } from '../../components/DepartmentSelect'
 import { Pagination } from '../../components/Pagination'
 import { SubjectPreview } from 'components/SubjectPreview'
+import Search from 'components/Search'
 
 const PAGE_SIZE = 20
+
+const Filters = ({ credits = [], departments }) => (
+  <>
+    {/* <fieldset>
+      <legend className="block w-full  font-medium">学分</legend>
+    </fieldset> */}
+    {/* <div className="grid grid-cols-4 gap-2">
+      {credits.map((e) => (
+        <div key={e} className="flex items-center">
+          <input
+            id={e}
+            type="checkbox"
+            name={`credits${e}`}
+            className="h-5 w-5 rounded border-gray-300"
+          />
+          <label
+            htmlFor="3+"
+            className="ml-2 text-sm font-medium text-gray-600"
+          >
+            {e}
+          </label>
+        </div>
+      ))}
+    </div> */}
+    <fieldset>
+      <legend className="block w-full  font-medium">开设院系</legend>
+    </fieldset>
+    <DepartmentSelect departments={departments} />
+  </>
+)
 
 function Subjects({ name, departments }: { name: any; departments: any[] }) {
   const loading = useLinkTransition()
 
   const router = useRouter()
 
-  const { type, pageNum, departmentName } = router.query
+  const { type, pageNum, departmentName, q } = router.query
 
   const title = `${departmentName ? departmentName + '开设的' : '所有'}课程`
 
-  const { list, totalCount, isLoading, isError } = useSubjects(
-    { departmentName: departmentName as string },
+  const { list, totalCount, credits, isLoading, isError } = useSubjects(
+    { departmentName: departmentName as string, q: q as string },
     {
       pageSize: PAGE_SIZE,
       offset: ((Number(pageNum as string) || 1) - 1) * PAGE_SIZE,
@@ -47,9 +78,26 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
   return (
     <Layout
       extraNavBarChildren={
-        <h2 className="text-xl font-thin text-blue-500">{title}</h2>
+        <>
+          <h2 className="hidden text-xl font-thin text-blue-500 lg:block">
+            {title}
+          </h2>
+          <Search
+            defaultValue={q ? decodeURIComponent(q as string) : ''}
+            onSubmit={(v) =>
+              router.push({
+                pathname: router.pathname,
+                query: { ...router.query, q: v, pageNum: 1 },
+              })
+            }
+          />
+        </>
       }
-      sidebarContent={<DepartmentSelect departments={departments} />}
+      sidebarContent={
+        <>
+          <Filters departments={departments} credits={credits}></Filters>
+        </>
+      }
       menuItems={<DepartmentSelect departments={departments} />}
     >
       <Head>
