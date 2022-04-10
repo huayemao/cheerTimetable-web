@@ -85,7 +85,7 @@ export async function getCourseStuffs(
     id: subjectId,
     name,
     department: sample2.承担单位,
-    credit: parseInt(sample2.学分, 10),
+    credit: Number(sample2.学分),
     tuitionHour: tuitionHourArr.reduce((acc, item) => acc + getInt(item), 0),
     tuitionHourDetail: tuitionHourArr.map(getInt).join('-'),
     category: cat.find((e) => !!e),

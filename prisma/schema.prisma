@@ -73,7 +73,7 @@ model Subject {
     id                String   @id @unique
     name              String
     department        String
-    credit            Int
+    credit            Float
     category          String
     tuitionHour       Int
     tuitionHourDetail String
