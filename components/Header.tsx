@@ -11,11 +11,6 @@ export function Header() {
           </span>
         </div>
       </h1>
-      <ul className="mr-8 flex flex-1 items-center  space-x-4 text-lg font-light text-gray-700">
-        <li className="ml-auto">
-          <YuqueLink />
-        </li>
-      </ul>
     </header>
   )
 }

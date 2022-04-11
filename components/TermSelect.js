@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { TERMS } from '../constants'
-import Select from 'components/Select'
+import Select from 'components/common/Select'
 import { getTermsByStudent } from 'lib/term'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'

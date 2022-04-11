@@ -6,7 +6,7 @@ import { EyeIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Subject } from '@prisma/client'
-import List from './List'
+import List from './common/List'
 
 export function SubjectPreview({ subject }: { subject: Subject }) {
   const router = useRouter()

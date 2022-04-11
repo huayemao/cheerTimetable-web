@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import useBodyScrollLock from '../../lib/hooks/useBodyScrollLock'
+import useBodyScrollLock from '../../../lib/hooks/useBodyScrollLock'
 import s from './Modal.module.css'
 export default function Modal({
   children,

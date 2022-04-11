@@ -1,8 +1,8 @@
 import { Switch } from '@headlessui/react'
 import Container from 'components/Container'
-import Layout from 'components/Layout'
-import Modal from 'components/Modal'
-import Select from 'components/Select'
+import Layout from 'components/common/Layout'
+import Modal from 'components/common/Modal'
+import Select from 'components/common/Select'
 import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import { TimetableTitle } from 'components/Timetable/index'
@@ -93,7 +93,6 @@ export async function getStaticProps(context) {
     props: {
       courses,
       owner,
-      // rawUrl,
     },
     revalidate: 60 * 60 * 48,
   }

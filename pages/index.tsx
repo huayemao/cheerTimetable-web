@@ -6,9 +6,13 @@ import Loading from '../components/Loading'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { useCallback, useState } from 'react'
 import { HeroDoodle } from '../components/HeroDoodle'
-import { GithubLink } from '../components/Links/GithubLink'
+import { GithubIcon, GithubLink } from '../components/Links/GithubLink'
 import { Header } from '../components/Header'
 import { WordsOfTenderness } from '../components/WordsOfTenderness'
+import { PaperAirplaneIcon, PhotographIcon } from '@heroicons/react/outline'
+import { Tooltip } from 'components/common/Tooltip'
+import { YuqueIcon } from 'components/Links/YuequeLink'
+import { NavPanel } from '../components/NavPanel'
 
 export default function Home({ sentences, test }) {
   const router = useRouter()
@@ -53,6 +57,7 @@ export default function Home({ sentences, test }) {
           onChange={handleActiveIndexChange}
           activeIndex={activeIndex}
         ></WordsOfTenderness>
+        <NavPanel />
       </main>
       <footer className="backdrop-filte fixed bottom-0 flex h-16 w-full items-center justify-center  border-t bg-white bg-opacity-70 font-light text-gray-500 backdrop-blur-lg">
         <GithubLink />

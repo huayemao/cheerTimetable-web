@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Location, Student, Teacher } from '@prisma/client'
 import Container from 'components/Container'
 import { OwnerType } from 'lib/types/Owner'
-import List from './List'
+import List from './common/List'
 
 export function SearchResult({
   data,

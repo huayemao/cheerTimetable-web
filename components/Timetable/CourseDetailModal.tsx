@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { mapValues, omit, map } from 'lodash'
 
 import { CourseItem } from 'lib/types/CourseItem'
-import Modal from 'components/Modal'
-import List from 'components/List'
+import Modal from 'components/common/Modal'
+import List from 'components/common/List'
 import {
   Location as IconLocation,
   Group as IconGroup,
