@@ -1,4 +1,4 @@
-import { Lesson } from '@prisma/client'
+import { Enrollment, Lesson } from '@prisma/client'
 import prisma from '../lib/prisma'
 import { parseGrade } from '../lib/term'
 import { LOCATIONS } from '../_data/metas'
@@ -17,8 +17,6 @@ export async function checkInvalidCourseIdsFromLesson(locations, term) {
     })
   ).map((e) => e.id)
 
-  console.log(validIds.length)
-
   const lessons: Lesson[] = await prisma.lesson.findMany({
     where: {
       id: {
@@ -29,6 +27,7 @@ export async function checkInvalidCourseIdsFromLesson(locations, term) {
     distinct: ['courseId'],
   })
 
+  console.log(term, ' 学期不合法的开课编号：')
   console.log(lessons.map((e) => e.courseId))
 
   const lessonsWithInvalidCourseId = lessons
@@ -65,17 +64,21 @@ export async function checkInvalidCourseIdsFromEnrollment(locations, termStr) {
     },
   })
 
-  console.log(ids.length)
+  console.log(termStr, ' 学期开课总数：', ids.length)
 
-  const enrollments = await prisma.enrollment.findMany({
-    where: {
-      courseId: {
-        notIn: ids.map((e) => e.id),
-        startsWith: termStr.split('-').join(''),
-      },
-    },
-    distinct: ['courseId'],
-  })
+  try {
+    const enrollments = await prisma.$queryRawUnsafe<Enrollment[]>(
+      `SELECT distinct * from Enrollment where courseId like '${termStr
+        .split('-')
+        .join('')}%' and courseId not In (${ids.map((e) => e.id).join(',')})`
+    )
 
-  console.log(enrollments.map((e) => [e.courseId, e.studentId]))
+    console.log(
+      termStr,
+      ' 学期不合法的开课编号：',
+      enrollments.map((e) => [e.courseId, e.studentId])
+    )
+  } catch (error) {
+    console.log(error)
+  }
 }

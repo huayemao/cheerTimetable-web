@@ -19,7 +19,7 @@ const mapping = {
 }
 
 const extractorMapping = {
-  学分: (e) => parseInt(e.textContent),
+  学分: (e) => Number(e.textContent),
   总学时: (e) => parseInt(e.textContent),
 }
 
