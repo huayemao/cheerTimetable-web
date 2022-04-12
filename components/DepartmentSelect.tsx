@@ -8,7 +8,7 @@ import { useMenuDispatch } from 'contexts/menuContext'
 
 export function DepartmentSelect({ departments }) {
   const router = useRouter()
-  const people = departments
+  const options = ['全部'].concat(departments)
 
   const { departmentName } = router.query
 
@@ -18,29 +18,29 @@ export function DepartmentSelect({ departments }) {
   const [selected, setSelected] = useState(paramD)
   // selected 最初为何是 'undefined'
 
-  const filteredPeople = useMemo(
+  const filteredOptions = useMemo(
     () =>
       query === ''
-        ? people
-        : people.filter((person) =>
+        ? options
+        : options.filter((person) =>
             person
               .toLowerCase()
               .replace(/\s+/g, '')
               .includes(query.toLowerCase().replace(/\s+/g, ''))
           ),
-    [people, query]
+    [options, query]
   )
 
   const handleOnchange = useCallback(
     (v) => {
       setSelected(v)
       toggleCollapsed()
-      router.push(
+      router.replace(
         {
           pathname: router.pathname,
           query: {
             ...router.query,
-            departmentName: v,
+            departmentName: v === '全部' ? undefined : v,
             pageNum: 1,
           },
         },
@@ -89,12 +89,12 @@ export function DepartmentSelect({ departments }) {
           afterLeave={() => setQuery('')}
         >
           <Combobox.Options className="absolute z-10 mt-1 max-h-80 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {filteredPeople.length === 0 && query !== '' ? (
+            {filteredOptions.length === 0 && query !== '' ? (
               <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                 Nothing found.
               </div>
             ) : (
-              filteredPeople.map((person) => (
+              filteredOptions.map((person) => (
                 <Combobox.Option
                   key={person}
                   className={({ active }) =>

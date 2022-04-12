@@ -6,6 +6,7 @@ import qs from 'qs'
 type SubjectFilters = {
   q: string
   departmentName: string
+  publicElectiveOnly: string
 }
 
 type PageInfo = {

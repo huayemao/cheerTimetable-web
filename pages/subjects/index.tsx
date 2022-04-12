@@ -17,7 +17,7 @@ import { OwnerType } from 'lib/types/Owner'
 import { useEffect, useMemo } from 'react'
 import { SearchResult } from '../../components/SearchResult'
 
-import { Listbox } from '@headlessui/react'
+import { Listbox, Switch } from '@headlessui/react'
 import { getAllDepartments } from '../../lib/api/getAllDepartments'
 import useSWR from 'swr'
 import { useSubjects } from 'lib/hooks/useSubjects'
@@ -28,11 +28,48 @@ import Search from 'components/Search'
 
 const PAGE_SIZE = 20
 
+const PublicElectiveCourseToggler = () => {
+  const router = useRouter()
+  const { publicElectiveOnly: publicElectiveOnlyRaw } = router.query
+  const publicElectiveOnly = publicElectiveOnlyRaw === 'true'
+
+  return (
+    <Switch
+      checked={publicElectiveOnly}
+      onChange={(v) => {
+        router.replace(
+          {
+            pathname: router.pathname,
+            query: {
+              ...router.query,
+              publicElectiveOnly: v ? 'true' : 'false',
+              pageNum: 1,
+            },
+          },
+          undefined,
+          { shallow: true }
+        )
+      }}
+      className={`${publicElectiveOnly ? 'bg-blue-500' : 'bg-blue-200'}
+    relative inline-flex h-[24px] w-[48px] flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+    >
+      <span className="sr-only">展示7天</span>
+      <span
+        aria-hidden="true"
+        className={`${publicElectiveOnly ? 'translate-x-6' : 'translate-x-0'}
+      pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+      />
+    </Switch>
+  )
+}
+
 const Filters = ({ credits = [], departments }) => (
   <>
-    {/* <fieldset>
-      <legend className="block w-full  font-medium">学分</legend>
-    </fieldset> */}
+    <fieldset>
+      <legend className="block w-full  font-medium">只看公选课</legend>
+    </fieldset>
+    <PublicElectiveCourseToggler></PublicElectiveCourseToggler>
+
     {/* <div className="grid grid-cols-4 gap-2">
       {credits.map((e) => (
         <div key={e} className="flex items-center">
@@ -63,12 +100,16 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
 
   const router = useRouter()
 
-  const { type, pageNum, departmentName, q } = router.query
+  const { type, pageNum, departmentName, q, publicElectiveOnly } = router.query
 
   const title = `${departmentName ? departmentName + '开设的' : '所有'}课程`
 
   const { list, totalCount, credits, isLoading, isError } = useSubjects(
-    { departmentName: departmentName as string, q: q as string },
+    {
+      departmentName: departmentName as string,
+      q: q as string,
+      publicElectiveOnly: publicElectiveOnly as string,
+    },
     {
       pageSize: PAGE_SIZE,
       offset: ((Number(pageNum as string) || 1) - 1) * PAGE_SIZE,
@@ -85,7 +126,7 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
           <Search
             defaultValue={q ? decodeURIComponent(q as string) : ''}
             onSubmit={(v) =>
-              router.push({
+              router.replace({
                 pathname: router.pathname,
                 query: { ...router.query, q: v, pageNum: 1 },
               })
@@ -98,7 +139,11 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
           <Filters departments={departments} credits={credits}></Filters>
         </>
       }
-      menuItems={<DepartmentSelect departments={departments} />}
+      menuItems={
+        <>
+          <Filters departments={departments} credits={credits}></Filters>
+        </>
+      }
     >
       <Head>
         <title>{title}-绮课</title>
@@ -115,8 +160,10 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
               <SubjectPreview key={e.id} subject={e}></SubjectPreview>
             ))}
           </div>
-          {list.length && (
+          {list.length ? (
             <Pagination pageCount={Math.ceil(totalCount / PAGE_SIZE)} />
+          ) : (
+            '好像什么也没有呀'
           )}
         </>
       )}
