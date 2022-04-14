@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { TimetableTitle } from 'components/Timetable/index'
 import Layout from 'components/common/Layout'
 import Container from 'components/Container'
 import Modal from 'components/common/Modal'
@@ -10,7 +9,6 @@ import { keyBy } from 'lodash'
 import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import Select from 'components/common/Select'
-import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { usePreferenceDispatch } from 'contexts/preferenceContext'
 import { Content } from '../../components/Content'
 import { OwnerType } from '../../lib/types/Owner'
@@ -26,41 +24,39 @@ function CoursePage({
   }
 }) {
   const router = useRouter()
-  const loading = useLinkTransition()
   const dispath = usePreferenceDispatch()
-
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
 
   const { id } = router.query
 
   return (
     <Layout
       extraNavBarChildren={
-        <div className="text-xl font-light text-blue-500">{subject.name}</div>
+        <div className="text-xl font-light text-blue-500">{subject?.name}</div>
       }
     >
-      <Head>
-        <title>{subject.name}-绮课</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
-        {/* <h2 className="text-lg font-light text-blue-500">{course.className}</h2> */}
-        <List
-          data={subject.courses}
-          renderListItem={(e: Course, i) => (
-            <Link href={`/courses/${e.id}`}>
-              <a>
-                <span className="font-medium text-blue-400">#{i + 1}</span>
-                &emsp;
-                {e.className}&emsp;
-                {e.term}&emsp;
-              </a>
-            </Link>
-          )}
-        />
-      </div>
+      {!router.isFallback && router.isReady && (
+        <>
+          <Head>
+            <title>{subject.name}-绮课</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
+            <List
+              data={subject.courses}
+              renderListItem={(e: Course, i) => (
+                <Link href={`/courses/${e.id}`}>
+                  <a>
+                    <span className="font-medium text-blue-400">#{i + 1}</span>
+                    &emsp;
+                    {e.className}&emsp;
+                    {e.term}&emsp;
+                  </a>
+                </Link>
+              )}
+            />
+          </div>
+        </>
+      )}
     </Layout>
   )
 }

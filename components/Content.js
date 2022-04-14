@@ -3,19 +3,17 @@ import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Loading from './Loading'
 import { usePreference } from 'contexts/preferenceContext'
 
-export function Content({ courses, loading, icsUrl }) {
+export function Content({ courses, icsUrl }) {
   const isMobile = useMediaQuery('(max-width: 768px)', true, false)
   const { show7DaysOnMobile } = usePreference()
-  if (loading) {
-    return <Loading size={60} />
-  }
+
   return (
     <>
       {courses?.length ? (
         <Timetable
           courses={courses}
           show7days={!isMobile || (isMobile && show7DaysOnMobile)}
-        ></Timetable>
+        />
       ) : (
         '这里一节课都没有呀'
       )}

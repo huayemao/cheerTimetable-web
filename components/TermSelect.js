@@ -12,7 +12,7 @@ export default function TermSelect({
 }) {
   const router = useRouter()
   const toggleCollapsed = useMenuDispatch()
-  const [type, id] = router.query.all
+  const [type, id] = router.query.all || []
   const { term = '2021-2022-2' } = router.query
   const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))

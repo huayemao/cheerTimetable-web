@@ -5,17 +5,14 @@ import Layout from 'components/common/Layout'
 import Container from 'components/Container'
 import Modal from 'components/common/Modal'
 import Head from 'next/head'
-import { keyBy } from 'lodash'
 import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import Select from 'components/common/Select'
-import useLinkTransition from 'lib/hooks/useLinkTransition'
-import { usePreferenceDispatch } from 'contexts/preferenceContext'
-import { Content } from '../../components/Content'
 import { OwnerType } from '../../lib/types/Owner'
 import prisma from '../../lib/prisma'
 import { Enrollment, Student, Subject, Course } from '@prisma/client'
 import List from 'components/common/List'
+import Loading from 'components/Loading'
 
 function CoursePage({
   course,
@@ -28,8 +25,6 @@ function CoursePage({
   }
 }) {
   const router = useRouter()
-  const loading = useLinkTransition()
-  const dispath = usePreferenceDispatch()
 
   const { id } = router.query
 
@@ -41,14 +36,13 @@ function CoursePage({
         </div>
       }
     >
-      {!router.isFallback ? (
+      {router.isReady && !router.isFallback && (
         <>
-          {' '}
           <Head>
-            <title>{course.subject.name}-绮课</title>
+            <title>{course?.subject?.name || ''}-绮课</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <div className="flex flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
+          <div className="flex min-h-full flex-col items-center overflow-y-auto py-2 shadow-lg lg:mx-20">
             <h2 className="text-lg font-light text-blue-500">
               {course.className}
             </h2>
@@ -67,7 +61,7 @@ function CoursePage({
             />
           </div>
         </>
-      ) : null}
+      )}
     </Layout>
   )
 }

@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { Timetable, TimetableTitle } from 'components/Timetable'
 import List from '../../components/common/List'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Layout from 'components/common/Layout'
@@ -10,7 +9,6 @@ import { keyBy, omit } from 'lodash'
 import MappedTable from 'components/MappedTable'
 import { searchOwner } from 'lib/api/searchOwner'
 import Link from 'next/link'
-import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { Location, Student, Subject, Teacher } from '@prisma/client'
 import Select from 'components/common/Select'
 import { OwnerType } from 'lib/types/Owner'
@@ -96,7 +94,6 @@ const Filters = ({ credits = [], departments }) => (
 )
 
 function Subjects({ name, departments }: { name: any; departments: any[] }) {
-  const loading = useLinkTransition()
 
   const router = useRouter()
 

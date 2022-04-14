@@ -10,7 +10,6 @@ import {
   usePreference,
   usePreferenceDispatch,
 } from 'contexts/preferenceContext'
-import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { keyBy } from 'lodash'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -21,20 +20,15 @@ import { getTimetable } from '../../lib/api/getTimetable'
 
 function TimetablePage(props) {
   const router = useRouter()
-  const loading = useLinkTransition()
   const dispath = usePreferenceDispatch()
   const { show7DaysOnMobile } = usePreference()
 
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
-  const [type, id] = router.query.all as string[]
+  const [type, id] = (router.query.all || []) as string[]
   const { term = '2021-2022-2' } = router.query
 
   return (
     <Layout
-      extraNavBarChildren={<TimetableTitle owner={props.owner} />}
+      extraNavBarChildren={<TimetableTitle owner={props.owner || {}} />}
       menuItems={
         (process.browser && (
           <div className="menu-wrapper bg-white">
@@ -66,19 +60,22 @@ function TimetablePage(props) {
       }
       sidebarContent={<>{process.browser && <TermSelect />}</>}
     >
-      <Head>
-        <title>{props.owner.name}的课表-绮课</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="mb-2 flex flex-col items-center overflow-y-auto">
-        {process.browser && (
-          <Content
-            courses={props.courses.filter((e) => e.term === term)}
-            icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
-            loading={loading}
-          ></Content>
-        )}
-      </div>
+      {router.isReady && !router.isFallback && (
+        <>
+          <Head>
+            <title>{props.owner.name}的课表-绮课</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div className="mb-2 flex flex-col items-center overflow-y-auto">
+            {process.browser && (
+              <Content
+                courses={props.courses.filter((e) => e.term === term)}
+                icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
+              />
+            )}
+          </div>
+        </>
+      )}
     </Layout>
   )
 }

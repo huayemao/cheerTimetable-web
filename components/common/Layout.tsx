@@ -9,11 +9,15 @@ import { useRouter } from 'next/router'
 import Loading from 'components/Loading'
 import { GithubLink } from '../Links/GithubLink'
 import { YuqueLink } from '../Links/YuequeLink'
-import MenuProvider, { useMenu, useMenuDispatch } from '../../contexts/menuContext'
+import MenuProvider, {
+  useMenu,
+  useMenuDispatch,
+} from '../../contexts/menuContext'
 import { FC, ReactElement, ReactNode } from 'react'
 import Link from 'next/link'
 import { SubjectsLink } from '../Links/SubjectsLink'
 import { HealthLink } from '../Links/HealthLink'
+import useLinkTransition from 'lib/hooks/useLinkTransition'
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()
@@ -76,6 +80,8 @@ export default function Layout({
 }: props) {
   const router = useRouter()
 
+  const loading = useLinkTransition()
+
   const isDeskTop =
     // eslint-disable-next-line react-hooks/rules-of-hooks
     (process.browser && useMediaQuery('(min-width: 1024px)', true, false)) ||
@@ -88,7 +94,7 @@ export default function Layout({
         <div className="col-span-4 flex flex-col">
           <NavBar>{extraNavBarChildren}</NavBar>
           <main className="h-full flex-1">
-            {router.isFallback ? (
+            {router.isFallback || loading ? (
               <div className="flex h-full items-center justify-center">
                 <Loading size={50} />
               </div>
