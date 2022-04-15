@@ -15,11 +15,11 @@ export async function seedRelations() {
   await login4query()
   const locations = await getLocationNameAndIds()
   await supplementSubjectAndSeedCourses(locations)
-  // await seedCourses(0, locations)
-  // await seedEnrollment(0, 9)
+  await seedCourses(0, locations)
+  await seedEnrollment(0, 9)
 
-  // for (const term of TERMS) {
-  //   await checkInvalidCourseIdsFromEnrollment(locations, term)
-  //   await checkInvalidCourseIdsFromLesson(locations, term)
-  // }
+  for (const term of TERMS) {
+    await checkInvalidCourseIdsFromEnrollment(locations, term)
+    await checkInvalidCourseIdsFromLesson(locations, term)
+  }
 }

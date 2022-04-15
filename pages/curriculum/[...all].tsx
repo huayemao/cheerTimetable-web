@@ -3,7 +3,6 @@ import Container from 'components/Container'
 import Layout from 'components/common/Layout'
 import Modal from 'components/common/Modal'
 import Select from 'components/common/Select'
-import { SideBar } from 'components/SideBar'
 import TermSelect from 'components/TermSelect'
 import { TimetableTitle } from 'components/Timetable/index'
 import {

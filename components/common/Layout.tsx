@@ -18,9 +18,14 @@ import Link from 'next/link'
 import { SubjectsLink } from '../Links/SubjectsLink'
 import { HealthLink } from '../Links/HealthLink'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
-import { CollectButton } from 'components/CollectButton'
 import { CAN_COLLECT_ROUTES } from '../../constants'
 import { CollectionLink } from 'components/Links/CollectionLink'
+import dynamic from 'next/dynamic'
+
+const CollectButton = dynamic(() => import('components/CollectButton'), {
+  ssr: false,
+  loading: () => <p>...</p>,
+})
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()

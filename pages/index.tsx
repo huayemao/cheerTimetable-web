@@ -5,7 +5,6 @@ import Search from '../components/Search'
 import Loading from '../components/Loading'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { useCallback, useState } from 'react'
-import { HeroDoodle } from '../components/HeroDoodle'
 import { GithubIcon, GithubLink } from '../components/Links/GithubLink'
 import { Header } from '../components/Header'
 import { WordsOfTenderness } from '../components/WordsOfTenderness'
@@ -13,6 +12,12 @@ import { PaperAirplaneIcon, PhotographIcon } from '@heroicons/react/outline'
 import { Tooltip } from 'components/common/Tooltip'
 import { YuqueIcon } from 'components/Links/YuequeLink'
 import { NavPanel } from '../components/NavPanel'
+import dynamic from 'next/dynamic'
+
+const HeroDoodle = dynamic(() => import('../components/HeroDoodle'), {
+  ssr: false,
+  loading: () => <p>...</p>,
+})
 
 export default function Home({ sentences, test }) {
   const router = useRouter()

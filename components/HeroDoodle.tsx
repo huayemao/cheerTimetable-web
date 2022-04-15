@@ -1,6 +1,6 @@
 import 'css-doodle'
 
-export function HeroDoodle({ seed }) {
+const HeroDoodle = ({ seed }) => {
   return (
     <div
       className="h-32 w-64 overflow-hidden border border-slate-50  md:h-48 md:w-96"
@@ -19,3 +19,5 @@ export function HeroDoodle({ seed }) {
     />
   )
 }
+
+export default HeroDoodle

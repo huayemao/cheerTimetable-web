@@ -6,10 +6,11 @@ type TitleProps = {
 }
 
 export default function TimetableTitle({ owner }: TitleProps) {
+  const { label, name = '...' } = owner
   return (
     <h2 className="text-xl font-thin text-blue-500">
-      {owner.label}
-      {owner.name}的课表
+      {label}
+      {name}的课表
     </h2>
   )
 }

@@ -6,9 +6,14 @@ import { GithubLink } from './Links/GithubLink'
 import { YuqueLink } from './Links/YuequeLink'
 import { HealthLink } from './Links/HealthLink'
 import { SubjectsLink } from './Links/SubjectsLink'
-import { CollectButton } from './CollectButton'
 import { CAN_COLLECT_ROUTES } from '../constants'
 import { CollectionLink } from './Links/CollectionLink'
+import dynamic from 'next/dynamic'
+
+const CollectButton = dynamic(() => import('./CollectButton'), {
+  ssr: false,
+  loading: () => <p>...</p>,
+})
 
 export const SideBar = ({ children }) => {
   const router = useRouter()
