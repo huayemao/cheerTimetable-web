@@ -1,5 +1,6 @@
 import { GithubIcon } from './Links/GithubLink'
 import {
+  CollectionIcon,
   HeartIcon,
   PaperAirplaneIcon,
   PhotographIcon,
@@ -7,30 +8,91 @@ import {
 import { Tooltip } from 'components/common/Tooltip'
 import { YuqueIcon } from 'components/Links/YuequeLink'
 import { useRouter } from 'next/router'
+import { Collection } from './Collection'
+import { memo } from 'react'
+import Link from 'next/link'
 
-export function NavPanel() {
+function Component() {
   const router = useRouter()
   return (
     <div className="flex justify-around space-x-2 rounded-3xl bg-blue-200/10 py-1.5 px-2.5 shadow-lg md:space-x-4 lg:absolute lg:left-40 lg:flex-col lg:space-x-0 lg:space-y-2 lg:py-4 lg:shadow-xl">
-      <Tooltip content={<div>全部课程</div>} placement="right" style="light">
+      <Tooltip
+        className="hover:shadow-lg"
+        content={'全部课程'}
+        placement="right"
+        style="light"
+      >
         <button
           onClick={() => router.push('/subjects')}
-          className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 p-0 text-blue-500 shadow transition duration-200 ease-in hover:bg-blue-200 focus:outline-none active:shadow-lg"
+          className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 text-blue-500 shadow transition duration-200 ease-in hover:bg-blue-200 focus:outline-none active:shadow-lg"
         >
           <PaperAirplaneIcon className="inline-block h-6 w-6"></PaperAirplaneIcon>
         </button>
       </Tooltip>
-      <Tooltip content={<div>健康打卡</div>} placement="right" style="light">
+      <Tooltip
+        className="hover:shadow-lg"
+        content={'健康打卡'}
+        placement="right"
+        style="light"
+      >
         <button
           onClick={() =>
             router.push('https://wxxy.csu.edu.cn/ncov/wap/default/index')
           }
-          className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 p-0 text-blue-500 shadow transition duration-200 ease-in hover:bg-blue-200 focus:outline-none active:shadow-lg"
+          className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 text-blue-500 shadow transition duration-200 ease-in hover:bg-blue-200 focus:outline-none active:shadow-lg"
         >
           <HeartIcon className="inline-block h-6 w-6" />
         </button>
       </Tooltip>
-      <Tooltip content={<div>语雀</div>} placement="right" style="light">
+
+      <div className="hidden lg:block">
+        <Tooltip
+          className="hidden hover:shadow-lg lg:block"
+          trigger="click"
+          content={
+            <Collection
+              className={'h-96 w-80 text-center'}
+              title={
+                <div>
+                  我的收藏 &nbsp;
+                  <Link href={'/collection'}>
+                    <a className="text-sm text-gray-700">详情</a>
+                  </Link>
+                </div>
+              }
+            />
+          }
+          placement="right"
+          style="light"
+        >
+          <button className="mouse hidden h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0  shadow-lg transition duration-200 text-blue-500 ease-in focus:outline-none active:shadow-lg lg:flex">
+            <CollectionIcon className="inline-block h-6 w-6" />
+          </button>
+        </Tooltip>
+      </div>
+
+      <div className="lg:hidden">
+        <Tooltip
+          className="hover:shadow-lg"
+          content={'我的收藏'}
+          placement="top"
+          style="light"
+        >
+          <button
+            onClick={() => router.push('/collection')}
+            className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 shadow transition duration-200 text-blue-500 ease-in focus:outline-none active:shadow-lg"
+          >
+            <CollectionIcon className="inline-block h-6 w-6" />
+          </button>
+        </Tooltip>
+      </div>
+
+      <Tooltip
+        className="hover:shadow-lg"
+        content={'语雀'}
+        placement="right"
+        style="light"
+      >
         <button
           onClick={() =>
             router.push(
@@ -42,7 +104,12 @@ export function NavPanel() {
           <YuqueIcon />
         </button>
       </Tooltip>
-      <Tooltip content={<div>Github</div>} placement="right" style="light">
+      <Tooltip
+        className="hover:shadow-lg"
+        content={<div>Github</div>}
+        placement="right"
+        style="light"
+      >
         <button
           onClick={() =>
             router.push('https://github.com/huayemao/cheerTimetable-web')
@@ -55,3 +122,5 @@ export function NavPanel() {
     </div>
   )
 }
+
+export const NavPanel = memo(Component)

@@ -4,7 +4,7 @@ import { seedRelations } from './seedRelations'
 
 async function run() {
   // await clearStorage()
-  await seedEntities()
+  // await seedEntities()
   await seedRelations()
 }
 

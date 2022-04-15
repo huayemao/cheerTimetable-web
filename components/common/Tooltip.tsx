@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react'
 import classNames from 'clsx'
+import useClickOutside from '../../lib/hooks/useClickOutside'
 
 export type TooltipProps = PropsWithChildren<{
   className?: string
@@ -30,6 +31,7 @@ export const Tooltip: FC<TooltipProps> = ({
 }) => {
   const tooltipRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLSpanElement>(null)
+  const outerRef = useRef<HTMLDivElement>(null)
   const popperInstance = useRef<Instance>()
   const [visible, setVisible] = useState(false)
   useEffect(() => {
@@ -60,17 +62,22 @@ export const Tooltip: FC<TooltipProps> = ({
   }, [placement])
   const show = () => {
     setVisible(true)
+    tooltipRef.current?.focus()
     popperInstance.current?.update()
   }
   const hide = () => setTimeout(() => setVisible(false), 100)
+
+  useClickOutside(outerRef, () => visible && hide())
+
   return (
-    <>
+    <div ref={outerRef}>
       <div
         data-popper-placement={placement}
         className={classNames(
-          'tooltip absolute z-10 inline-block rounded-lg py-2 px-3 text-sm font-medium shadow-sm',
+          'tooltip absolute z-10 inline-block rounded-lg py-2 px-3 text-sm font-medium',
           animation !== false && `transition-opacity ${animation}`,
           {
+            'shadow-sm': !className?.includes('shadow'),
             'invisible opacity-0': !visible,
             'bg-gray-900 text-white dark:bg-gray-700': style === 'dark',
             'border border-gray-200 bg-white text-gray-900': style === 'light',
@@ -91,7 +98,6 @@ export const Tooltip: FC<TooltipProps> = ({
             })}
             style={{ zIndex: '-1' }}
             data-popper-arrow
-            // data-popper-placement={placement}
           />
         )}
       </div>
@@ -99,13 +105,13 @@ export const Tooltip: FC<TooltipProps> = ({
         className="w-fit"
         ref={wrapperRef}
         onFocus={show}
-        onBlur={hide}
+        // onBlur={hide}
         {...(trigger === 'hover'
           ? { onMouseEnter: show, onMouseLeave: hide }
           : { onClick: show })}
       >
         {children}
       </span>
-    </>
+    </div>
   )
 }

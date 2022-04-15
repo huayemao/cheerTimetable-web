@@ -18,6 +18,9 @@ import Link from 'next/link'
 import { SubjectsLink } from '../Links/SubjectsLink'
 import { HealthLink } from '../Links/HealthLink'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
+import { CollectButton } from 'components/CollectButton'
+import { CAN_COLLECT_ROUTES } from '../../constants'
+import { CollectionLink } from 'components/Links/CollectionLink'
 
 const MenuBody = ({ children }) => {
   useBodyScrollLock()
@@ -30,13 +33,20 @@ const MenuBody = ({ children }) => {
 }
 
 const Menu: FC = ({ children }) => {
+  const router = useRouter()
   const { collapsed } = useMenu()
   const toggle = useMenuDispatch()
+
+  const canCollect = (Object.values(CAN_COLLECT_ROUTES) as string[]).includes(
+    router.route
+  )
+
   return (
     (!collapsed && (
       <div className={cn('w-full lg:hidden lg:w-auto')} id="mobile-menu">
         <MenuBody>
           <div className="px-4">{children}</div>
+          {canCollect && <CollectButton />}
           {children && <hr className="mt-4" />}
           <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
             <li
@@ -50,6 +60,12 @@ const Menu: FC = ({ children }) => {
               className="text w-full text-gray-600 hover:text-blue-500"
             >
               <HealthLink />
+            </li>
+            <li
+              onClick={toggle}
+              className="text w-full text-gray-600 hover:text-blue-500"
+            >
+              <CollectionLink />
             </li>
             <li className="w-full text-sm text-gray-600 hover:text-blue-500">
               <GithubLink />
@@ -91,7 +107,7 @@ export default function Layout({
     <MenuProvider>
       <div className="grid min-h-screen lg:grid-cols-5">
         {process.browser && isDeskTop && <SideBar>{sidebarContent}</SideBar>}
-        <div className="col-span-4 flex flex-col">
+        <div className="col-span-4 flex h-full flex-col">
           <NavBar>{extraNavBarChildren}</NavBar>
           <main className="h-full flex-1">
             {router.isFallback || loading ? (

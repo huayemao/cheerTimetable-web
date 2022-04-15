@@ -1,13 +1,14 @@
 import { map } from 'lodash'
 import React from 'react'
+import c from 'clsx'
 
 export default function List({ data, renderListItem, className = '' }) {
   return (
     <ul
-      className={
-        'grid-cols-2 gap-x-4 gap-y-1 divide-y self-stretch text-gray-900 lg:grid  lg:divide-y-0 ' +
+      className={c(
+        'grid-cols-2 gap-x-4 gap-y-1 divide-y self-stretch text-gray-900 lg:grid  lg:divide-y-0 ',
         className
-      }
+      )}
     >
       {data.map((e, i) => (
         <li

@@ -9,7 +9,7 @@
   right: -4px;
 }
 .tooltip[data-popper-placement='top'] > .tooltip-arrow {
-  bottom: -4px;
+  bottom: 4px;
 }
 .tooltip-arrow {
   visibility: hidden;
