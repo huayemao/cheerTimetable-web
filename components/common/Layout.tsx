@@ -50,9 +50,11 @@ const Menu: FC = ({ children }) => {
     (!collapsed && (
       <div className={cn('w-full lg:hidden lg:w-auto')} id="mobile-menu">
         <MenuBody>
-          <div className="px-4">{children}</div>
-          {canCollect && <CollectButton />}
-          {children && <hr className="mt-4" />}
+          <div className="space-y-2  bg-white px-4">
+            {canCollect && <CollectButton />}
+            {children}
+          </div>
+          {(children || canCollect) && <hr className="mt-4" />}
           <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
             <li
               onClick={toggle}

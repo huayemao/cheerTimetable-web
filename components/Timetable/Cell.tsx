@@ -57,6 +57,7 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   const isFirstCol = Math.floor(num % 7) === 0
 
   const hasCourse = courses.length > 0
+  const multiCourse = courses.length > 1
 
   const handleNav = useCallback(() => {
     !router.query.modal &&
@@ -74,26 +75,34 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   return (
     <div
       onClickCapture={handleNav}
-      className={cn(s.cell, {
-        [s['first-row']]: isFirstRow,
-        [s['first-col']]: isFirstCol,
-        'row-span-1': rowSpan === 1,
-        'row-span-2': rowSpan === 2,
-      })}
-    >
-      {hasCourse && (
-        <>
-          <CoursePreview course={courses[0]} />
-          {courses.length > 1 && (
-            <div className="absolute top-0 right-0">
-              <IconInfo className="h-4 w-4" />
-            </div>
-          )}
-          {showModal && (
-            <CourseDetailModal courses={courses} router={router} num={num} />
-          )}
-        </>
+      className={cn(
+        {
+          [s['first-row']]: isFirstRow,
+          [s['first-col']]: isFirstCol,
+          'row-span-1': rowSpan === 1,
+          'row-span-2': rowSpan === 2,
+        },
+        'relative  hover:cursor-pointer'
       )}
+    >
+      {courses.length > 1 && (
+        <span
+          className={
+            'from-purle-400 absolute inset-0 -translate-y-1 translate-x-1 rounded-l-xl rounded-b-xl bg-gradient-to-bl from-blue-200/80 to-blue-50/10'
+          }
+        ></span>
+      )}
+      <div className={cn(s.cell, 'h-full bg-white')}>
+        {hasCourse && (
+          <>
+            <CoursePreview course={courses[0]} />
+
+            {showModal && (
+              <CourseDetailModal courses={courses} router={router} num={num} />
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 }

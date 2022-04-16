@@ -1,8 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import  './Tooltip.css';
-
-.menu-wrapper > * + * {
-  @apply mt-2;
-}
+@import './Tooltip.css';

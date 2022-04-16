@@ -30,11 +30,11 @@ function TimetablePage(props) {
       extraNavBarChildren={<TimetableTitle owner={props.owner || {}} />}
       menuItems={
         (process.browser && (
-          <div className="menu-wrapper bg-white">
+          <>
             <TermSelect />
             {show7DaysOnMobile}
             <div className="flex items-center justify-between">
-              <div className="mx-2 text-gray-700">展示7天</div>
+              <div className="text-gray-700">展示7天</div>
               <Switch
                 checked={show7DaysOnMobile}
                 onChange={(v) => {
@@ -53,7 +53,7 @@ function TimetablePage(props) {
                 />
               </Switch>
             </div>
-          </div>
+          </>
         )) ||
         null
       }
