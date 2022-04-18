@@ -3,7 +3,7 @@ import { TERMS } from '../constants'
 import Select from 'components/common/Select'
 import { getTermsByStudent } from 'lib/term'
 import { useRouter } from 'next/router'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useMenuDispatch } from 'contexts/menuContext'
 
 export default function TermSelect({
@@ -13,7 +13,7 @@ export default function TermSelect({
   const router = useRouter()
   const toggleCollapsed = useMenuDispatch()
   const [type, id] = router.query.all || []
-  const { term = '2021-2022-2' } = router.query
+  const { term } = router.query
   const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
   const renderOption = useCallback(
@@ -29,6 +29,19 @@ export default function TermSelect({
     ),
     [id, type]
   )
+
+  useEffect(() => {
+    if (!term && Object.keys(router.query).length) {
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, term: rawTermList[0] },
+        },
+        undefined,
+        { shallow: true }
+      )
+    }
+  }, [rawTermList, router, term])
 
   return (
     <Select
