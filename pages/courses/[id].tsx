@@ -2,17 +2,10 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Layout from 'components/common/Layout'
-import Container from 'components/Container'
-import Modal from 'components/common/Modal'
 import Head from 'next/head'
-import { SideBar } from 'components/SideBar'
-import TermSelect from 'components/TermSelect'
-import Select from 'components/common/Select'
-import { OwnerType } from '../../lib/types/Owner'
 import prisma from '../../lib/prisma'
 import { Enrollment, Student, Subject, Course } from '@prisma/client'
 import List from 'components/common/List'
-import Loading from 'components/Loading'
 
 function CoursePage({
   course,

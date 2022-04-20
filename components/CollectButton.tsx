@@ -41,8 +41,8 @@ const getCourseMeta = (router): CollectItemMeta => {
   return {
     type: 'course',
     id,
-    label: (course as Course).term,
-    name: (course as Course).className,
+    label: (course as Course)?.term,
+    name: (course as Course)?.className,
   }
 }
 
@@ -80,10 +80,7 @@ const CollectButton = () => {
   const followed = collection[info.type].find((e) => e.id === info.id)
 
   return (
-    <button
-      className="inline-flex items-center"
-      onClick={handleToggle}
-    >
+    <button className="inline-flex items-center" onClick={handleToggle}>
       <div className="mr-2 h-6 w-6 align-middle text-blue-500">
         {followed ? (
           <BookmarkIcon className="h-5 w-5" />
