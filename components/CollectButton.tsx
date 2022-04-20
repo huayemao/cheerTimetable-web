@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { HeartIcon } from '@heroicons/react/solid'
-import { HeartIcon as HeartIconO } from '@heroicons/react/outline'
+import { BookmarkIcon } from '@heroicons/react/solid'
+import { BookmarkIcon as BookmarkIconO } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import { CAN_COLLECT_ROUTES } from '../constants/routes'
 import { Course, Subject } from '@prisma/client'
@@ -81,14 +81,14 @@ const CollectButton = () => {
 
   return (
     <button
-      className="inline-flex items-center text-blue-500"
+      className="inline-flex items-center"
       onClick={handleToggle}
     >
-      <div className="mr-2 h-6 w-6 align-middle ">
+      <div className="mr-2 h-6 w-6 align-middle text-blue-500">
         {followed ? (
-          <HeartIcon className="h-5 w-5" />
+          <BookmarkIcon className="h-5 w-5" />
         ) : (
-          <HeartIconO className="h-5 w-5" />
+          <BookmarkIconO className="h-5 w-5" />
         )}
       </div>
       {followed && '已'}收藏
