@@ -49,6 +49,7 @@ function Component() {
         <Tooltip
           className="hidden hover:shadow-lg lg:block"
           trigger="click"
+          stilOnClick
           content={
             <Collection
               className={'h-96 w-80 text-center'}

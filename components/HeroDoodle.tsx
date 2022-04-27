@@ -1,4 +1,5 @@
 import 'css-doodle'
+import { memo } from 'react'
 
 const HeroDoodle = ({ seed }) => {
   return (
@@ -40,4 +41,4 @@ const HeroDoodle = ({ seed }) => {
   )
 }
 
-export default HeroDoodle
+export default memo(HeroDoodle)

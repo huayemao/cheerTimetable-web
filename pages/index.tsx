@@ -4,22 +4,21 @@ import { useRouter } from 'next/router'
 import Search from '../components/Search'
 import Loading from '../components/Loading'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
-import { useCallback, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { GithubIcon, GithubLink } from '../components/Links/GithubLink'
 import { Header } from '../components/Header'
 import { WordsOfTenderness } from '../components/WordsOfTenderness'
-import { PaperAirplaneIcon, PhotographIcon } from '@heroicons/react/outline'
-import { Tooltip } from 'components/common/Tooltip'
 import { YuqueIcon } from 'components/Links/YuequeLink'
 import { NavPanel } from '../components/NavPanel'
 import dynamic from 'next/dynamic'
+import { QueryToolSelectDropDown } from './queryTool'
 
 const HeroDoodle = dynamic(() => import('../components/HeroDoodle'), {
   ssr: false,
   loading: () => <p>...</p>,
 })
 
-export default function Home({ sentences, test }) {
+export default function Home({ sentences }) {
   const router = useRouter()
   const loading = useLinkTransition()
   const [q, setQ] = useState('')
@@ -27,9 +26,26 @@ export default function Home({ sentences, test }) {
     Math.ceil(Math.random() * (sentences.length - 1))
   )
 
-  const handleSearch = (v: string) => {
-    router.push('/search/' + v)
-  }
+  const { queryTool } = router.query
+  const url = queryTool && decodeURIComponent(queryTool as string)
+
+  const handleSearch = useCallback(
+    (v: string) => {
+      if (url) {
+        router.push(url + v)
+      } else {
+        router.push('/search/' + v)
+      }
+    },
+    [router, url]
+  )
+
+  const handleBtnClick = useCallback(
+    (q) => {
+      handleSearch(q)
+    },
+    [handleSearch]
+  )
 
   const handleActiveIndexChange = useCallback(setActiveIndex, [setActiveIndex])
 
@@ -46,12 +62,11 @@ export default function Home({ sentences, test }) {
           <Search
             onSubmit={handleSearch}
             onChange={setQ}
-            placeholder={'搜索学生、教师、授课地点'}
+            placeholder={'学生、教师、教室'}
+            dropDownBtn={<QueryToolSelectDropDown />}
           />
           <button
-            onClick={() => {
-              handleSearch(q)
-            }}
+            onClick={handleBtnClick.bind(null, q)}
             className="ml-2 box-border select-none  items-center rounded-full border border-blue-500 px-5 align-middle text-sm leading-8 text-blue-500 hover:bg-blue-500 hover:text-white"
           >
             {loading ? <Loading size={'2rem'} /> : '搜索'}

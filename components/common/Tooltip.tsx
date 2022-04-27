@@ -18,6 +18,7 @@ export type TooltipProps = PropsWithChildren<{
   style?: 'dark' | 'light' | 'auto'
   animation?: false | `duration-${number}`
   arrow?: boolean
+  stilOnClick?: boolean
 }>
 export const Tooltip: FC<TooltipProps> = ({
   children,
@@ -28,6 +29,7 @@ export const Tooltip: FC<TooltipProps> = ({
   style = 'dark',
   animation = 'duration-300',
   arrow = true,
+  stilOnClick = false,
 }) => {
   const tooltipRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLSpanElement>(null)
@@ -67,10 +69,12 @@ export const Tooltip: FC<TooltipProps> = ({
   }
   const hide = () => setTimeout(() => setVisible(false), 100)
 
-  useClickOutside(outerRef, () => visible && hide())
+  useClickOutside(wrapperRef, (el) => {
+    if (!stilOnClick || !tooltipRef.current?.contains(el)) visible && hide()
+  })
 
   return (
-    <div ref={outerRef}>
+    <>
       <div
         data-popper-placement={placement}
         className={classNames(
@@ -112,6 +116,6 @@ export const Tooltip: FC<TooltipProps> = ({
       >
         {children}
       </span>
-    </div>
+    </>
   )
 }
