@@ -5,7 +5,7 @@ import { memo } from 'react'
 export default function Component() {
   return (
     <Layout
-      extraNavBarChildren={
+      title={
         <div className="text-xl font-light text-blue-500">我的收藏</div>
       }
     >

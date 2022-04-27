@@ -91,14 +91,14 @@ const Menu: FC = ({ children }) => {
 type props = {
   children: ReactNode | null
   sidebarContent?: ReactElement | null
-  extraNavBarChildren?: ReactElement | null
+  title?: ReactElement | null
   menuItems?: ReactElement | null
 }
 
 export default function Layout({
   sidebarContent,
   children,
-  extraNavBarChildren,
+  title: extraNavBarChildren,
   menuItems,
 }: props) {
   const router = useRouter()

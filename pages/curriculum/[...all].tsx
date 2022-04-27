@@ -27,7 +27,7 @@ function TimetablePage(props) {
 
   return (
     <Layout
-      extraNavBarChildren={<TimetableTitle owner={props.owner || {}} />}
+      title={<TimetableTitle owner={props.owner || {}} />}
       menuItems={
         (process.browser && (
           <>

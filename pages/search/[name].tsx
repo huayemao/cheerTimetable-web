@@ -37,7 +37,7 @@ function SearchPage({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout
-        extraNavBarChildren={
+        title={
           <h2 className="text-xl font-thin text-blue-500">{title}</h2>
         }
       >

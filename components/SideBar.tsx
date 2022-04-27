@@ -48,15 +48,17 @@ export const SideBar = ({ children }) => {
       >
         <ul className="space-y-3 bg-white bg-opacity-75 px-3 py-4 backdrop-blur-xl backdrop-filter">
           <div className="w-full text-center">
-            <Link href={'/'}>
-              <a
-                className={
-                  'text-3xl text-blue-400 hover:text-blue-500 lg:flex-1'
-                }
-              >
-                绮课
-              </a>
-            </Link>
+            <h1>
+              <Link href={'/'}>
+                <a
+                  className={
+                    'text-3xl text-blue-400 hover:text-blue-500 lg:flex-1'
+                  }
+                >
+                  绮课
+                </a>
+              </Link>
+            </h1>
           </div>
           <li>
             <SubjectsLink />

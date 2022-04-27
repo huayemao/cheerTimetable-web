@@ -115,7 +115,7 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
 
   return (
     <Layout
-      extraNavBarChildren={
+      title={
         <>
           <h2 className="hidden text-xl font-thin text-blue-500 lg:block">
             {title}

@@ -23,7 +23,7 @@ function CoursePage({
 
   return (
     <Layout
-      extraNavBarChildren={
+      title={
         <div className="text-xl font-light text-blue-500">
           {router.isFallback ? '加载中' : course.subject.name}
         </div>

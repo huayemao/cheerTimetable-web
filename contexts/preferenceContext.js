@@ -4,6 +4,7 @@ export const PreferenceDispatch = createContext()
 
 const initialData = {
   show7DaysOnMobile: false,
+  queryTools: [],
 }
 
 const reducer = (state, action) => {
@@ -11,6 +12,20 @@ const reducer = (state, action) => {
     case 'SHOW_7_DAYS_ON_MOBILE': {
       const { payload } = action
       return Object.assign({}, state, { show7DaysOnMobile: payload })
+    }
+    case 'ADD_QUERY_TOOL': {
+      const { payload } = action
+      return Object.assign({}, state, {
+        queryTools: (state.queryTools || []).concat(payload.queryTool),
+      })
+    }
+    case 'REMOVE_QUERY_TOOL': {
+      const { payload } = action
+      return Object.assign({}, state, {
+        queryTools: (state.queryTools || []).filter(
+          (e) => e.name !== payload.name
+        ),
+      })
     }
     default: {
       throw new Error('Unhandled action type.')
