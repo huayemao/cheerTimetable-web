@@ -11,4 +11,21 @@ module.exports = withPWA({
   images: {
     domains: ['gw.alipayobjects.com'],
   },
+  trailingSlash: true,
+  async rewrites() {
+    return [
+      // {
+      //   source: '/blog/',
+      //   destination: 'http://opac.its.csu.edu.cn/',
+      // },
+      {
+        source: '/blog/:path*',
+        destination: 'http://opac.its.csu.edu.cn/:path*',
+      },
+      // {
+      //   source: '/blog/:path*',
+      //   destination: 'http://proxysite.com/:path*',
+      // },
+    ]
+  },
 })
