@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { NextRouter } from 'next/router'
 import Link from 'next/link'
-import { mapValues, omit, map } from 'lodash'
+import { mapValues, omit } from 'lodash'
 
 import { CourseItem } from 'lib/types/CourseItem'
 import Modal from 'components/common/Modal'
@@ -18,8 +18,11 @@ import {
 } from 'components/Icons'
 import { getWeekStr } from 'lib/getGridCells'
 import { OwnerType } from 'lib/types/Owner'
+import Drawer from 'rc-drawer'
+import { XIcon } from '@heroicons/react/solid'
+import { CourseChoose } from './CourseChoose'
 
-type Props = {
+export type Props = {
   courses: CourseItem[]
   router: NextRouter
   num: number
@@ -51,19 +54,22 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     },
     {
       icon: IconUsers,
-      content: activeCourse?.teachers.map(({ id, name }, i, arr) => (
-        <div key={id}>
-          <Link
-            key={id || i}
-            href={{
-              pathname: `/curriculum/${OwnerType.teacher}/${id}`,
-            }}
-          >
-            <a className="underline">{name}</a>
-          </Link>
-          {i < arr.length - 1 && '、'}
+      content: (
+        <div className="">
+          {activeCourse?.teachers.map(({ id, name }, i, arr) => (
+            <span key={id || i}>
+              <Link
+                href={{
+                  pathname: `/curriculum/${OwnerType.teacher}/${id}`,
+                }}
+              >
+                <a className="underline">{name}</a>
+              </Link>
+              {i < arr.length - 1 && '、'}
+            </span>
+          ))}
         </div>
-      )),
+      ),
     },
     {
       icon: IconLocation,
@@ -111,46 +117,68 @@ export function CourseDetailModal({ courses, router, num }: Props) {
     },
   ]
 
-  return (
-    <Modal title={isChoosing ? '选择课程' : courseTitle} onClose={closeModal}>
+  const content = (
+    <div className="space-y-6 p-6 pt-16 text-base leading-relaxed text-gray-500 lg:pt-4">
       {isChoosing && (
         <CourseChoose num={num} router={router} courses={courses} />
       )}
       {!isChoosing && (
         <div>
           <ul className="space-y-1 text-gray-900">
-            {list.map(({ icon: Icon, content }, i) => (
+            {list.map(({ icon: Icon, content: item }, i) => (
               <li
                 key={i}
-                className=" relative inline-flex w-full items-center rounded-t-lg py-2  px-4 text-sm font-medium hover:bg-gray-100 md:text-lg"
+                className="relative inline-flex w-full items-center rounded-t-lg py-2  px-4 text-sm font-medium hover:bg-gray-100 md:text-lg"
               >
-                <Icon className="mr-2 h-4 w-4" /> {content}
+                <Icon className="mr-2 h-4 w-4 flex-shrink-0" />
+                {item}
               </li>
             ))}
           </ul>
         </div>
       )}
-    </Modal>
+    </div>
   )
-}
 
-const CourseChoose = ({ courses, router, num }: Props) => {
-  return map(courses, (course: CourseItem) => {
-    const params = {
-      pathname: router.asPath.split('?')[0],
-      query: { ...omit(router.query, 'all'), modal: num, seq: course.seq },
-    }
-    const weekStr = getWeekStr(course)
-
-    return (
-      <div key={course.seq}>
-        <Link href={params} shallow>
-          <a className="text-blue-500">
-            {course.name}{' '}
-            <span className="text-sm font-light text-gray-500">{weekStr}</span>
-          </a>
-        </Link>
+  return (
+    <>
+      <Drawer
+        keyboard
+        className="lg:hidden"
+        contentWrapperStyle={{
+          borderTopRightRadius: '20px',
+          borderTopLeftRadius: '20px',
+        }}
+        maskClosable
+        handler={
+          <div className="absolute top-4 right-4 z-10">
+            <XIcon className="h-6 w-6 text-gray-600" />
+          </div>
+        }
+        level={'#__next'}
+        open
+        levelMove={1}
+        getContainer={'body'}
+        placement={'bottom'}
+        onHandleClick={closeModal}
+        height={'60vh'}
+      >
+        <h3 className="absolute top-4 left-4 text-lg font-semibold text-gray-900 lg:text-xl">
+          {isChoosing ? '选择课程' : courseTitle}
+        </h3>
+        <div className="absolute top-0 flex w-full justify-center">
+          <div className="h-2 w-[18%] rounded-2xl rounded-t-none bg-slate-300 shadow-lg shadow-slate-300" />
+        </div>
+        {content}
+      </Drawer>
+      <div className="hidden lg:block">
+        <Modal
+          title={isChoosing ? '选择课程' : courseTitle}
+          onClose={closeModal}
+        >
+          {content}
+        </Modal>
       </div>
-    )
-  })
+    </>
+  )
 }

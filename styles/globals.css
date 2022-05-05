@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import './Tooltip.css';
+@import 'rc-drawer/assets/index.css';
 
 [multiple]:focus,
 [type='date']:focus,

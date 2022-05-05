@@ -15,7 +15,7 @@
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@popperjs/core": "^2.11.5",
-    "@prisma/client": "^3.10.0",
+    "@prisma/client": "^3.13.0",
     "clsx": "^1.1.1",
     "css-doodle": "^0.26.0",
     "dayjs": "^1.10.8",
@@ -26,6 +26,7 @@
     "next-pwa": "^5.4.4",
     "node-fetch": "2",
     "qs": "^6.10.3",
+    "rc-drawer": "^4.4.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "swr": "^1.2.2"
@@ -42,7 +43,7 @@
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.1",
-    "prisma": "^3.10.0",
+    "prisma": "^3.13.0",
     "tailwindcss": "^3.0.7",
     "ts-node": "^10.7.0",
     "typescript": "4.5.4"
