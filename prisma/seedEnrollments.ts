@@ -1,59 +1,39 @@
-import { parseTable } from './util/parseTable'
-import qs from 'qs'
-import fetch from 'node-fetch'
 import { map } from 'lodash'
-import { Course, Lesson, Location, Subject, Enrollment } from '@prisma/client'
-import { mapKeys, pick } from 'lodash'
-import { COOKIE, TERMS } from '../constants'
-import { getLessonsById, LessonRes } from './api/getLessonsByID'
-
-import { STUDENTS } from '../_data/metas'
 import prisma from '../lib/prisma'
-import { parseGrade } from '../lib/term'
+import { Enrollment } from '@prisma/client'
+import { mapKeys, pick } from 'lodash'
+import { TERMS } from '../constants'
+import { getLessonsById } from './api/getLessonsByID'
+import { getStudents2Fetch } from './util/getStudents2Fetch'
 
 const GAP = 7
+export const GRADE_NUM = 14
 
 export async function seedEnrollment(offset = 0, gap = GAP) {
-  const existedIds = await getExistedStudentIds()
+  // todo：没有选课记录的学生记录下来，下次不再拉取
+  const students2Fetch = await getStudents2Fetch()
 
-  const needFetchIds = (await STUDENTS).filter(
-    (e) =>
-      !(existedIds as string[]).includes(e.xh) &&
-      parseGrade(e.xh) &&
-      (parseGrade(e.xh) as number) >= 14
-  )
-
-  for (let i = offset; i < needFetchIds.length; i += gap) {
-    const items = needFetchIds.slice(i, i + gap)
+  for (let i = offset; i < students2Fetch.length; i += gap) {
+    const items = students2Fetch.slice(i, i + gap)
 
     const data = await Promise.all(
-      items.map(async (e) =>
-        (
-          await getCourseIdsByStudentId(e.xs0101id)
-        ).map((id): Enrollment => ({ studentId: e.xh, courseId: id }))
-      )
+      items.map(async (e) => {
+        const courseIds = await getCourseIdsByStudentId(e.xs0101id)
+        return courseIds.map(
+          (id): Enrollment => ({ studentId: e.xh, courseId: id })
+        )
+      })
     )
+
     const payload = await prisma.enrollment.createMany({
       data: data.flat(),
       skipDuplicates: true,
     })
-    console.log(
-      [
-        'total: ',
-        needFetchIds.length,
-        ' offset ',
-        i,
-        '-',
-        i + gap,
-        ' ',
-        payload.count,
-        ' records',
-      ].join('')
-    )
+    logProgress(students2Fetch.length, i, gap, payload.count)
   }
 }
 
-export const getCourseIdsByStudentId = async (studentId) => {
+const getCourseIdsByStudentId = async (studentId) => {
   const res = (
     await Promise.all(
       (TERMS as string[]).map(async (term) =>
@@ -67,11 +47,16 @@ export const getCourseIdsByStudentId = async (studentId) => {
   return Array.from(new Set(res))
 }
 
-export async function getExistedStudentIds() {
-  const res =
-    (await prisma.$queryRaw`SELECT DISTINCT studentId FROM Enrollment; `) as {
-      studentId: string
-    }[]
-  const existedIds = res.map((e) => e.studentId)
-  return existedIds
+function logProgress(total: number, i: number, gap: number, count: number) {
+  console.log(
+    'total: ',
+    total,
+    ' offset ',
+    i,
+    '-',
+    i + gap,
+    ' ',
+    count,
+    ' records'
+  )
 }
