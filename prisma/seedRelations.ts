@@ -6,20 +6,13 @@ import { seedCourses } from './seedCoursesAndLessons'
 import { seedEnrollment } from './seedEnrollments'
 import { login4query } from './api/login4query'
 import { TERMS } from '../constants'
-import {
-  checkInvalidCourseIdsFromLesson,
-  checkInvalidCourseIdsFromEnrollment,
-} from './checkIntegrity'
 
-export async function seedRelations() {
+// todo：数据增量更新
+export async function seedRelations(lastRecord) {
   await login4query()
   const locations = await getLocationNameAndIds()
+
   await supplementSubjectAndSeedCourses(locations)
   await seedCourses(0, locations)
   await seedEnrollment(0, 9)
-
-  for (const term of TERMS) {
-    await checkInvalidCourseIdsFromEnrollment(locations, term)
-    await checkInvalidCourseIdsFromLesson(locations, term)
-  }
 }

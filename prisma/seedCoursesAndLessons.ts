@@ -1,8 +1,7 @@
 import { omit } from 'lodash'
-import { Course, Lesson, Location, Subject, Tuition } from '@prisma/client'
+import { Course, Lesson, Prisma, Subject, Tuition } from '@prisma/client'
 import { COURSES } from '../_data/metas'
 import prisma from '../lib/prisma'
-import crypto from 'crypto'
 import { getCourseStuffs } from './util/getCourseStuffs'
 
 const mapping = {
@@ -24,10 +23,12 @@ export async function supplementSubjectAndSeedCourses(locations) {
   })
 
   const existedIds = subjects.map((e) => e.id)
-  const ids = (await COURSES)
-    .map((e) => e.kch)
-    .filter((e) => !existedIds.includes(e))
-  await seedSubjectByIds(ids, locations)
+
+  // 从 COURSEMETA 中筛选出需要增补的 subjectIds
+  const courseMetas = (await COURSES).filter(
+    (e) => !existedIds.includes(e.kch.trim())
+  )
+  await seedSubjectByCourseMeta(courseMetas, locations)
 }
 
 async function upsertSubject(data, subjectId: string) {
@@ -40,54 +41,38 @@ async function upsertSubject(data, subjectId: string) {
   })
 }
 
-export async function seedSubjectByIds(ids, locations) {
-  for (let i = 0; i < ids.length; i++) {
-    const element = (await COURSES).find((e) => e.kch === ids[i])
-    const subjectId = element?.kch?.trim()
+// todo：想办法去掉 locations 这个参数
+export async function seedSubjectByCourseMeta(courseMetas, locations) {
+  // 测试级联删除是否起作用
+  // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#delete-1
 
-    if (!subjectId) continue
+  // select * from Course where subjectId = '010126Z1'; => 201620171004240
+  //  select * from Lesson where courseId = '201620171004240';
 
+  // await prisma.subject.update({
+  //   where: {
+  //     id: '010126Z1',
+  //   },
+  //   data: {
+  //     courses: {
+  //       deleteMany: {},
+  //     },
+  //   },
+  // })
+
+  console.log('增补 Subject')
+  for (let i = 0; i < courseMetas.length; i++) {
+    const element = courseMetas[i]
+    const subjectId = element.kch.trim()
+
+    // todo：这里需要增加学期列表参数
     const { lessons, courses, subject, tuitions } =
       (await getCourseStuffs(subjectId, true, locations)) || {}
 
     if (courses?.length && lessons?.length) {
-      const data = {
-        ...(subject as Subject),
-        courses: {
-          createMany: {
-            data: (courses as Course[]).map((e) => omit(e, 'subjectId')),
-            skipDuplicates: true,
-          },
-        },
-      }
-
-      await upsertSubject(data, subjectId)
-      try {
-        await prisma.lesson.createMany({
-          data: lessons,
-          skipDuplicates: true,
-        })
-        await prisma.tuition.createMany({
-          data: tuitions as Tuition[],
-          skipDuplicates: true,
-        })
-        console.log(
-          'completed ',
-          subjectId,
-          ' ',
-          i + 1,
-          ' of total',
-          ids.length
-        )
-      } catch (error) {
-        console.log(error)
-        await prisma.student.delete({
-          where: {
-            id: subjectId,
-          },
-        })
-        throw error
-      }
+      await upsertSubject(subject, subjectId)
+      await insertSubjectDetail(courses, lessons, tuitions)
+      logProgress(subjectId, i, courseMetas.length)
     } else {
       const data = {
         id: subjectId,
@@ -105,8 +90,12 @@ export async function seedSubjectByIds(ids, locations) {
   }
 }
 
+function logProgress(id: any, i: number, total: number) {
+  console.log('completed ', id, ' ', i + 1, ' of total', total)
+}
+
 export async function seedCourses(offset = 0, locations) {
-  console.log('导入全部课程')
+  console.log('由全部课程导入开课信息')
   const subjects = await prisma.subject.findMany({
     select: {
       id: true,
@@ -124,6 +113,7 @@ export async function seedCourses(offset = 0, locations) {
     })
   ).map((e) => e.subjectId)
 
+  // 筛选出所有没有开课信息的 Subjects todo: 改为 SQL?
   const ids = subjects.map((e) => e.id).filter((i) => !hasDataIds.includes(i))
 
   for (let i = offset; i < ids.length; i++) {
@@ -133,26 +123,42 @@ export async function seedCourses(offset = 0, locations) {
       (await getCourseStuffs(id, false, locations)) || {}
 
     if (courses?.length && lessons?.length) {
-      try {
-        await prisma.course.createMany({
-          data: courses as Course[],
-          skipDuplicates: true,
-        })
+      await insertSubjectDetail(courses, lessons, tuitions)
 
-        await prisma.lesson.createMany({
-          data: lessons,
-          skipDuplicates: true,
-        })
-        await prisma.tuition.createMany({
-          data: tuitions as Tuition[],
-          skipDuplicates: true,
-        })
-        console.log('completed ', id, ' ', i + 1, ' of ', ids.length)
-      } catch (error) {
-        console.log(error)
-        console.log('error--- with Subject ', id)
-        throw error
-      }
+      // 是否需要改为嵌套添加，才能使完整性约束生效？
+
+      // https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#nested-writes
+      // Support any level of nesting supported by the data model.
+      // https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#add-new-related-records-to-an-existing-record
+      // cannot access relations in a createMany query
+      // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#set
+
+      // await prisma.subject.update({
+      //   where: {},
+      //   data: {
+      //     courses: {
+      //       // 别忘了 filter
+      //       create: courses.map(
+      //         (c): Prisma.CourseCreateWithoutSubjectInput => ({
+      //           ...c,
+      //           lessons: {
+      //             create: lessons.map(
+      //               (l): Prisma.LessonCreateWithoutCourseInput => ({
+      //                 ...l,
+      //                 tuition: {
+      //                   create: {},
+      //                 },
+      //               })
+      //             ),
+      //           },
+      //         })
+      //       ),
+      //     },
+      //   },
+      //   // include 何时用
+      // })
+
+      logProgress(id, i, ids.length)
     } else {
       await prisma.subject.update({
         data: {
@@ -165,4 +171,25 @@ export async function seedCourses(offset = 0, locations) {
       console.log('no data , skipped', i + 1, ' of ', ids.length)
     }
   }
+}
+
+async function insertSubjectDetail(
+  courses: Course[],
+  lessons: any[],
+  tuitions: Tuition[]
+) {
+  await prisma.$transaction([
+    prisma.course.createMany({
+      data: courses as Course[],
+      skipDuplicates: true,
+    }),
+    prisma.lesson.createMany({
+      data: lessons,
+      skipDuplicates: true,
+    }),
+    prisma.tuition.createMany({
+      data: tuitions,
+      skipDuplicates: true,
+    }),
+  ])
 }

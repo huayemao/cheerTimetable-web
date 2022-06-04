@@ -32,7 +32,11 @@ export const seedMetas = async (lastRecord) => {
               data: e,
               skipDuplicates: true,
             })
-            console.log('inserted ', res.count, ' rows')
+            if (res.count > 0) {
+              console.log('inserted ', res.count, ' rows')
+            } else {
+              console.log('---')
+            }
           }
         } catch (error) {
           console.log(tableName + ' seed error')

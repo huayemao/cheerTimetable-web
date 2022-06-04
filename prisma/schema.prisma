@@ -4,9 +4,9 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "foreignKeys"
 }
 
 model SeedStatus {
@@ -83,7 +83,7 @@ model Subject {
 
 model Course {
     id          String       @id @unique
-    subject     Subject      @relation(fields: [subjectId], references: [id])
+    subject     Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
     subjectId   String
     term        String
     className   String
@@ -95,7 +95,7 @@ model Course {
 
 model Lesson {
     id         String    @id
-    course     Course    @relation(fields: [courseId], references: [id])
+    course     Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
     courseId   String
     timeSlot   String
     location   Location  @relation(fields: [locationId], references: [id])
@@ -108,18 +108,18 @@ model Lesson {
 }
 
 model Enrollment {
-    student   Student @relation(fields: [studentId], references: [id])
+    student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
     studentId String
-    course    Course  @relation(fields: [courseId], references: [id])
+    course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
     courseId  String
 
     @@id([studentId, courseId])
 }
 
 model Tuition {
-    teacher   Teacher @relation(fields: [teacherId], references: [id])
+    teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
     teacherId String
-    lesson    Lesson  @relation(fields: [lessonId], references: [id])
+    lesson    Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
     lessonId  String
 
     @@id([teacherId, lessonId])
