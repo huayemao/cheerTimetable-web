@@ -12,26 +12,28 @@ export async function searchOwner(name) {
     orderBy: { grade: 'desc' },
   })
 
-  const teachers = Promise.all([
-    prisma.teacher.findMany({
-      where: {
-        name: { equals: name },
-      },
-      orderBy: {
-        facultyName: 'desc',
-      },
-    }),
-    prisma.teacher.findMany({
-      where: {
-        name: {
-          contains: name + '（',
+  const teachers = prisma
+    .$transaction([
+      prisma.teacher.findMany({
+        where: {
+          name: { equals: name },
         },
-      },
-      orderBy: {
-        facultyName: 'desc',
-      },
-    }),
-  ]).then((e) => e.flat())
+        orderBy: {
+          facultyName: 'desc',
+        },
+      }),
+      prisma.teacher.findMany({
+        where: {
+          name: {
+            contains: name + '（',
+          },
+        },
+        orderBy: {
+          facultyName: 'desc',
+        },
+      }),
+    ])
+    .then((e) => e.flat())
 
   const locations = prisma.location.findMany({
     where: {
