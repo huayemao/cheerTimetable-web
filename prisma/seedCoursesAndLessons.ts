@@ -69,7 +69,7 @@ export async function seedSubjectByCourseMeta(courseMetas, locations) {
     const { lessons, courses, subject, tuitions } =
       (await getCourseStuffs(subjectId, true, locations)) || {}
 
-    if (courses?.length && lessons?.length) {
+    if (courses?.length && lessons?.length && tuitions?.length) {
       await upsertSubject(subject, subjectId)
       await insertSubjectDetail(courses, lessons, tuitions)
       logProgress(subjectId, i, courseMetas.length)
@@ -85,7 +85,7 @@ export async function seedSubjectByCourseMeta(courseMetas, locations) {
         tuitionHourDetail: '0-0-0-0-0',
       }
       await upsertSubject(data, subjectId)
-      console.log('no data , skipped', i + 1, ' of total', ids.length)
+      console.log('no data , skipped', i + 1, ' of total', courseMetas.length)
     }
   }
 }
@@ -122,7 +122,7 @@ export async function seedCourses(offset = 0, locations) {
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, locations)) || {}
 
-    if (courses?.length && lessons?.length) {
+    if (courses?.length && lessons?.length && tuitions?.length) {
       await insertSubjectDetail(courses, lessons, tuitions)
 
       // 是否需要改为嵌套添加，才能使完整性约束生效？

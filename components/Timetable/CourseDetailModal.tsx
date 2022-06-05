@@ -39,7 +39,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
         pathname: router.asPath.split('?')[0],
         query: omit(router.query, ['all', 'modal', 'seq']),
       },
-      undefined,
+      undefined
       // { shallow: true }
     )
   }, [router])
@@ -135,22 +135,28 @@ export function CourseDetailModal({ courses, router, num }: Props) {
 }
 
 const CourseChoose = ({ courses, router, num }: Props) => {
-  return map(courses, (course: CourseItem) => {
-    const params = {
-      pathname: router.asPath.split('?')[0],
-      query: { ...omit(router.query, 'all'), modal: num, seq: course.seq },
-    }
-    const weekStr = getWeekStr(course)
+  return (
+    <>
+      {map(courses, (course: CourseItem) => {
+        const params = {
+          pathname: router.asPath.split('?')[0],
+          query: { ...omit(router.query, 'all'), modal: num, seq: course.seq },
+        }
+        const weekStr = getWeekStr(course)
 
-    return (
-      <div key={course.seq}>
-        <Link href={params}>
-          <a className="text-blue-500">
-            {course.name}{' '}
-            <span className="text-sm font-light text-gray-500">{weekStr}</span>
-          </a>
-        </Link>
-      </div>
-    )
-  })
+        return (
+          <div key={course.seq}>
+            <Link href={params}>
+              <a className="text-blue-500">
+                {course.name}{' '}
+                <span className="text-sm font-light text-gray-500">
+                  {weekStr}
+                </span>
+              </a>
+            </Link>
+          </div>
+        )
+      })}
+    </>
+  )
 }

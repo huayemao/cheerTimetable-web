@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Course, Lesson, Subject, Tuition } from '@prisma/client'
 import { compact, groupBy, map, omit } from 'lodash'
 import { getLessons, LessonRes1 } from '../api/getLessons'
@@ -28,12 +29,11 @@ export async function getCourseStuffs(
   subject: Subject
   tuitions: Tuition[]
 } | null> {
-  const { jx02id, kcmc: name } = await getSubjectMeta(subjectId)
+  const { jx02id, kcmc: name } = (await getSubjectMeta(subjectId)) || {}
   if (!jx02id) {
     console.log('没有 jx02id, ', subjectId)
     return null
   }
-
   const [items, itemsAlt, cats = []] = await Promise.all<
     [
       (LessonRes & { term: string })[],

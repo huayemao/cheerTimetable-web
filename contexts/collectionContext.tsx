@@ -7,6 +7,13 @@ import React, {
   Dispatch,
 } from 'react'
 
+type CollectionItem = {
+  type: string
+  id: string
+  label: string
+  name: string
+}
+
 const initialData = {
   student: [],
   teacher: [],
@@ -15,7 +22,8 @@ const initialData = {
   subject: [],
 }
 
-export const CollectionContext = createContext(initialData)
+export const CollectionContext =
+  createContext<Record<string, CollectionItem[]>>(initialData)
 export const CollectionDispatch = createContext<
   Dispatch<{
     type: string

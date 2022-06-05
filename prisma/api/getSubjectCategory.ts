@@ -3,7 +3,7 @@ import qs from 'qs'
 import fetch from 'node-fetch'
 import { HEADERS } from '../util/header'
 
-export const getSubjectCategory = async (jx02id, term): string => {
+export const getSubjectCategory = async (jx02id, term): Promise<string> => {
   const url = 'http://csujwc.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_kb.jsp'
 
   const data = qs.stringify({

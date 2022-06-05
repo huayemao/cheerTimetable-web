@@ -26,7 +26,7 @@ const extractorMapping = {
 
 const parseLocation = (obj): Location => {
   const newObj = mapKeys(obj, (v, k) => mapping[k])
-  return pick(newObj, Object.values(mapping))
+  return pick(newObj, Object.values(mapping)) as Location
 }
 
 const fieldExtractorMapping = {

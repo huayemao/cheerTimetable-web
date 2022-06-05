@@ -7,7 +7,8 @@ export const parseSlot = (str: string): TimetaleSlot => {
 
   const seqs = chunk(rest, 2).map((e) => parseInt(e.join('')))
   const rowIds = seqs.reduce(
-    (arr, item, i) => (i % 2 === 0 ? arr.concat([Math.ceil(item / 2)]) : arr),
+    (arr: number[], item, i) =>
+      i % 2 === 0 ? arr.concat([Math.ceil(item / 2)]) : arr,
     []
   )
   // 只保留奇数节次，即开始节次

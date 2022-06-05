@@ -36,7 +36,7 @@ const parseSubject = (obj): Subject => {
       tuitionHourDetail,
     },
     Object.values(mapping).concat('tuitionHourDetail')
-  )
+  ) as Subject
 }
 
 export async function getSubjects(pageNum, pageSize = '10', version) {

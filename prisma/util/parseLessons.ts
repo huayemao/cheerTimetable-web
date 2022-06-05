@@ -11,7 +11,7 @@ const weekIntervalMapping = {
 export async function parseLesson(
   v: LessonRes,
   locations
-): Lesson & { teacherIds: string[] } {
+): Promise<Lesson & { teacherIds: string[] }> {
   const { 上课地点, 开课编号, 单双周, 开课时间, 上课周次, 授课教师 } = v
   const locationId = 上课地点?.split(',')?.[0]?.trim() || undefined
   const locationName = await getLocationName(locationId)

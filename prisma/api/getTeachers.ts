@@ -18,7 +18,7 @@ const mapping = {
 
 const parseTeacher = (obj): Teacher => {
   const newObj = mapKeys(obj, (v, k) => mapping[k])
-  return pick(newObj, Object.values(mapping))
+  return pick(newObj, Object.values(mapping)) as Teacher
 }
 
 export async function getTeachers(pageNum, pageSize = '1000') {
@@ -58,5 +58,3 @@ export async function getTeachers(pageNum, pageSize = '1000') {
 
   return list.map(parseTeacher)
 }
-
-
