@@ -40,7 +40,7 @@ export function CourseDetailModal({ courses, router, num }: Props) {
         query: omit(router.query, ['all', 'modal', 'seq']),
       },
       undefined,
-      { shallow: true }
+      // { shallow: true }
     )
   }, [router])
 
@@ -144,7 +144,7 @@ const CourseChoose = ({ courses, router, num }: Props) => {
 
     return (
       <div key={course.seq}>
-        <Link href={params} shallow>
+        <Link href={params}>
           <a className="text-blue-500">
             {course.name}{' '}
             <span className="text-sm font-light text-gray-500">{weekStr}</span>
