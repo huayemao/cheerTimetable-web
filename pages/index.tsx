@@ -12,6 +12,7 @@ import { YuqueIcon } from 'components/Links/YuequeLink'
 import { NavPanel } from '../components/NavPanel'
 import dynamic from 'next/dynamic'
 import { QueryToolSelectDropDown } from './queryTool'
+import { getSentences } from '../lib/getSentences'
 
 const HeroDoodle = dynamic(() => import('../components/HeroDoodle'), {
   ssr: false,
@@ -88,9 +89,7 @@ export default function Home({ sentences }) {
 }
 
 export async function getStaticProps(context) {
-  const { data: sentences } = await fetch(
-    'https://www.yuque.com/api/tables/records?docId=70387138&docType=Doc&limit=2000&offset=0&sheetId=8gc2RfiVFTi1UOGGVxx64YaQyVSkGB2f'
-  ).then((e) => e.json())
+  const sentences = await getSentences()
 
   return {
     props: {
@@ -99,3 +98,4 @@ export async function getStaticProps(context) {
     revalidate: 30,
   }
 }
+

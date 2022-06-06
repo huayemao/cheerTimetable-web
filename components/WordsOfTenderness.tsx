@@ -1,28 +1,30 @@
-import { Quote as IconQuote } from './Icons';
-import { useEffect, useMemo, useRef } from 'react';
+import { Quote as IconQuote } from './Icons'
+import { useEffect, useMemo, useRef } from 'react'
+import Link from 'next/link'
 
 export function WordsOfTenderness({ list, onChange, activeIndex }) {
-  const intervalRef = useRef(Math.random() * (list.length - 1));
+  const intervalRef = useRef(Math.random() * (list.length - 1))
 
   const item = useMemo(() => {
-    const record = JSON.parse(list[activeIndex].data);
-    return {
-      sentence: record.x7U5s161raUGRnnua7O48CRz81Q1elTK.value,
-      nickName: record.GvWvFE2RLxv6dokKTFrPGEOaVXKpm4bT.value,
-    };
-  }, [activeIndex, list]);
+    return list[activeIndex]
+    // const record = JSON.parse(list[activeIndex].data);
+    // return {
+    //   sentence: record.x7U5s161raUGRnnua7O48CRz81Q1elTK.value,
+    //   nickName: record.GvWvFE2RLxv6dokKTFrPGEOaVXKpm4bT.value,
+    // };
+  }, [activeIndex, list])
 
   useEffect(() => {
     intervalRef.current = window.setTimeout(() => {
-      onChange((activeIndex + 1) % list.length);
-    }, 16000);
-    return () => clearTimeout(intervalRef.current);
-  }, [activeIndex, list.length, onChange]);
+      onChange((activeIndex + 1) % list.length)
+    }, 16000)
+    return () => clearTimeout(intervalRef.current)
+  }, [activeIndex, list.length, onChange])
 
   return (
     <div className="h-40 max-w-2xl px-8 lg:max-w-4xl">
       <div className="relative m-2  border-l-2 border-l-blue-600 pl-10 md:pl-8 ">
-        <IconQuote className="absolute left-2 h-6 w-6 fill-current text-blue-600"></IconQuote>
+        <IconQuote className="absolute left-2 h-5 w-5 fill-current text-blue-600"></IconQuote>
         <p className="mt-2 text-xl font-medium text-gray-600 md:text-2xl">
           {item.sentence}
         </p>
@@ -34,7 +36,10 @@ export function WordsOfTenderness({ list, onChange, activeIndex }) {
       >
         我也来试试{' '}
       </a>
-      留下一些句子，让别人感到温暖吧
+      留下一些句子，让别人感到温暖吧。{' '}
+      <Link href={'/sentences'}>
+        <a className="text-xs underline ">所有留言</a>
+      </Link>
     </div>
-  );
+  )
 }

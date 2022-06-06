@@ -4,12 +4,8 @@ import { memo } from 'react'
 
 export default function Component() {
   return (
-    <Layout
-      title={
-        <div className="text-xl font-light text-blue-500">我的收藏</div>
-      }
-    >
-      <div className="p-2 h-full">
+    <Layout title={'我的收藏'}>
+      <div className="h-full p-2">
         <Collection className={'h-full'}></Collection>
       </div>
     </Layout>

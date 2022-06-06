@@ -35,9 +35,7 @@ function QuerTool({}: Props) {
   }, [dispatch, values])
 
   return (
-    <Layout
-      title={<h2 className="text-xl font-thin text-blue-500">个性化搜索框</h2>}
-    >
+    <Layout title={'个性化搜索框'}>
       <div className="h-full bg-slate-100">
         <div className="flex flex-wrap items-start gap-4 px-8 py-4">
           <div className="w-full bg-white p-4 shadow-lg lg:w-max lg:grow-[2]">

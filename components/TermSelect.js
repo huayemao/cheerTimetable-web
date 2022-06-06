@@ -18,7 +18,7 @@ export default function TermSelect({
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
   const renderOption = useCallback(
     ({ label, key, isActive }) => (
-      <Link href={`/curriculum/${type}/${id}?term=${key}`} shallow>
+      <Link replace href={`/curriculum/${type}/${id}?term=${key}`} shallow>
         <a
           href="#"
           className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal"

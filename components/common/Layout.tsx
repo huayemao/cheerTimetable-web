@@ -1,7 +1,7 @@
 import NavBar from '../NavBar'
 import cn from 'clsx'
 import { SideBar } from '../SideBar'
-import { noop } from 'lodash'
+import { isElement, noop } from 'lodash'
 import 'css-doodle'
 import useMediaQuery from '../../lib/hooks/useMediaQuery'
 import useBodyScrollLock from 'lib/hooks/useBodyScrollLock'
@@ -13,7 +13,7 @@ import MenuProvider, {
   useMenu,
   useMenuDispatch,
 } from '../../contexts/menuContext'
-import { FC, ReactElement, ReactNode } from 'react'
+import { FC, isValidElement, ReactElement, ReactNode } from 'react'
 import Link from 'next/link'
 import { SubjectsLink } from '../Links/SubjectsLink'
 import { HealthLink } from '../Links/HealthLink'
@@ -91,14 +91,14 @@ const Menu: FC = ({ children }) => {
 type props = {
   children: ReactNode | null
   sidebarContent?: ReactElement | null
-  title?: ReactElement | null
+  title?: ReactElement | string | null
   menuItems?: ReactElement | null
 }
 
 export default function Layout({
   sidebarContent,
   children,
-  title: extraNavBarChildren,
+  title,
   menuItems,
 }: props) {
   const router = useRouter()
@@ -115,7 +115,13 @@ export default function Layout({
       <div className="grid min-h-screen lg:grid-cols-5">
         {process.browser && isDeskTop && <SideBar>{sidebarContent}</SideBar>}
         <div className="col-span-4 flex h-full flex-col">
-          <NavBar>{extraNavBarChildren}</NavBar>
+          <NavBar>
+            {isValidElement(title) ? (
+              title
+            ) : (
+              <h2 className="text-xl font-thin text-blue-500">{title}</h2>
+            )}
+          </NavBar>
           <main className="h-full flex-1">
             {router.isFallback || loading ? (
               <div className="flex h-full items-center justify-center">

@@ -29,11 +29,7 @@ function CoursePage({
   const { id } = router.query
 
   return (
-    <Layout
-      title={
-        <div className="text-xl font-light text-blue-500">{subject?.name}</div>
-      }
-    >
+    <Layout title={subject?.name}>
       {!router.isFallback && router.isReady && (
         <>
           <Head>
