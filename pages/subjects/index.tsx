@@ -21,7 +21,7 @@ import useSWR from 'swr'
 import { useSubjects } from 'lib/hooks/useSubjects'
 import { DepartmentSelect } from '../../components/DepartmentSelect'
 import { Pagination } from '../../components/common/Pagination'
-import { SubjectPreview } from 'components/SubjectPreview'
+import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
 import Search from 'components/Search'
 
 const PAGE_SIZE = 20

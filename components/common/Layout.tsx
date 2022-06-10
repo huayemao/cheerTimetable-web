@@ -93,6 +93,7 @@ type props = {
   sidebarContent?: ReactElement | null
   title?: ReactElement | string | null
   menuItems?: ReactElement | null
+  className?: string
 }
 
 export default function Layout({
@@ -100,6 +101,7 @@ export default function Layout({
   children,
   title,
   menuItems,
+  className,
 }: props) {
   const router = useRouter()
 
@@ -112,17 +114,19 @@ export default function Layout({
 
   return (
     <MenuProvider>
-      <div className="grid min-h-screen lg:grid-cols-5">
+      <div className="min-h-screen lg:grid lg:grid-cols-5">
         {process.browser && isDeskTop && <SideBar>{sidebarContent}</SideBar>}
         <div className="col-span-4 flex h-full flex-col">
           <NavBar>
             {isValidElement(title) ? (
               title
             ) : (
-              <h2 className="text-xl font-thin text-blue-500">{title}</h2>
+              <h2 className="text-center text-xl font-thin text-blue-500">
+                {title}
+              </h2>
             )}
           </NavBar>
-          <main className="h-full flex-1">
+          <main className={'h-full flex-1 ' + className}>
             {router.isFallback || loading ? (
               <div className="flex h-full items-center justify-center">
                 <Loading size={50} />

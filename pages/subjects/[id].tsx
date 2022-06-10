@@ -15,6 +15,7 @@ import { OwnerType } from '../../lib/types/Owner'
 import prisma from '../../lib/prisma'
 import { Enrollment, Student, Subject, Course } from '@prisma/client'
 import List from 'components/common/List'
+import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
 
 function CoursePage({
   subject,
@@ -29,7 +30,10 @@ function CoursePage({
   const { id } = router.query
 
   return (
-    <Layout title={subject?.name}>
+    <Layout
+      title={subject?.name}
+      sidebarContent={<SubjectPreview disableLink subject={subject} />}
+    >
       {!router.isFallback && router.isReady && (
         <>
           <Head>

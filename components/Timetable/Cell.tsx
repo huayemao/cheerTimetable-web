@@ -19,11 +19,11 @@ type CellProps = {
   rowSpan: number
 }
 
-type CoursePreviewProps = {
+type LessonPreviewProps = {
   course: CourseItem
 }
 
-export default function CoursePreview({ course }: CoursePreviewProps) {
+export default function LessonPreview({ course }: LessonPreviewProps) {
   const weekStr = getWeekStr(course)
   const { location, teachers } = course
   return (
@@ -95,8 +95,7 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
       <div className={cn(s.cell, 'h-full bg-white')}>
         {hasCourse && (
           <>
-            <CoursePreview course={courses[0]} />
-
+            <LessonPreview course={courses[0]} />
             {showModal && (
               <CourseDetailModal courses={courses} router={router} num={num} />
             )}
