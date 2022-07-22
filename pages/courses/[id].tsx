@@ -65,13 +65,8 @@ function CoursePage({
       menuItems={info}
       sidebarContent={info}
     >
-      {router.isReady && !router.isFallback && course && (
+      {(!router.isFallback || (router.isFallback && router.isReady)) && course && (
         <>
-          <Head>
-            <title>{label}-绮课</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-
           <div className="m-4 lg:mx-0">
             <MappedTable
               data={courseItems.map((e) => ({

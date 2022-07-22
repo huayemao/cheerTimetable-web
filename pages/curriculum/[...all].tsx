@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Content } from '../../components/Content'
 import { getTimetable } from '../../lib/api/getTimetable'
+import { TERMS } from '../../constants'
 
 function TimetablePage(props) {
   const router = useRouter()
@@ -23,11 +24,16 @@ function TimetablePage(props) {
   const { show7DaysOnMobile } = usePreference()
 
   const [type, id] = (router.query.all || []) as string[]
-  const { term = '2021-2022-2' } = router.query
+  const { term = TERMS[0] } = router.query
+
+  const { owner, courses } = props
+  const title = router.isFallback
+    ? '课表'
+    : `${owner.label} ${owner.name}的课表`
 
   return (
     <Layout
-      title={<TimetableTitle owner={props.owner || {}} />}
+      title={title}
       menuItems={
         (process.browser && (
           <>
@@ -59,16 +65,14 @@ function TimetablePage(props) {
       }
       sidebarContent={<>{process.browser && <TermSelect />}</>}
     >
-      {router.isReady && !router.isFallback && (
+      {(!router.isFallback || (router.isFallback && router.isReady)) && (
         <>
-          <Head>
-            <title>{props.owner.name}的课表-绮课</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
           <div className="mb-2 flex flex-col items-center overflow-y-auto">
-            {process.browser && (
+            {process.browser && courses && (
               <Content
-                courses={props.courses.filter((e) => e.term === term)}
+                // https://nextjs.org/docs/basic-features/data-fetching/get-static-paths#how-does-getstaticprops-run-with-regards-to-getstaticpaths
+                // getStaticProps runs in the background when using fallback: true
+                courses={courses.filter((e) => e.term === term)}
                 icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
               />
             )}

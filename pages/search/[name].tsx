@@ -31,19 +31,11 @@ function SearchPage({
     : `${decodeURIComponent(paramName as string)}的搜索结果`
 
   return (
-    <>
-      <Head>
-        <title>{title}-绮课</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Layout
-        title={
-          <h2 className="text-xl font-thin text-blue-500">{title}</h2>
-        }
-      >
-        {router.isReady && !router.isFallback && <SearchResult data={data} />}
-      </Layout>
-    </>
+    <Layout title={title}>
+      {(!router.isFallback || (router.isFallback && router.isReady)) && (
+        <SearchResult data={data} />
+      )}
+    </Layout>
   )
 }
 

@@ -21,6 +21,7 @@ import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { CAN_COLLECT_ROUTES } from '../../constants'
 import { CollectionLink } from 'components/Links/CollectionLink'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 
 const CollectButton = dynamic(() => import('components/CollectButton'), {
   ssr: false,
@@ -114,6 +115,9 @@ export default function Layout({
 
   return (
     <MenuProvider>
+      <Head>
+        <title>{title}-绮课</title>
+      </Head>
       <div className="min-h-screen lg:grid lg:grid-cols-5">
         {process.browser && isDeskTop && <SideBar>{sidebarContent}</SideBar>}
         <div className="col-span-4 flex h-full flex-col">
@@ -121,7 +125,7 @@ export default function Layout({
             {isValidElement(title) ? (
               title
             ) : (
-              <h2 className="text-center text-xl font-thin text-blue-500">
+              <h2 className="break-all text-center text-xl font-thin text-blue-500">
                 {title}
               </h2>
             )}

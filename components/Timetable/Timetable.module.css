@@ -26,9 +26,6 @@
   @apply max-w-full truncate font-light;
 }
 
-.timetable-title {
-  @apply break-all text-center text-xl font-thin text-blue-500;
-}
 
 @media screen and (max-width: 1024px) {
   .timetable-title {
