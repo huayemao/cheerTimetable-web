@@ -95,7 +95,7 @@ function logProgress(id: any, i: number, total: number) {
 }
 
 export async function seedCourses(offset = 0, terms = TERMS) {
-  console.log('seed courses and lessons from subject, offset:', offset)
+  console.log('seed courses and lessons from subject')
   const ids = await getIds2Fetch()
 
   const hasJx02Id = async (subjectId) => {

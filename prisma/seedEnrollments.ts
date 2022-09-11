@@ -3,7 +3,7 @@ import { TERMS } from '../constants'
 import { getLessonsById } from './api/getLessonsByID'
 import { getStudents2Fetch } from './util/getStudents2Fetch'
 
-const GAP = 8
+const GAP = 7
 
 export async function seedEnrollment(offset = 0, gap = GAP) {
   const isUpdating = false

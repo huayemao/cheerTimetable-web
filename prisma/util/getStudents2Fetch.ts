@@ -19,14 +19,13 @@ export async function getStudents2Fetch(terms) {
         gte: new Date(new Date().valueOf() - 24 * 60 * 60 * 1000),
       },
     },
+    distinct: ['studentId'],
   })
   const existedIds = res.map((e) => e.studentId)
 
-  const students2Fetch = (await STUDENTS).filter(
-    (e) =>
-      !(existedIds as string[]).includes(e.xh) &&
-      parseGrade(e.xh) &&
-      (parseGrade(e.xh) as number) >= GRADE_NUM
-  )
+  const students2Fetch = (await STUDENTS).filter((e) => {
+    const grade = parseGrade(e.xh)
+    return grade && (grade as number) >= GRADE_NUM && !existedIds.includes(e.xh)
+  })
   return students2Fetch
 }

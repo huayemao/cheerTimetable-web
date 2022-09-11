@@ -9,6 +9,21 @@ export async function getSubjects(
   },
   publicElectiveOnly: string
 ) {
+  const where = {
+    department: departmentName || undefined,
+    name: {
+      contains: q || undefined,
+    },
+    courses: {
+      some: {},
+    },
+    id:
+      (publicElectiveOnly === 'true' && {
+        contains: '-',
+      }) ||
+      undefined,
+  }
+
   const [list, count, arr] = await prisma.$transaction([
     prisma.subject.findMany({
       take: pageInfo.pageSize,
@@ -16,50 +31,17 @@ export async function getSubjects(
       orderBy: {
         name: 'asc',
       },
-      where: {
-        department: departmentName || undefined,
-        name: {
-          contains: q || undefined,
-        },
-        courses: {
-          some: {},
-        },
-        id:
-          (publicElectiveOnly === 'true' && {
-            contains: '-',
-          }) ||
-          undefined,
-      },
+      where,
     }),
     prisma.subject.count({
-      where: {
-        department: departmentName || undefined,
-        courses: {
-          some: {},
-        },
-        id:
-          (publicElectiveOnly === 'true' && {
-            contains: '-',
-          }) ||
-          undefined,
-      },
+      where,
     }),
     prisma.subject.findMany({
       select: {
         credit: true,
       },
       distinct: 'credit',
-      where: {
-        department: departmentName || undefined,
-        courses: {
-          some: {},
-        },
-        id:
-          (publicElectiveOnly === 'true' && {
-            contains: '-',
-          }) ||
-          undefined,
-      },
+      where,
     }),
   ])
   return [list, count, arr.map((e) => e.credit)]

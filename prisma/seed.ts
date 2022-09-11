@@ -17,7 +17,7 @@ async function run() {
     exception = error
     return error
   } finally {
-    while (exception?.code === 'ETIMEDOUT') {
+    while (['ETIMEDOUT', 'ECONNRESET'].includes(exception?.code)) {
       exception = await run()
     }
   }
