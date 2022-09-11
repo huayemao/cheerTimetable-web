@@ -1,7 +1,7 @@
 import prisma from '../lib/prisma'
 
 export async function clearStorage() {
-  await prisma.seedStatus.deleteMany({})
+  await prisma.update.deleteMany({})
   await prisma.courseMeta.deleteMany({})
   await prisma.studentMeta.deleteMany({})
   await prisma.locationMeta.deleteMany({})

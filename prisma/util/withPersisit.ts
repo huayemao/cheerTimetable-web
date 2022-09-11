@@ -1,66 +1,51 @@
 import prisma from '../../lib/prisma'
-import { SeedStatus } from '@prisma/client'
+import { Update } from '@prisma/client'
 
-export async function getLastRecord(forceUpdate = false) {
-  let lastRecord = await prisma.seedStatus.findFirst({
+export async function getLastUpdateRecord(forceUpdate = false) {
+  let lastRecord = await prisma.update.findFirst({
     orderBy: {
       updatedAt: 'desc',
     },
   })
 
-  if (!lastRecord || forceUpdate) {
-    const res = await prisma.seedStatus.create({
+  const shouldCreateRecord =
+    !lastRecord || lastRecord.status === 1 || forceUpdate
+
+  !lastRecord &&
+    (await prisma.location.create({
       data: {
-        student: 0,
-        teacher: 0,
-        subject: 0,
-        course: 0,
-        lesson: 0,
-        enrollment: 0,
-        tuition: 0,
-        location: 0,
+        id: '00default',
+        name: '无',
       },
+    }))
+
+  if (shouldCreateRecord) {
+    return await prisma.update.create({
+      data: { detail: {} },
     })
-
-    !lastRecord &&
-      (await prisma.location.create({
-        data: {
-          id: '00default',
-          name: '无',
-        },
-      }))
-
-    lastRecord = res
   }
-  return lastRecord
+
+  return lastRecord as Update
 }
 
-export const withPersisit = (fn, tableName, lastRecord: SeedStatus) => {
+export const withPersisit = (fn: () => Promise<any>, tableName: string) => {
   const fieldName = tableName.slice(0, 1).toLowerCase() + tableName.slice(1)
-  const dataAfter = {
-    [fieldName]: 1,
-  }
 
   return async () => {
-    const hasFinished = !!(
-      (await prisma.seedStatus.findUnique({
-        where: {
-          id: lastRecord.id,
-        },
-      })) as SeedStatus
-    )[fieldName]
+    const lastRecord = await getLastUpdateRecord(false)
+    const isFinished = (lastRecord?.detail as Object)[fieldName] === 1
 
-    if (!hasFinished) {
-      console.log('start seeding ' + tableName)
-      await fn()
-      await prisma.seedStatus.update({
-        data: dataAfter,
-        where: { id: lastRecord.id },
-      })
-
-      console.log('finished seeding ' + tableName)
-    } else {
-      console.log('already finished, skip seeding ' + tableName)
+    if (isFinished) {
+      console.log(tableName, ' already finished')
+      return
     }
+    console.log('start seeding ' + tableName)
+    await fn()
+    const detail = Object.assign({}, lastRecord.detail, { [fieldName]: 1 })
+    await prisma.update.update({
+      data: { detail },
+      where: { id: lastRecord.id },
+    })
+    console.log('finished seeding ' + tableName)
   }
 }

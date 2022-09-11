@@ -1,3 +1,2 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default 'JSESSIONID=EF987E4182496DE8EB2C354BCDD078FE; BIGipServerpool_jwctest=2085078474.20480.0000'
-// it's nearly arbitary, just make sure it presents and use it to request logging as 'kbuser'
+export default 'JSESSIONID=7B6A907BB2864688EB83AC85931C8D6A; BIGipServero5E8DA9Hppp9PO46RpPJdw=!viYxGPM1FGW5GH3ZCZ9QxSHa8ugO23kzDhes7LS+Gtz8YO3cegoJl9rXUkxt9nwiZMRfgMnOc4LBOQc;'

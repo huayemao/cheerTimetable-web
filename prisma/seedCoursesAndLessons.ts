@@ -1,21 +1,11 @@
-import { omit } from 'lodash'
-import { Course, Lesson, Prisma, Subject, Tuition } from '@prisma/client'
+import { Course, CourseMeta, Subject, Tuition } from '@prisma/client'
 import { COURSES } from '../_data/metas'
 import prisma from '../lib/prisma'
 import { getCourseStuffs } from './util/getCourseStuffs'
+import { TERMS } from '../constants'
+import { getSubjectMeta } from './util/getFromMeta'
 
-const mapping = {
-  教室编号: 'id',
-  教室类型: 'category',
-  座位数: 'seatCount',
-  有效座位: 'availableSeatCount',
-  考试座位数: 'examSeatCount',
-  所在校区: 'campus',
-  所在教学楼: 'building',
-  教室名称: 'name',
-}
-
-export async function supplementSubjectAndSeedCourses(locations) {
+export async function supplementSubjectAndSeedCourses() {
   const subjects = await prisma.subject.findMany({
     select: {
       id: true,
@@ -24,11 +14,33 @@ export async function supplementSubjectAndSeedCourses(locations) {
 
   const existedIds = subjects.map((e) => e.id)
 
-  // 从 COURSEMETA 中筛选出需要增补的 subjectIds
   const courseMetas = (await COURSES).filter(
     (e) => !existedIds.includes(e.kch.trim())
   )
-  await seedSubjectByCourseMeta(courseMetas, locations)
+
+  const toSupplement: CourseMeta[] = []
+
+  for (const c of courseMetas) {
+    const id = existedIds.find((el) => el.trim().includes(c.kch.trim()))
+    if (id) {
+      const record = (await prisma.subject.findFirst({
+        where: {
+          id,
+        },
+      })) as Subject
+      // 匹配到的修改 在 subject 表中增加记录
+      await prisma.subject.create({
+        data: {
+          ...record,
+          id: c.kch.trim(),
+        },
+      })
+    } else {
+      toSupplement.push(c)
+    }
+  }
+
+  await seedSubjectByCourseMeta(toSupplement)
 }
 
 async function upsertSubject(data, subjectId: string) {
@@ -41,37 +53,25 @@ async function upsertSubject(data, subjectId: string) {
   })
 }
 
-// todo：想办法去掉 locations 这个参数
-export async function seedSubjectByCourseMeta(courseMetas, locations) {
-  // 测试级联删除是否起作用
-  // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#delete-1
-
-  // select * from Course where subjectId = '010126Z1'; => 201620171004240
-  //  select * from Lesson where courseId = '201620171004240';
-
-  // await prisma.subject.update({
-  //   where: {
-  //     id: '010126Z1',
-  //   },
-  //   data: {
-  //     courses: {
-  //       deleteMany: {},
-  //     },
-  //   },
-  // })
-
-  console.log('增补 Subject')
+export async function seedSubjectByCourseMeta(courseMetas) {
+  console.log('start supplementing Subject')
   for (let i = 0; i < courseMetas.length; i++) {
     const element = courseMetas[i]
     const subjectId = element.kch.trim()
 
     // todo：这里需要增加学期列表参数
     const { lessons, courses, subject, tuitions } =
-      (await getCourseStuffs(subjectId, true, locations)) || {}
+      (await getCourseStuffs(subjectId, true)) || {}
 
     if (courses?.length && lessons?.length && tuitions?.length) {
       await upsertSubject(subject, subjectId)
-      await insertSubjectDetail(courses, lessons, tuitions)
+      await updateSubjectDetail(
+        subjectId,
+        undefined,
+        courses,
+        lessons,
+        tuitions
+      )
       logProgress(subjectId, i, courseMetas.length)
     } else {
       const data = {
@@ -94,102 +94,127 @@ function logProgress(id: any, i: number, total: number) {
   console.log('completed ', id, ' ', i + 1, ' of total', total)
 }
 
-export async function seedCourses(offset = 0, locations) {
-  console.log('由全部课程导入开课信息')
-  const subjects = await prisma.subject.findMany({
-    select: {
-      id: true,
-    },
-    where: {
-      tooOld: false,
-    },
-  })
-  const hasDataIds = (
-    await prisma.course.findMany({
-      select: {
-        subjectId: true,
-      },
-      distinct: ['subjectId'],
-    })
-  ).map((e) => e.subjectId)
+export async function seedCourses(offset = 0, terms = TERMS) {
+  console.log('seed courses and lessons from subject, offset:', offset)
+  const ids = await getIds2Fetch()
 
-  // 筛选出所有没有开课信息的 Subjects todo: 改为 SQL?
-  const ids = subjects.map((e) => e.id).filter((i) => !hasDataIds.includes(i))
+  const hasJx02Id = async (subjectId) => {
+    const { jx02id, kcmc: name } = (await getSubjectMeta(subjectId)) || {}
+    return jx02id
+  }
+
+  for (const id of ids) {
+    if (!(await hasJx02Id(id))) {
+      console.log(id, 'no jx02id')
+      terms.length === TERMS.length &&
+        (await prisma.subject.update({
+          data: {
+            tooOld: true,
+          },
+          where: {
+            id: id,
+          },
+        }))
+    }
+  }
 
   for (let i = offset; i < ids.length; i++) {
     const id = ids[i]
 
     const { lessons, courses, tuitions } =
-      (await getCourseStuffs(id, false, locations)) || {}
+      (await getCourseStuffs(id, false, terms)) || {}
 
     if (courses?.length && lessons?.length && tuitions?.length) {
-      await insertSubjectDetail(courses, lessons, tuitions)
-
-      // 是否需要改为嵌套添加，才能使完整性约束生效？
-
-      // https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#nested-writes
-      // Support any level of nesting supported by the data model.
-      // https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#add-new-related-records-to-an-existing-record
-      // cannot access relations in a createMany query
-      // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#set
-
-      // await prisma.subject.update({
-      //   where: {},
-      //   data: {
-      //     courses: {
-      //       // 别忘了 filter
-      //       create: courses.map(
-      //         (c): Prisma.CourseCreateWithoutSubjectInput => ({
-      //           ...c,
-      //           lessons: {
-      //             create: lessons.map(
-      //               (l): Prisma.LessonCreateWithoutCourseInput => ({
-      //                 ...l,
-      //                 tuition: {
-      //                   create: {},
-      //                 },
-      //               })
-      //             ),
-      //           },
-      //         })
-      //       ),
-      //     },
-      //   },
-      //   // include 何时用
-      // })
-
+      await updateSubjectDetail(id, terms, courses, lessons, tuitions)
       logProgress(id, i, ids.length)
     } else {
-      await prisma.subject.update({
-        data: {
-          tooOld: true,
-        },
-        where: {
-          id: id,
-        },
-      })
+      terms.length === TERMS.length &&
+        (await prisma.subject.update({
+          data: {
+            tooOld: true,
+          },
+          where: {
+            id: id,
+          },
+        }))
       console.log('no data , skipped', i + 1, ' of ', ids.length)
     }
   }
 }
 
-async function insertSubjectDetail(
+async function getIds2Fetch() {
+  const allSubjectIds = (
+    await prisma.subject.findMany({
+      where: {
+        tooOld: false,
+      },
+      select: {
+        id: true,
+      },
+    })
+  ).map((e) => e.id)
+  const skippedIds = (
+    await prisma.course.findMany({
+      select: {
+        subjectId: true,
+      },
+      where: {
+        createdAt: {
+          gte: new Date(new Date().valueOf() - 24 * 60 * 60 * 1000),
+        },
+      },
+    })
+  ).map((e) => e.subjectId)
+
+  const id = allSubjectIds.length > skippedIds.length * 2
+    ? { notIn: skippedIds }
+    : { in: allSubjectIds.filter((e) => !skippedIds.includes(e)) }
+
+  const ids = (
+    await prisma.subject.findMany({
+      select: { id: true },
+      where: {
+        id,
+        tooOld: {
+          not: true,
+        },
+      },
+    })
+  ).map((e) => e.id)
+  return ids
+}
+
+// 删除对应学期开课信息，重新添加
+// todo: 其实 id 和 terms 这几个参数应该是不用要？还是要要，万一某个学期删除了开课，那么要删除这个学期的
+async function updateSubjectDetail(
+  id: string,
+  terms: string[] | undefined,
   courses: Course[],
   lessons: any[],
   tuitions: Tuition[]
 ) {
-  await prisma.$transaction([
-    prisma.course.createMany({
-      data: courses as Course[],
-      skipDuplicates: true,
-    }),
-    prisma.lesson.createMany({
-      data: lessons,
-      skipDuplicates: true,
-    }),
-    prisma.tuition.createMany({
-      data: tuitions,
-      skipDuplicates: true,
-    }),
-  ])
+  terms &&
+    (await prisma.$transaction([
+      prisma.course.deleteMany({
+        where: {
+          term: {
+            in: terms,
+          },
+          subjectId: id,
+        },
+      }),
+      prisma.course.createMany({
+        data: courses as Course[],
+        skipDuplicates: true,
+      }),
+
+      prisma.lesson.createMany({
+        data: lessons,
+        skipDuplicates: true,
+      }),
+      prisma.tuition.createMany({
+        data: tuitions,
+        skipDuplicates: true,
+      }),
+    ]))
 }

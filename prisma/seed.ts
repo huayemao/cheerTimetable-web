@@ -1,4 +1,3 @@
-import { clearStorage } from './clear'
 import { seedEntities } from './seedEntities'
 import { seedRelations } from './seedRelations'
 import {
@@ -6,15 +5,21 @@ import {
   checkInvalidCourseIdsFromEnrollment,
 } from './checkIntegrity'
 
-import { getLastRecord } from './util/withPersisit'
-
 async function run() {
-  let lastRecord = await getLastRecord(false)
-  // await clearStorage()
-  await seedEntities(lastRecord)
-  await seedRelations(lastRecord)
-  await checkInvalidCourseIdsFromEnrollment()
-  await checkInvalidCourseIdsFromLesson()
+  let exception: any
+  try {
+    await seedEntities()
+    await seedRelations()
+    await checkInvalidCourseIdsFromEnrollment()
+    await checkInvalidCourseIdsFromLesson()
+  } catch (error) {
+    console.error(error)
+    exception = error
+    return error
+  } finally {
+    while (exception?.code === 'ETIMEDOUT') {
+      exception = await run()
+    }
+  }
 }
-
 run()

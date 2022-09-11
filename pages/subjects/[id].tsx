@@ -75,7 +75,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      subject,
+      subject: JSON.parse(JSON.stringify(subject)),
     },
     revalidate: 60 * 60 * 48,
   }

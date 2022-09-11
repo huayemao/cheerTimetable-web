@@ -141,7 +141,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      course,
+      course: JSON.parse(JSON.stringify(course)),
     },
     revalidate: 60 * 60 * 48,
   }

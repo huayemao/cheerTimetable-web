@@ -27,7 +27,7 @@ const fieldExtractorMapping = {
 const myHeaders = HEADERS
 
 export async function getStudents(pageNum, pageSize = '10') {
-  const url = `http://csujwc.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
+  const url = `http://jwctest.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
 
   const data = qs.stringify({
     searchName: 'xm',

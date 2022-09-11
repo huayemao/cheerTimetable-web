@@ -79,7 +79,7 @@ export async function getLessonsById(type, id, term = '') {
     },
   }
 
-  const url = `http://csujwc.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_list.jsp?kbtype=xs0101&isview=0`
+  const url = `http://jwctest.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_list.jsp?kbtype=xs0101&isview=0`
 
   const requestOptions = {
     method: 'POST',

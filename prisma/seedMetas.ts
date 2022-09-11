@@ -9,7 +9,7 @@ import { TERMS } from '../constants'
 import { chunk } from 'lodash'
 import { withPersisit } from './util/withPersisit'
 
-export const seedMetas = async (lastRecord) => {
+export const seedMetas = async () => {
   const seedStudentMeta = seedAllTerms(getStudentMeta, 'StudentMeta')
   const seedLocationMeta = seedAllTerms(getLocationMeta, 'LocationMeta')
   const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta')
@@ -21,23 +21,23 @@ export const seedMetas = async (lastRecord) => {
   await seedTeacherMeta()
 
   function seedAllTerms(fn, tableName) {
+    const isUpdating = false
+    const terms = isUpdating ? TERMS.slice(0, 1) : TERMS
     const seedFn = async () => {
-      for (let i = 0; i < TERMS.length; i++) {
+      for (let i = 0; i < terms.length; i++) {
         try {
-          const data = await fn(TERMS[i])
+          const data = await fn(terms[i])
           const chuncked = chunk(data, 5000)
+          let count = 0
 
           for (const e of chuncked) {
             const res = await prisma[tableName].createMany({
               data: e,
               skipDuplicates: true,
             })
-            if (res.count > 0) {
-              console.log('inserted ', res.count, ' rows')
-            } else {
-              console.log('---')
-            }
+            count += res.count
           }
+          console.log('term ', terms[i], 'inserted ', count, ' rows')
         } catch (error) {
           console.log(tableName + ' seed error')
           throw error
@@ -45,6 +45,6 @@ export const seedMetas = async (lastRecord) => {
       }
     }
 
-    return withPersisit(seedFn, tableName, lastRecord)
+    return withPersisit(seedFn, tableName)
   }
 }

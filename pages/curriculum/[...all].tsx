@@ -91,7 +91,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      courses,
+      courses: JSON.parse(JSON.stringify(courses)),
       owner,
     },
     revalidate: 60 * 60 * 48,

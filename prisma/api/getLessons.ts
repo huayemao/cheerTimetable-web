@@ -42,7 +42,7 @@ export async function getLessons({
   slotStart,
   jsid,
 }: params): Promise<LessonRes1[]> {
-  const url = 'http://csujwc.its.csu.edu.cn/tkglAction.do?method=qxzkb'
+  const url = 'http://jwctest.its.csu.edu.cn/tkglAction.do?method=qxzkb'
 
   const data = qs.stringify({
     jx02id: jx02id,

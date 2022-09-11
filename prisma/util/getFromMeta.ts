@@ -1,7 +1,17 @@
+import prisma from '../../lib/prisma'
 import { LOCATIONS, TEACHERS, COURSES } from '../../_data/metas'
 
 export const getLocationName = async (id) =>
   (await LOCATIONS).find((t) => t.jsid === id)?.jsmc || 'unknown'
+
+export const locationNameAndIds = (async () => {
+  return await prisma.location.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  })
+})()
 
 export const getTeacherIdbyjg0101id = async (id) =>
   (await TEACHERS)

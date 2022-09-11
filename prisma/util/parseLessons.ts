@@ -1,6 +1,12 @@
-import { Lesson } from '@prisma/client'
+import prisma from '../../lib/prisma'
 import { LessonRes } from '../api/getLessonsByID'
-import { getLocationName, getTeacherIdbyjg0101id } from './getFromMeta'
+import {
+  getLocationName,
+  getTeacherIdbyjg0101id,
+  locationNameAndIds,
+} from './getFromMeta'
+
+export type LessonData = Parameters<typeof prisma.lesson.create>[0]['data']
 
 const weekIntervalMapping = {
   全部: 0,
@@ -9,14 +15,16 @@ const weekIntervalMapping = {
 }
 
 export async function parseLesson(
-  v: LessonRes,
-  locations
-): Promise<Lesson & { teacherIds: string[] }> {
+  v: LessonRes
+): Promise<LessonData & { teacherIds: string[] }> {
   const { 上课地点, 开课编号, 单双周, 开课时间, 上课周次, 授课教师 } = v
   const locationId = 上课地点?.split(',')?.[0]?.trim() || undefined
   const locationName = await getLocationName(locationId)
 
-  const trueLocationId = locations.find(
+  await prisma.locationMeta.findFirst({
+    where: {},
+  })
+  const trueLocationId = (await locationNameAndIds).find(
     (e) => e?.name?.trim() === locationName.trim()
   )?.id
 

@@ -10,7 +10,8 @@
     "db:reset": "prisma migrate reset --schema=./prisma/schema.prisma --skip-seed",
     "db:push": "prisma db push --schema=./prisma/schema.prisma",
     "db:seed": "npx prisma db seed",
-    "db:studio": "prisma studio --schema=./prisma/schema.prisma"
+    "db:studio": "prisma studio --schema=./prisma/schema.prisma",
+    "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
@@ -41,6 +42,7 @@
     "autoprefixer": "^10.4.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.0.10",
+    "eslint-config-prettier": "^8.5.0",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.1",

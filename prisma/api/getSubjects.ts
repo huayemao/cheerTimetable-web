@@ -15,7 +15,6 @@ const mapping = {
   开课单位: 'department',
   年级: 'grade',
   班级: 'className',
-  学号: 'id',
 }
 
 const extractorMapping = {
@@ -41,7 +40,7 @@ const parseSubject = (obj): Subject => {
 
 export async function getSubjects(pageNum, pageSize = '10', version) {
   const url =
-    'http://csujwc.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where='
+    'http://jwctest.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&where='
 
   const data = qs.stringify({
     searchName: 'kch',

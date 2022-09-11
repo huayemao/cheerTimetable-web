@@ -4,10 +4,11 @@ import { compact, groupBy, map, omit } from 'lodash'
 import { getLessons, LessonRes1 } from '../api/getLessons'
 import { getLessonsById, LessonRes } from '../api/getLessonsByID'
 import { getSubjectCategory } from '../api/getSubjectCategory'
-import { mapByTerm } from './mapByTerm'
+import { mapByTerms } from './mapByTerm'
 import { getSubjectMeta } from './getFromMeta'
-import { parseLesson } from './parseLessons'
+import { LessonData, parseLesson } from './parseLessons'
 import { parseSubject } from './parseSubject'
+import { TERMS } from 'constants'
 
 export const getInt = (str: string | undefined) => parseInt(str?.trim() || '0')
 
@@ -22,15 +23,11 @@ function getClassName(value: string): string {
 export async function getCourseStuffs(
   subjectId,
   needSubjectCat = false,
-  locations
-): Promise<{
-  courses: Course[]
-  lessons: any[]
-  subject: Subject
-  tuitions: Tuition[]
-} | null> {
+  terms = TERMS
+) {
   const { jx02id, kcmc: name } = (await getSubjectMeta(subjectId)) || {}
   if (!jx02id) {
+    // 要不要这个统一提到前面处理
     console.log('没有 jx02id, ', subjectId)
     return null
   }
@@ -41,10 +38,10 @@ export async function getCourseStuffs(
       string[]
     ]
   >([
-    mapByTerm((term) => getLessonsById('course', jx02id, term)),
-    mapByTerm((term) => getLessons({ term, jx02id })), // 全校总课表
+    mapByTerms((term) => getLessonsById('course', jx02id, term), terms),
+    mapByTerms((term) => getLessons({ term, jx02id }), terms), // 全校总课表
     needSubjectCat
-      ? mapByTerm((term) => getSubjectCategory(jx02id, term))
+      ? mapByTerms((term) => getSubjectCategory(jx02id, term))
       : undefined,
   ])
 
@@ -67,7 +64,7 @@ export async function getCourseStuffs(
   )
 
   const lessons = await Promise.all(
-    map(compact(items), async (v) => await parseLesson(v, locations))
+    map(compact(items), async (v) => await parseLesson(v))
   )
 
   const tuitions = lessons.flatMap((l) =>

@@ -6,27 +6,20 @@ import { seedUtilNoData } from './util/seedUtilNoData'
 import prisma from '../lib/prisma'
 import { login4query } from './api/login4query'
 import { seedMetas } from './seedMetas'
-import { getLastRecord, withPersisit } from './util/withPersisit'
+import { withPersisit } from './util/withPersisit'
 
-export async function seedEntities(lastRecord) {
+export async function seedEntities() {
   await login4query()
 
-  await seedMetas(lastRecord)
+  await seedMetas()
+
+  await withPersisit(seedUtilNoData(getTeachers, prisma.teacher), 'Teacher')()
 
   await withPersisit(
-    () => seedUtilNoData(getTeachers, prisma.teacher),
-    'Teacher',
-    lastRecord
+    seedUtilNoData(getLocations, prisma.location),
+    'location'
   )()
 
-  await withPersisit(
-    () => {
-      seedUtilNoData(getLocations, prisma.location)
-    },
-    'location',
-    lastRecord
-  )()
-
-  await withPersisit(seedStudents, 'Student', lastRecord)()
-  await withPersisit(seedSubjects, 'Subject', lastRecord)()
+  await withPersisit(seedStudents, 'Student')()
+  await withPersisit(seedSubjects, 'Subject')()
 }

@@ -11,6 +11,6 @@ export async function seedSubjects() {
     await seedUtilNoData(async (...args) => {
       const [pageNum, pageSize] = args
       return await getSubjects(pageNum, pageSize, version)
-    }, prisma.subject)
+    }, prisma.subject)()
   }
 }

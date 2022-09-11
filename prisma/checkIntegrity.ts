@@ -10,11 +10,11 @@ export async function checkInvalidCourseIdsFromLesson() {
 
 export async function checkInvalidCourseIdsFromEnrollment() {
   try {
-    const enrollments = await prisma.$queryRawUnsafe<Enrollment[]>(
+    const courseIds = await prisma.$queryRawUnsafe<Enrollment[]>(
       `SELECT distinct courseId from Enrollment where courseId not In ( Select distinct(id) from Course);`
     )
 
-    console.log('不合法的开课：', enrollments)
+    console.log('不合法的开课：', courseIds)
   } catch (error) {
     console.log(error)
   }

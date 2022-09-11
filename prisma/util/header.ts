@@ -1,4 +1,4 @@
-import { COOKIE } from "../../constants";
+import { COOKIE } from '../../constants'
 
 export const HEADERS = {
   accept:
@@ -7,8 +7,10 @@ export const HEADERS = {
   'cache-control': 'max-age=0',
   'content-type': 'application/x-www-form-urlencoded',
   'upgrade-insecure-requests': '1',
-  cookie: COOKIE,
+  Connection: 'keep-alive',
+  Cookie: COOKIE,
+  Host: 'jwctest.its.csu.edu.cn',
   Referer:
-    'http://csujwc.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where=',
+    'http://jwctest.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where=',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
 }

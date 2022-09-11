@@ -22,8 +22,7 @@ const parseTeacher = (obj): Teacher => {
 }
 
 export async function getTeachers(pageNum, pageSize = '1000') {
-  const url = `http://csujwc.its.csu.edu.cn/common/jg0101_select.jsp?id=jg0101id&type=1&where=`
-
+  const url = `http://jwctest.its.csu.edu.cn/common/jg0101_select.jsp?id=jg0101id&type=1&where=`
   const data = qs.stringify({
     searchName: 'XM',
     searchJsfh: 'like',

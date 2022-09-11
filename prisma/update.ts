@@ -3,7 +3,6 @@ import { seedEntities } from './seedEntities'
 import { seedRelations } from './seedRelations'
 
 import readline from 'readline'
-import { getLastRecord } from './util/withPersisit'
 
 import {
   checkInvalidCourseIdsFromLesson,
@@ -22,9 +21,8 @@ import {
 // })
 
 async function run() {
-  let lastRecord = await getLastRecord(false)
-  await seedEntities(lastRecord)
-  await seedRelations(lastRecord)
+  await seedEntities()
+  await seedRelations()
   await checkInvalidCourseIdsFromEnrollment()
   await checkInvalidCourseIdsFromLesson()
 }

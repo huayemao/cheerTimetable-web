@@ -33,18 +33,11 @@ const fieldExtractorMapping = {
   序号: (e) => parseInt(e.textContent.trim(), 10),
 }
 
-export async function getLocationNameAndIds() {
-  return await prisma.location.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-  })
-}
+
 
 export async function getLocations(pageNum, pageSize = '10') {
   const url =
-    'http://csujwc.its.csu.edu.cn/common/jx0601_select.jsp?id=&name=&type=0&where='
+    'http://jwctest.its.csu.edu.cn/common/jx0601_select.jsp?id=&name=&type=0&where='
 
   const data = qs.stringify({
     searchName: '',

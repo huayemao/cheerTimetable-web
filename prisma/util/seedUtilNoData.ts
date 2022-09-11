@@ -1,6 +1,13 @@
-export async function seedUtilNoData(getList, model) {
-  async function saveOnePage(pageNum) {
-    return await getList(pageNum, '1000').then(async (list) => {
+export function seedUtilNoData(getList, model) {
+  return async () => {
+    let pageNum = 1
+    let { hasMore } = await saveOnePage(pageNum)
+    while (hasMore) {
+      hasMore = (await saveOnePage(++pageNum)).hasMore
+    }
+
+    async function saveOnePage(pageNum) {
+      const list = await getList(pageNum, '1000')
       const payload = await model.createMany({
         data: list,
         skipDuplicates: true,
@@ -10,14 +17,8 @@ export async function seedUtilNoData(getList, model) {
 
       return {
         payload,
-        finished: list.length === 0,
+        hasMore: list.length,
       }
-    })
-  }
-
-  let pageNum = 1
-  let { finished } = await saveOnePage(pageNum)
-  while (!finished) {
-    finished = await (await saveOnePage(++pageNum)).finished
+    }
   }
 }

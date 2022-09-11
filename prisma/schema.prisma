@@ -9,43 +9,42 @@ datasource db {
     referentialIntegrity = "foreignKeys"
 }
 
-model SeedStatus {
-    id           Int      @id @default(autoincrement())
-    updatedAt    DateTime @updatedAt
-    student      Int      @default(0)
-    teacher      Int      @default(0)
-    subject      Int      @default(0)
-    course       Int      @default(0)
-    lesson       Int      @default(0)
-    enrollment   Int      @default(0)
-    tuition      Int      @default(0)
-    location     Int      @default(0)
-    studentMeta  Int      @default(0)
-    locationMeta Int      @default(0)
-    teacherMeta  Int      @default(0)
-    courseMeta   Int      @default(0)
+model Update {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
+    detail    Json     @default("{}")
+    status    Int      @default(0)
 }
 
 model StudentMeta {
-    xs0101id String @id
-    xm       String
-    xh       String
+    xs0101id  String   @id
+    xm        String
+    xh        String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 }
 
 model TeacherMeta {
-    jg0101id String @id
-    jgxm     String
+    jg0101id  String   @id
+    jgxm      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 }
 
 model LocationMeta {
-    jsid String @id
-    jsmc String
+    jsid      String   @id
+    jsmc      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 }
 
 model CourseMeta {
-    jx02id String @id
-    kcmc   String
-    kch    String
+    jx02id    String   @id
+    kcmc      String
+    kch       String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 }
 
 model Teacher {
@@ -55,6 +54,8 @@ model Teacher {
     facultyName   String
     eduBackground String
     tuitions      Tuition[]
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @default(now()) @updatedAt()
 }
 
 model Student {
@@ -67,6 +68,8 @@ model Student {
     className      String
     sex            String
     enrollments    Enrollment[]
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @default(now()) @updatedAt()
 }
 
 model Subject {
@@ -79,6 +82,8 @@ model Subject {
     tuitionHourDetail String
     courses           Course[]
     tooOld            Boolean  @default(false)
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @default(now()) @updatedAt()
 }
 
 model Course {
@@ -91,6 +96,8 @@ model Course {
     electCount  Int
     mergeCount  Int
     enrollments Enrollment[]
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @default(now()) @updatedAt()
 }
 
 model Lesson {
@@ -103,24 +110,30 @@ model Lesson {
     weeks      String
     weekFreq   Int
     tuition    Tuition[]
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @default(now()) @updatedAt()
 
     @@unique([courseId, timeSlot, weeks])
 }
 
 model Enrollment {
-    student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
     studentId String
-    course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+    course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
     courseId  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 
     @@id([studentId, courseId])
 }
 
 model Tuition {
-    teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+    teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
     teacherId String
-    lesson    Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+    lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
     lessonId  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 
     @@id([teacherId, lessonId])
 }
@@ -135,4 +148,6 @@ model Location {
     campus             String   @default("unknown")
     building           String   @default("unknown")
     lessons            Lesson[]
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @default(now()) @updatedAt()
 }
