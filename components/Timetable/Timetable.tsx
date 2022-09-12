@@ -28,6 +28,8 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
     [colCount, courses, show7days]
   )
 
+  const rowSpanCount = cells.reduce((acc, item) => acc + item.rowSpan - 1, 0)
+
   return (
     <div className="lg:mx-5">
       <div
@@ -36,8 +38,8 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
         })}
         style={{ gridAutoRows: '1fr' }}
       >
-        {cells.map(({ courses, rowSpan }, i, arr) =>
-          arr[i - colCount]?.rowSpan === 2 && !courses.length ? null : (
+        {cells.slice(0, -rowSpanCount).map(({ courses, rowSpan }, i, arr) => (
+          <>
             <Cell
               showModal={parseInt(modal, 10) === i}
               key={i}
@@ -45,8 +47,8 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
               courses={courses}
               rowSpan={rowSpan}
             />
-          )
-        )}
+          </>
+        ))}
       </div>
     </div>
   )
