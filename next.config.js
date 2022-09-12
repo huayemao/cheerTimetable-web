@@ -11,4 +11,11 @@ module.exports = withPWA({
   images: {
     domains: ['gw.alipayobjects.com'],
   },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
 })
