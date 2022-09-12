@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
-import { map, pick } from 'lodash'
 import cn from 'clsx'
 import { Cell } from './Cell'
 import s from './Timetable.module.css'
@@ -28,7 +27,6 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
     [colCount, courses, show7days]
   )
 
-  const rowSpanCount = cells.reduce((acc, item) => acc + item.rowSpan - 1, 0)
 
   return (
     <div className="lg:mx-5">
@@ -38,7 +36,7 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
         })}
         style={{ gridAutoRows: '1fr' }}
       >
-        {cells.slice(0, -rowSpanCount).map(({ courses, rowSpan }, i, arr) => (
+        {cells.map(({ courses, rowSpan }, i, arr) => (
           <>
             <Cell
               showModal={parseInt(modal, 10) === i}

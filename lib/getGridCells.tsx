@@ -21,7 +21,7 @@ export default function getGridCells(
   courses: CourseItem[],
   colCount: number
 ) {
-  const emptyCells = Array.from(
+  const emptyCells: any[] = Array.from(
     { length: show7days ? 42 : 30 },
     (e, i) => i + 1
   )
@@ -40,14 +40,24 @@ export default function getGridCells(
 
     return filteredCourses
   }
-  return emptyCells.map((num, i) => {
+
+  emptyCells.forEach((num, i, arr) => {
     const row = Math.ceil(num / colCount)
     const modResult = num % colCount
     const col = modResult === 0 && num >= colCount ? colCount : modResult
     const courses = getCourses(row, col)
-    return {
-      courses,
-      rowSpan: getRowSpan(courses),
+    const rowSpan = getRowSpan(courses)
+
+    for (let n = 1; n <= getRowSpan(courses) - 1; n++) {
+      arr[i + colCount * n] = {
+        deleted: true,
+      }
     }
+    if (!arr[i].deleted)
+      arr[i] = {
+        courses,
+        rowSpan,
+      }
   })
+  return emptyCells.filter((e) => !e.deleted)
 }
