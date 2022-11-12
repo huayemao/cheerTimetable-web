@@ -23,6 +23,7 @@ import { DepartmentSelect } from '../../components/DepartmentSelect'
 import { Pagination } from '../../components/common/Pagination'
 import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
 import Search from 'components/Search'
+import Empty from 'components/Empty'
 
 const PAGE_SIZE = 20
 
@@ -94,7 +95,6 @@ const Filters = ({ credits = [], departments }) => (
 )
 
 function Subjects({ name, departments }: { name: any; departments: any[] }) {
-
   const router = useRouter()
 
   const { type, pageNum, departmentName, q, publicElectiveOnly } = router.query
@@ -160,7 +160,7 @@ function Subjects({ name, departments }: { name: any; departments: any[] }) {
           {list.length ? (
             <Pagination pageCount={Math.ceil(totalCount / PAGE_SIZE)} />
           ) : (
-            '好像什么也没有呀'
+            <Empty />
           )}
         </>
       )}

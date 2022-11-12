@@ -5,6 +5,7 @@ import { Location, Student, Teacher } from '@prisma/client'
 import Container from 'components/Container'
 import { OwnerType } from 'lib/types/Owner'
 import List from './common/List'
+import Empty from './Empty'
 
 export function SearchResult({
   data,
@@ -56,41 +57,47 @@ export function SearchResult({
     return mapping[type as string]
   }, [locations, students, teachers, type])
 
+  const hasResult = lists.some((e) => e.data.length)
+
   return (
     <Container className="space-y-10">
-      {lists.some((e) => e.data.length)
-        ? lists.map((list) => {
-            return (
-              (list.data.length && (
-                <div
-                  key={list.id}
-                  className="mx-10 rounded border-t-2 border-t-blue-300 p-4 shadow-md"
-                  id={list.id}
-                >
-                  <div className="text-gray-600"> {list.label}</div>
-                  <List
-                    data={list.data}
-                    renderListItem={(e, i) => {
-                      return (
-                        <Link href={`/curriculum/${list.type}/${e.id}`}>
-                          <a>
-                            <span className="font-medium text-blue-400">
-                              #{i + 1}
-                            </span>
-                            &emsp;
-                            <span className="text-lg">{e.name}</span>&emsp;
-                            {e[list.key]}
-                          </a>
-                        </Link>
-                      )
-                    }}
-                  />
-                </div>
-              )) ||
-              null
-            )
-          })
-        : '好像什么也没有呀'}
+      {hasResult ? (
+        lists.map((list) => {
+          return (
+            (list.data.length && (
+              <div
+                key={list.id}
+                className="mx-10 rounded border-t-2 border-t-blue-300 p-4 shadow-md"
+                id={list.id}
+              >
+                <div className="text-gray-600"> {list.label}</div>
+                <List
+                  data={list.data}
+                  renderListItem={(e, i) => {
+                    return (
+                      <Link href={`/curriculum/${list.type}/${e.id}`}>
+                        <a>
+                          <span className="font-medium text-blue-400">
+                            #{i + 1}
+                          </span>
+                          &emsp;
+                          <span className="text-lg">{e.name}</span>&emsp;
+                          {e[list.key]}
+                        </a>
+                      </Link>
+                    )
+                  }}
+                />
+              </div>
+            )) ||
+            null
+          )
+        })
+      ) : (
+        <div className='w-full flex justify-center'>
+          <Empty />
+        </div>
+      )}
     </Container>
   )
 }
