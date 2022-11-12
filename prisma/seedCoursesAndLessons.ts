@@ -18,29 +18,8 @@ export async function supplementSubjectAndSeedCourses() {
     (e) => !existedIds.includes(e.kch.trim())
   )
 
-  const toSupplement: CourseMeta[] = []
 
-  for (const c of courseMetas) {
-    const id = existedIds.find((el) => el.trim().includes(c.kch.trim()))
-    if (id) {
-      const record = (await prisma.subject.findFirst({
-        where: {
-          id,
-        },
-      })) as Subject
-      // 匹配到的修改 在 subject 表中增加记录
-      await prisma.subject.create({
-        data: {
-          ...record,
-          id: c.kch.trim(),
-        },
-      })
-    } else {
-      toSupplement.push(c)
-    }
-  }
-
-  await seedSubjectByCourseMeta(toSupplement)
+  await seedSubjectByCourseMeta(courseMetas)
 }
 
 async function upsertSubject(data, subjectId: string) {
@@ -94,9 +73,13 @@ function logProgress(id: any, i: number, total: number) {
   console.log('completed ', id, ' ', i + 1, ' of total', total)
 }
 
-export async function seedCourses(offset = 0, terms = TERMS) {
+export async function seedCourses(offset = 0) {
+  const count = await prisma.update.count({})
+  const isUpdating = count > 1
+  const terms = isUpdating ? TERMS.slice(0, 1) : TERMS
+
   console.log('seed courses and lessons from subject')
-  const ids = await getIds2Fetch()
+  const ids = await getIds2Fetch(terms)
 
   const hasJx02Id = async (subjectId) => {
     const { jx02id, kcmc: name } = (await getSubjectMeta(subjectId)) || {}
@@ -106,15 +89,7 @@ export async function seedCourses(offset = 0, terms = TERMS) {
   for (const id of ids) {
     if (!(await hasJx02Id(id))) {
       console.log(id, 'no jx02id')
-      terms.length === TERMS.length &&
-        (await prisma.subject.update({
-          data: {
-            tooOld: true,
-          },
-          where: {
-            id: id,
-          },
-        }))
+      await makeFlag(id)
     }
   }
 
@@ -128,25 +103,42 @@ export async function seedCourses(offset = 0, terms = TERMS) {
       await updateSubjectDetail(id, terms, courses, lessons, tuitions)
       logProgress(id, i, ids.length)
     } else {
-      terms.length === TERMS.length &&
-        (await prisma.subject.update({
-          data: {
-            tooOld: true,
-          },
-          where: {
-            id: id,
-          },
-        }))
-      console.log('no data , skipped', i + 1, ' of ', ids.length)
+      makeFlag(id)
+      console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
+    }
+  }
+
+  async function makeFlag(id: string) {
+    if (terms.length === TERMS.length) {
+      await prisma.subject.update({
+        data: {
+          tooOld: true,
+        },
+        where: {
+          id: id,
+        },
+      })
+    } else {
+      await prisma.subject.update({
+        data: {
+          unopenTerms: terms,
+        },
+        where: {
+          id: id,
+        },
+      })
     }
   }
 }
 
-async function getIds2Fetch() {
+async function getIds2Fetch(terms) {
   const allSubjectIds = (
     await prisma.subject.findMany({
       where: {
         tooOld: false,
+        unopenTerms: {
+          not: terms,
+        },
       },
       select: {
         id: true,
@@ -160,15 +152,16 @@ async function getIds2Fetch() {
       },
       where: {
         createdAt: {
-          gte: new Date(new Date().valueOf() - 24 * 60 * 60 * 1000),
+          gte: new Date(new Date().valueOf() - 48 * 60 * 60 * 1000),
         },
       },
     })
   ).map((e) => e.subjectId)
 
-  const id = allSubjectIds.length > skippedIds.length * 2
-    ? { notIn: skippedIds }
-    : { in: allSubjectIds.filter((e) => !skippedIds.includes(e)) }
+  const id =
+    allSubjectIds.length > skippedIds.length * 2
+      ? { notIn: skippedIds }
+      : { in: allSubjectIds.filter((e) => !skippedIds.includes(e)) }
 
   const ids = (
     await prisma.subject.findMany({

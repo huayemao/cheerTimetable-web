@@ -2,7 +2,8 @@ import { STUDENTS } from '../../_data/metas'
 import prisma from '../../lib/prisma'
 import { parseGrade } from '../../lib/term'
 
-const GRADE_NUM = 19
+// 年级太高的，不应该再拉数据了，但是考虑到医学生。。。
+const GRADE_NUM = 18
 
 export async function getStudents2Fetch(terms) {
   const OR = terms.map((e) => ({
@@ -16,11 +17,13 @@ export async function getStudents2Fetch(terms) {
     where: {
       OR,
       createdAt: {
-        gte: new Date(new Date().valueOf() - 24 * 60 * 60 * 1000),
+        gte: new Date(new Date().valueOf() - 48 * 60 * 60 * 1000),
       },
+      // 认为拉取应该在2天内完成
     },
     distinct: ['studentId'],
   })
+  // 在给定学期已经有 2 天内创建的 enrollment 的学生，会被跳过
   const existedIds = res.map((e) => e.studentId)
 
   const students2Fetch = (await STUDENTS).filter((e) => {

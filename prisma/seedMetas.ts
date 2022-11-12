@@ -10,18 +10,31 @@ import { chunk } from 'lodash'
 import { withPersisit } from './util/withPersisit'
 
 export const seedMetas = async () => {
-  const seedStudentMeta = seedAllTerms(getStudentMeta, 'StudentMeta')
-  const seedLocationMeta = seedAllTerms(getLocationMeta, 'LocationMeta')
-  const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta')
-  const seedTeacherMeta = seedAllTerms(getTeacherMeta, 'TeacherMeta')
+  const count = await prisma.update.count({})
+  const isUpdating = count > 1
+  const seedStudentMeta = seedAllTerms(
+    getStudentMeta,
+    'StudentMeta',
+    isUpdating
+  )
+  const seedLocationMeta = seedAllTerms(
+    getLocationMeta,
+    'LocationMeta',
+    isUpdating
+  )
+  const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta', isUpdating)
+  const seedTeacherMeta = seedAllTerms(
+    getTeacherMeta,
+    'TeacherMeta',
+    isUpdating
+  )
 
   await seedStudentMeta()
   await seedLocationMeta()
   await seedCourseMeta()
   await seedTeacherMeta()
 
-  function seedAllTerms(fn, tableName) {
-    const isUpdating = false
+  function seedAllTerms(fn, tableName, isUpdating) {
     const terms = isUpdating ? TERMS.slice(0, 1) : TERMS
     const seedFn = async () => {
       for (let i = 0; i < terms.length; i++) {

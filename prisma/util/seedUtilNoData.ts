@@ -9,7 +9,7 @@ export function seedUtilNoData(getList, model) {
     async function saveOnePage(pageNum) {
       const list = await getList(pageNum, '1000')
       const payload = await model.createMany({
-        data: list,
+        data: list.filter((e) => e.id), // 确保 id 存在
         skipDuplicates: true,
       })
 

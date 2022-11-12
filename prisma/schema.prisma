@@ -82,6 +82,7 @@ model Subject {
     tuitionHourDetail String
     courses           Course[]
     tooOld            Boolean  @default(false)
+    unopenTerms       Json @default("[]")
     createdAt         DateTime @default(now())
     updatedAt         DateTime @default(now()) @updatedAt()
 }
