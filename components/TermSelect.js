@@ -1,20 +1,19 @@
 import Link from 'next/link'
-import { TERMS } from '../constants'
 import Select from 'components/common/Select'
-import { getTermsByStudent } from 'lib/term'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useMenuDispatch } from 'contexts/menuContext'
 
 export default function TermSelect({
   handleOnchange = console.log,
+  terms = [],
   className = '',
 }) {
   const router = useRouter()
   const toggleCollapsed = useMenuDispatch()
   const [type, id] = router.query.all || []
   const { term } = router.query
-  const rawTermList = type === 'student' ? getTermsByStudent(id) : TERMS
+  const rawTermList = terms
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
   const renderOption = useCallback(
     ({ label, key, isActive }) => (
@@ -31,6 +30,7 @@ export default function TermSelect({
   )
 
   useEffect(() => {
+    if (!termItems.length) return
     if (!term && Object.keys(router.query).length) {
       router.replace(
         {
@@ -41,7 +41,7 @@ export default function TermSelect({
         { shallow: true }
       )
     }
-  }, [rawTermList, router, term])
+  }, [rawTermList, router, term, termItems.length])
 
   return (
     <Select
@@ -52,6 +52,7 @@ export default function TermSelect({
       }}
       options={termItems}
       defaultValue={term}
+      defaultLabel={'没有任何记录哦'}
       renderOption={renderOption}
     ></Select>
   )

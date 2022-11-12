@@ -24,7 +24,7 @@ const defaultOptionRenderer = (e) => e.label
 
 export default function Select({
   options,
-  defaultValue = options[0].key,
+  defaultValue = options[0]?.key,
   onChange = noop,
   renderOption = defaultOptionRenderer,
   className = '',

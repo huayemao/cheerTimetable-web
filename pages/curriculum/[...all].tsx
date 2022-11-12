@@ -17,8 +17,9 @@ import { useEffect, useState } from 'react'
 import { Content } from '../../components/Content'
 import { getTimetable } from '../../lib/api/getTimetable'
 import { TERMS } from '../../constants'
+import { CourseItem } from 'lib/types/CourseItem'
 
-function TimetablePage(props) {
+const TimetablePage = (props) => {
   const router = useRouter()
   const dispath = usePreferenceDispatch()
   const { show7DaysOnMobile } = usePreference()
@@ -31,13 +32,31 @@ function TimetablePage(props) {
     ? '课表'
     : `${owner.label} ${owner.name}的课表`
 
+  const terms = Array.from(new Set(courses?.map((e) => e.term)))?.sort(
+    (a: string, b: string) => b.localeCompare(a)
+  )
+
+  useEffect(() => {
+    if (!terms.length) return
+    if (!router.query.term) {
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, term: terms?.[0] },
+        },
+        undefined,
+        { shallow: true }
+      )
+    }
+  }, [])
+
   return (
     <Layout
       title={title}
       menuItems={
         (process.browser && (
           <>
-            <TermSelect />
+            <TermSelect terms={terms} />
             {show7DaysOnMobile}
             <div className="flex items-center justify-between">
               <div className="text-gray-700">展示7天</div>
@@ -63,7 +82,7 @@ function TimetablePage(props) {
         )) ||
         null
       }
-      sidebarContent={<>{process.browser && <TermSelect />}</>}
+      sidebarContent={<>{process.browser && <TermSelect terms={terms} />}</>}
     >
       {(!router.isFallback || (router.isFallback && router.isReady)) && (
         <>
@@ -91,7 +110,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
-      courses: JSON.parse(JSON.stringify(courses)),
+      courses: JSON.parse(JSON.stringify(courses)) as CourseItem[],
       owner,
     },
     revalidate: 60 * 60 * 48,
