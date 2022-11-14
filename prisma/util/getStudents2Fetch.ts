@@ -3,7 +3,7 @@ import prisma from '../../lib/prisma'
 import { parseGrade } from '../../lib/term'
 
 // 年级太高的，不应该再拉数据了，但是考虑到医学生。。。
-const GRADE_NUM = 18
+const GRADE_NUM = 14
 
 export async function getStudents2Fetch(terms) {
   const OR = terms.map((e) => ({

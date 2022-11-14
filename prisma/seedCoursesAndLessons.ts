@@ -18,7 +18,6 @@ export async function supplementSubjectAndSeedCourses() {
     (e) => !existedIds.includes(e.kch.trim())
   )
 
-
   await seedSubjectByCourseMeta(courseMetas)
 }
 
@@ -103,7 +102,7 @@ export async function seedCourses(offset = 0) {
       await updateSubjectDetail(id, terms, courses, lessons, tuitions)
       logProgress(id, i, ids.length)
     } else {
-      makeFlag(id)
+      await makeFlag(id)
       console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
     }
   }
@@ -136,8 +135,16 @@ async function getIds2Fetch(terms) {
     await prisma.subject.findMany({
       where: {
         tooOld: false,
-        unopenTerms: {
-          not: terms,
+        NOT: {
+          AND: {
+            updatedAt: {
+              // 如果两天内更新过，且 unopenTerms 是 terms，就过滤掉
+              gte: new Date(new Date().valueOf() - 48 * 60 * 60 * 1000),
+            },
+            unopenTerms: {
+              equals: terms,
+            },
+          },
         },
       },
       select: {
@@ -208,6 +215,14 @@ async function updateSubjectDetail(
       prisma.tuition.createMany({
         data: tuitions,
         skipDuplicates: true,
+      }),
+      prisma.subject.update({
+        data: {
+          unopenTerms: [],
+        },
+        where: {
+          id: id,
+        },
       }),
     ]))
 }

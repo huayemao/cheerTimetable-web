@@ -69,7 +69,11 @@ export async function getStaticProps(context) {
       id: id,
     },
     include: {
-      courses: true,
+      courses: {
+        orderBy: {
+          term: 'desc',
+        },
+      },
     },
   })
 
