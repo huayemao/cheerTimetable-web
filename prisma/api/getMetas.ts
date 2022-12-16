@@ -55,15 +55,16 @@ export const getTeacherMeta = async (term) => {
 }
 
 // 获取开学时间映射
+// todo: 这个没有用了，两套环境 cookie 不同，每年手动去写吧
 const getDateMapping = async () => {
   const resluts = await Promise.all(
     TERMS.map(async (term) => {
       const res = await fetch(
-        'http://jwctest.its.csu.edu.cn/jsxsd/xskb/xskb_list.do?Ves632DSdyV=NEW_XSD_WDKB',
+        'https://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
         {
           headers: HEADERS,
           referrer:
-            'http://jwctest.its.csu.edu.cn/jsxsd/xskb/xskb_list.do?Ves632DSdyV=NEW_XSD_WDKB',
+            'https://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
           referrerPolicy: 'strict-origin-when-cross-origin',
           body: `cj0701id=&zc=&demo=&xnxq01id=${term}&sfFD=1`,
           method: 'POST',

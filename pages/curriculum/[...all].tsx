@@ -92,7 +92,7 @@ const TimetablePage = (props) => {
                 // https://nextjs.org/docs/basic-features/data-fetching/get-static-paths#how-does-getstaticprops-run-with-regards-to-getstaticpaths
                 // getStaticProps runs in the background when using fallback: true
                 courses={courses.filter((e) => e.term === term)}
-                icsUrl={`https://cheer-timetable.vercel.app/api/ical/${type}/${id}/${term}.ics`}
+                icsUrl={`${window.location.origin}/api/ical/${type}/${id}/${term}.ics`}
               />
             )}
           </div>
