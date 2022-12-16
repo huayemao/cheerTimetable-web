@@ -29,22 +29,6 @@ function Component() {
           <PaperAirplaneIcon className="inline-block h-6 w-6"></PaperAirplaneIcon>
         </button>
       </Tooltip>
-      <Tooltip
-        className="hover:shadow-lg"
-        content={'健康打卡'}
-        placement="right"
-        style="light"
-      >
-        <button
-          onClick={() =>
-            router.push('https://wxxy.csu.edu.cn/ncov/wap/default/index')
-          }
-          className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 text-blue-500 shadow transition duration-200 ease-in hover:bg-blue-200 focus:outline-none active:shadow-lg"
-        >
-          <HeartIcon className="inline-block h-6 w-6" />
-        </button>
-      </Tooltip>
-
       <div className="hidden lg:block">
         <Tooltip
           className="hidden hover:shadow-lg lg:block"
@@ -66,7 +50,7 @@ function Component() {
           placement="right"
           style="light"
         >
-          <button className="mouse hidden h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0  shadow-lg transition duration-200 text-blue-500 ease-in focus:outline-none active:shadow-lg lg:flex">
+          <button className="mouse hidden h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0  text-blue-500 shadow-lg transition duration-200 ease-in focus:outline-none active:shadow-lg lg:flex">
             <CollectionIcon className="inline-block h-6 w-6" />
           </button>
         </Tooltip>
@@ -81,7 +65,7 @@ function Component() {
         >
           <button
             onClick={() => router.push('/collection')}
-            className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 shadow transition duration-200 text-blue-500 ease-in focus:outline-none active:shadow-lg"
+            className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 text-blue-500 shadow transition duration-200 ease-in focus:outline-none active:shadow-lg"
           >
             <CollectionIcon className="inline-block h-6 w-6" />
           </button>

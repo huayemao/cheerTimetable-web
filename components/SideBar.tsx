@@ -4,7 +4,6 @@ import Link from 'next/link'
 import useCollapsible from 'lib/hooks/useCollapsible'
 import { GithubLink } from './Links/GithubLink'
 import { YuqueLink } from './Links/YuequeLink'
-import { HealthLink } from './Links/HealthLink'
 import { SubjectsLink } from './Links/SubjectsLink'
 import { CAN_COLLECT_ROUTES } from '../constants'
 import { CollectionLink } from './Links/CollectionLink'
@@ -62,9 +61,6 @@ export const SideBar = ({ children }) => {
           </div>
           <li>
             <SubjectsLink />
-          </li>
-          <li>
-            <HealthLink />
           </li>
           <li className="w-full text-sm text-gray-600 hover:text-blue-500">
             <CollectionLink />

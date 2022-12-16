@@ -1,7 +1,6 @@
 import NavBar from '../NavBar'
 import cn from 'clsx'
 import { SideBar } from '../SideBar'
-import { isElement, noop } from 'lodash'
 import 'css-doodle'
 import useMediaQuery from '../../lib/hooks/useMediaQuery'
 import useBodyScrollLock from 'lib/hooks/useBodyScrollLock'
@@ -14,9 +13,7 @@ import MenuProvider, {
   useMenuDispatch,
 } from '../../contexts/menuContext'
 import { FC, isValidElement, ReactElement, ReactNode } from 'react'
-import Link from 'next/link'
 import { SubjectsLink } from '../Links/SubjectsLink'
-import { HealthLink } from '../Links/HealthLink'
 import useLinkTransition from 'lib/hooks/useLinkTransition'
 import { CAN_COLLECT_ROUTES } from '../../constants'
 import { CollectionLink } from 'components/Links/CollectionLink'
@@ -62,12 +59,6 @@ const Menu: FC = ({ children }) => {
               className="text w-full text-gray-600 hover:text-blue-500"
             >
               <SubjectsLink />
-            </li>
-            <li
-              onClick={toggle}
-              className="text w-full text-gray-600 hover:text-blue-500"
-            >
-              <HealthLink />
             </li>
             <li
               onClick={toggle}
