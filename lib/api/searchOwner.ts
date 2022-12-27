@@ -1,12 +1,9 @@
 import _ from 'lodash'
-import qs from 'qs'
-import perseTable from '../parseTable'
-import { OwnerType } from 'lib/types/Owner'
 import prisma from '../../lib/prisma'
 
 const { map, mapKeys } = _
 
-export async function searchOwner(name) {
+export async function searchOwner(name: string) {
   const students = prisma.student.findMany({
     where: { name: { equals: name } },
     orderBy: { grade: 'desc' },

@@ -1,17 +1,10 @@
 import { Switch } from '@headlessui/react'
-import Container from 'components/Container'
 import Layout from 'components/common/Layout'
-import Modal from 'components/common/Modal'
-import Select from 'components/common/Select'
 import TermSelect from 'components/TermSelect'
-import { TimetableTitle } from 'components/Timetable/index'
 import {
   usePreference,
   usePreferenceDispatch,
 } from 'contexts/preferenceContext'
-import { keyBy } from 'lodash'
-import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Content } from '../../components/Content'

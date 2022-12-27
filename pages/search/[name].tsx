@@ -44,7 +44,7 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   const paths = [
     {
-      name: '王皓',
+      name: '花野猫',
     },
   ].map((e) => ({ params: e }))
 
