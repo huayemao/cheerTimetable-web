@@ -19,6 +19,7 @@ import { CAN_COLLECT_ROUTES } from '../../constants'
 import { CollectionLink } from 'components/Links/CollectionLink'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import Search from 'components/Search'
 
 const CollectButton = dynamic(() => import('components/CollectButton'), {
   ssr: false,
@@ -147,11 +148,11 @@ export function NewLayout({ children, ignore }: Props) {
     return children
   }
   return (
-    <div className="min-h-screen w-full bg-neutral-50  px-6 text-neutral-600">
+    <div className="min-h-screen w-full bg-neutral-50  text-neutral-800">
       <Header />
       <div className="grid w-full grid-cols-1 md:grid-cols-4">
         <Sidebar />
-        <main className="col-span-3">{children}</main>
+        <main className="col-span-3 px-4">{children}</main>
       </div>
     </div>
   )
@@ -160,11 +161,12 @@ export function NewLayout({ children, ignore }: Props) {
 function Sidebar() {
   /* todo: 移动端改成菜单吧 */
   return (
-    <aside className="top-16 col-span-1 hidden md:sticky md:mr-8 md:block md:h-[80vh] md:border-r-2 border-neutral-200 md:p-4">
+    /* todo: 安卓 chrome 老是会有滚动条，不清楚跟这里是否有关系 */
+    <aside className="top-16 col-span-1 hidden border-neutral-200 bg-neutral-100 md:sticky md:block md:h-[calc(100%-4rem)] md:border-r-2 md:p-4">
       <ul className="">
         {/* todo: 这里加一个搜索框 */}
         <li className="px-4 py-2">搜课程</li>
-        <li className="rounded bg-neutral-100 px-4 py-2">搜课表</li>
+        <li className="rounded bg-neutral-200 px-4 py-2">搜课表</li>
       </ul>
 
       <p className="fixed bottom-0 p-4 text-sm">
@@ -177,9 +179,20 @@ function Sidebar() {
 }
 
 function Header() {
+  const router = useRouter()
   return (
-    <header className="sticky top-0  flex h-16 w-full  items-center justify-center bg-neutral-50 text-neutral-800">
-      <div className="flex justify-center">
+    <header className="space-around sticky  top-0 flex h-16  w-full flex-row-reverse items-center border-b-2 border-b-neutral-200 bg-neutral-100 text-neutral-900 md:flex-row">
+      <div className="w-0 flex-[1.5] text-center md:flex-1">
+        <Search
+          iconClassName={'text-neutral-400'}
+          className="w-48 md:w-64 focus:ring-current"
+          onSubmit={(v) =>
+            router.push({ pathname: '/search', query: { query: v } })
+          }
+          placeholder={'搜索'}
+        />
+      </div>
+      <div className="flex w-0 flex-1 justify-center md:flex-[3]">
         <div className="w-full text-center font-bold">𝙘𝙝𝙚𝙚𝙧 · 绮课</div>
         {/* <div>todo: logo</div> */}
       </div>

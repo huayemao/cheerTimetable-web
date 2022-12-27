@@ -61,6 +61,7 @@ export default function Home({ sentences }) {
         <HeroDoodle seed={activeIndex} />
         <div className="mx-10 w-full items-center justify-center">
           <Search
+            className="w-64 rounded-l-xl rounded-t-xl border border-slate-200 bg-slate-200 focus:bg-white focus:ring-blue-500 md:w-72"
             onSubmit={handleSearch}
             onChange={setQ}
             placeholder={'学生、教师、教室'}
@@ -98,4 +99,3 @@ export async function getStaticProps(context) {
     revalidate: 30,
   }
 }
-

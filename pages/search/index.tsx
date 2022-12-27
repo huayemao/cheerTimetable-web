@@ -39,7 +39,7 @@ function SearchResults({ data }: { data: [Student[], Teacher[], Location[]] }) {
   const [students] = data
   return (
     <details
-      className="rounded-lg p-6 marker:mr-6 marker:text-neutral-600 open:bg-white   dark:open:bg-neutral-900 "
+      className="rounded-lg p-6 marker:mr-6 marker:text-neutral-600 open:bg-white dark:open:bg-neutral-900 "
       open
     >
       <summary className="select-none text-sm font-semibold leading-6 text-neutral-800 dark:text-white">

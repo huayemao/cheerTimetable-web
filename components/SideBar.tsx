@@ -23,7 +23,7 @@ export const SideBar = ({ children }) => {
 
   return (
     <aside
-      className="sticky top-0 hidden  h-screen w-full flex-col drop-shadow-sm  lg:flex"
+      className="sticky top-0 hidden h-screen w-full flex-col drop-shadow-sm  lg:flex"
       aria-label="Sidebar"
     >
       <div
