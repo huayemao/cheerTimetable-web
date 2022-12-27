@@ -16,8 +16,8 @@ export default function Content() {
   )
   return (
     <>
-      <section className="sticky top-16 col-span-3 flex h-12 items-center bg-zinc-100 md:top-2 md:bg-transparent">
-        <span className="text-xl text-zinc-500">←</span>{' '}
+      <section className="sticky top-16 col-span-3 flex h-12 items-center bg-neutral-50 md:top-2 md:bg-transparent">
+        <span className="text-xl text-neutral-500">←</span>{' '}
         <div className="ml-auto">{query} 的搜索结果</div>
       </section>
       {/* todo: 或者其实搜课表也集成到这个搜索页吧 */}
@@ -39,22 +39,20 @@ function SearchResults({ data }: { data: [Student[], Teacher[], Location[]] }) {
   const [students] = data
   return (
     <details
-      className="rounded-lg p-6 marker:mr-6 marker:text-zinc-400 open:bg-white   dark:open:bg-zinc-900 "
+      className="rounded-lg p-6 marker:mr-6 marker:text-neutral-600 open:bg-white   dark:open:bg-neutral-900 "
       open
     >
-      <summary className="select-none text-sm font-semibold leading-6 text-zinc-800 dark:text-white">
+      <summary className="select-none text-sm font-semibold leading-6 text-neutral-800 dark:text-white">
         学生（{students?.length}）
       </summary>
-      <div className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-        <ul className="divide-y divide-zinc-300 text-zinc-700 md:p-4 md:px-8">
+      <div className="mt-3 text-sm leading-6 dark:text-neutral-400">
+        <ul className="divide-y divide-neutral-300 md:p-4 md:px-8">
           {(students as Student[]).map((s) => (
             <li
               className="grid grid-cols-11 items-center gap-2 p-2 text-sm"
               key={s.id}
             >
-              <div className="col-span-2 font-semibold text-zinc-600 ">
-                {s.name}
-              </div>
+              <div className="col-span-2 font-semibold ">{s.name}</div>
               <div className="col-span-4 truncate">{s.className}</div>
               <div className="col-span-4">
                 <div className="truncate">{s.facultyName}</div>
