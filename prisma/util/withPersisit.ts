@@ -15,7 +15,7 @@ export async function getLastUpdateRecord(forceUpdate = false) {
   let lastRecord = await prisma.update.findFirst({
     where: {
       createdAt: {
-        gte: new Date(new Date().valueOf() - 48 * 60 * 60 * 1000),
+        gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
       },
     },
     orderBy: {

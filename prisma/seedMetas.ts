@@ -8,26 +8,18 @@ import {
 import { TERMS } from '../constants'
 import { chunk } from 'lodash'
 import { withPersisit } from './util/withPersisit'
+import { isUpdating } from './util/isUpdating'
 
 export const seedMetas = async () => {
-  const count = await prisma.update.count({})
-  const isUpdating = count > 1
-  const seedStudentMeta = seedAllTerms(
-    getStudentMeta,
-    'StudentMeta',
-    isUpdating
-  )
+  const updating = await isUpdating()
+  const seedStudentMeta = seedAllTerms(getStudentMeta, 'StudentMeta', updating)
   const seedLocationMeta = seedAllTerms(
     getLocationMeta,
     'LocationMeta',
-    isUpdating
+    updating
   )
-  const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta', isUpdating)
-  const seedTeacherMeta = seedAllTerms(
-    getTeacherMeta,
-    'TeacherMeta',
-    isUpdating
-  )
+  const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta', updating)
+  const seedTeacherMeta = seedAllTerms(getTeacherMeta, 'TeacherMeta', updating)
 
   await seedStudentMeta()
   await seedLocationMeta()

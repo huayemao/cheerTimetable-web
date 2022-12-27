@@ -1,5 +1,7 @@
+import { TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { getStudents } from './api/getStudents'
+import { isUpdating } from './util/isUpdating'
 
 async function saveOnePageStudents(pageNum) {
   // todo: 这里还应该可以传年级
@@ -28,7 +30,9 @@ async function saveOnePageStudents(pageNum) {
 export async function seedStudents() {
   let pageNum = 1
   let { grade } = await saveOnePageStudents(pageNum)
-  while (grade > 2013) {
+  // 导入最新一级学生，或是 14 级以来的学生
+  const startGradeNum = (await isUpdating()) ? TERMS[0].split('-')[0] : 2014
+  while (grade >= startGradeNum) {
     grade = (await saveOnePageStudents(++pageNum)).grade
   }
 }

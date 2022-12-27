@@ -4,7 +4,7 @@ import { seedUtilNoData } from './util/seedUtilNoData'
 
 export async function seedSubjects() {
   const versions = [
-    2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022,
+    2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
   ]
 
   for (const version of versions) {

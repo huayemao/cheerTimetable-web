@@ -1,18 +1,7 @@
 import { useRouter } from 'next/router'
-import List from '../../components/common/List'
-import useMediaQuery from 'lib/hooks/useMediaQuery'
 import Layout from 'components/common/Layout'
-import Loading from 'components/Loading'
-import Modal from 'components/common/Modal'
-import Head from 'next/head'
-import { keyBy, omit } from 'lodash'
-import MappedTable from 'components/MappedTable'
 import { searchOwner } from 'lib/api/searchOwner'
-import Link from 'next/link'
 import { Location, Student, Teacher } from '@prisma/client'
-import Select from 'components/common/Select'
-import { OwnerType } from 'lib/types/Owner'
-import { useMemo } from 'react'
 import { SearchResult } from '../../components/SearchResult'
 
 function SearchPage({

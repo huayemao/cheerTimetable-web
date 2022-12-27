@@ -5,13 +5,7 @@ import Layout from 'components/common/Layout'
 import Container from 'components/Container'
 import Modal from 'components/common/Modal'
 import Head from 'next/head'
-import { keyBy } from 'lodash'
-import { SideBar } from 'components/SideBar'
-import TermSelect from 'components/TermSelect'
-import Select from 'components/common/Select'
 import { usePreferenceDispatch } from 'contexts/preferenceContext'
-import { Content } from '../../components/Content'
-import { OwnerType } from '../../lib/types/Owner'
 import prisma from '../../lib/prisma'
 import { Enrollment, Student, Subject, Course } from '@prisma/client'
 import List from 'components/common/List'
@@ -72,6 +66,21 @@ export async function getStaticProps(context) {
       courses: {
         orderBy: {
           term: 'desc',
+        },
+        include: {
+          lessons: {
+            include: {
+              tuition: {
+                select: {
+                  teacher: {
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
