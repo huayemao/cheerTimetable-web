@@ -136,3 +136,53 @@ export default function Layout({
     </MenuProvider>
   )
 }
+
+type Props = {
+  children: JSX.Element
+  ignore: boolean
+}
+
+export function NewLayout({ children, ignore }: Props) {
+  if (ignore) {
+    return children
+  }
+  return (
+    <div className="min-h-screen w-full bg-zinc-100  px-6 text-zinc-600">
+      <Header />
+      <div className="grid w-full grid-cols-1 md:grid-cols-4">
+        <Sidebar />
+        <main className="col-span-3">{children}</main>
+      </div>
+    </div>
+  )
+}
+
+function Sidebar() {
+  /* todo: 移动端改成菜单吧 */
+  return (
+    <aside className="top-16 col-span-1 hidden md:sticky md:mr-8 md:block md:h-[80vh] md:border-r-2 md:p-4">
+      <ul className="">
+        {/* todo: 这里加一个搜索框 */}
+        <li className="px-4 py-2">搜课程</li>
+        <li className="rounded bg-zinc-200 px-4 py-2">搜课表</li>
+      </ul>
+
+      <p className="fixed bottom-0 p-4 text-sm">
+        花野猫筑之以 ❤
+        <br />
+        赏他一碗米线
+      </p>
+    </aside>
+  )
+}
+
+function Header() {
+  return (
+    <header className="sticky top-0  flex h-16 w-full  items-center justify-center bg-zinc-100 text-zinc-900">
+      <div className="flex justify-center">
+        <div className="w-full text-center font-bold">𝙘𝙝𝙚𝙚𝙧 · 绮课</div>
+        {/* <div>todo: logo</div> */}
+      </div>
+    </header>
+  )
+}
