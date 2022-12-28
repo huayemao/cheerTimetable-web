@@ -1,12 +1,11 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+    provider = "prisma-client-js"
 }
 
 datasource db {
-    provider             = "mysql"
-    url                  = env("DATABASE_URL")
-    referentialIntegrity = "foreignKeys"
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "foreignKeys"
 }
 
 model Update {
@@ -82,7 +81,7 @@ model Subject {
     tuitionHourDetail String
     courses           Course[]
     tooOld            Boolean  @default(false)
-    unopenTerms       Json @default("[]")
+    unopenTerms       Json     @default("[]")
     createdAt         DateTime @default(now())
     updatedAt         DateTime @default(now()) @updatedAt()
 }
@@ -123,7 +122,6 @@ model Enrollment {
     course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
     courseId  String
     createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt()
 
     @@id([studentId, courseId])
 }
@@ -134,7 +132,6 @@ model Tuition {
     lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
     lessonId  String
     createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt()
 
     @@id([teacherId, lessonId])
 }
