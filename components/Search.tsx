@@ -59,7 +59,7 @@ function Search({
         onKeyPress={handleKeyDown}
         onSubmit={handleSubmit}
         className={clsx(
-          'p-2 focus:border-transparent focus:outline-none focus:ring-2',
+          'p-2 focus:border-transparent focus:outline-none focus:ring-1',
           {
             'pl-16': isValidElement(dropDownBtn),
             [className]: true,

@@ -16,8 +16,8 @@ export default function Content() {
   )
   return (
     <>
-      <section className="sticky top-16 col-span-3 flex h-12 items-center bg-neutral-50 md:top-2 md:bg-transparent">
-        <span className="text-xl text-neutral-500">←</span>{' '}
+      <section className="sticky top-16 col-span-3 flex h-12 items-center bg-slate-50 md:top-2 md:bg-transparent">
+        <span className="text-xl text-slate-500">←</span>{' '}
         <div className="ml-auto">{query} 的搜索结果</div>
       </section>
       {/* todo: 或者其实搜课表也集成到这个搜索页吧 */}
@@ -39,14 +39,14 @@ function SearchResults({ data }: { data: [Student[], Teacher[], Location[]] }) {
   const [students] = data
   return (
     <details
-      className="rounded-lg p-6 marker:mr-6 marker:text-neutral-600 open:bg-white dark:open:bg-neutral-900 "
+      className="rounded-lg p-6 marker:mr-6 marker:text-slate-600 open:bg-white dark:open:bg-slate-900 "
       open
     >
-      <summary className="select-none text-sm font-semibold leading-6 text-neutral-800 dark:text-white">
+      <summary className="select-none text-sm font-semibold leading-6 text-slate-800 dark:text-white">
         学生（{students?.length}）
       </summary>
-      <div className="mt-3 text-sm leading-6 dark:text-neutral-400">
-        <ul className="divide-y divide-neutral-300 md:p-4 md:px-8">
+      <div className="mt-3 text-sm leading-6 dark:text-slate-400">
+        <ul className="divide-y divide-slate-300 md:p-4 md:px-8">
           {(students as Student[]).map((s) => (
             <li
               className="grid grid-cols-11 items-center gap-2 p-2 text-sm"

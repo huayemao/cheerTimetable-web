@@ -17,6 +17,7 @@ type Cell = {
   rowSpan: number
 }
 
+// todo: Mini Card
 export default function Timetable({ courses, show7days }: TimetableProps) {
   const router = useRouter()
   const modal: string = router.query.modal as string
@@ -27,14 +28,36 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
     [colCount, courses, show7days]
   )
 
-
   return (
-    <div className="lg:mx-5">
+    <div className="">
       <div
-        className={cn(s.timetable, {
-          [s['show-7-days']]: show7days,
-        })}
-        style={{ gridAutoRows: '1fr' }}
+        className={cn(
+          s.timetable,
+          {
+            [s['show-7-days']]: show7days,
+          },
+          'rounded-t !bg-slate-100 border-slate-200 border-[.1em] border-b-0'
+        )}
+      >
+        {['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((e) => (
+          <div
+            key={'e'}
+            className={
+              'grid-grow-0 h-8 w-full place-self-center bg-slate-100 text-center text-sm font-semibold leading-[2.5em]'
+            }
+          >
+            {e}
+          </div>
+        ))}
+      </div>
+      <div
+        className={cn(
+          s.timetable,
+          {
+            [s['show-7-days']]: show7days,
+          },
+          'p-[.1em]'
+        )}
       >
         {cells.map(({ courses, rowSpan }, i, arr) => (
           <>

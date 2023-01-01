@@ -148,11 +148,11 @@ export function NewLayout({ children, ignore }: Props) {
     return children
   }
   return (
-    <div className="min-h-screen w-full bg-neutral-50  text-neutral-800">
+    <div className="min-h-screen w-full   text-slate-800">
       <Header />
-      <div className="grid w-full grid-cols-1 md:grid-cols-4">
+      <div className="grid w-full grid-cols-1 md:grid-cols-5">
         <Sidebar />
-        <main className="col-span-3 px-4">{children}</main>
+        <main className="col-span-4">{children}</main>
       </div>
     </div>
   )
@@ -162,13 +162,14 @@ function Sidebar() {
   /* todo: 移动端改成菜单吧 */
   return (
     /* todo: 安卓 chrome 老是会有滚动条，不清楚跟这里是否有关系 */
-    <aside className="top-16 col-span-1 hidden border-neutral-200 bg-neutral-100 md:sticky md:block md:h-[calc(100%-4rem)] md:border-r-2 md:p-4">
+    <aside className="top-16 col-span-1 row-span-4 hidden border-gray-200 md:sticky md:block md:h-[calc(100vh-4rem)] md:border-r md:p-4">
       <ul className="">
         {/* todo: 这里加一个搜索框 */}
-        <li className="px-4 py-2">搜课程</li>
-        <li className="rounded bg-neutral-200 px-4 py-2">搜课表</li>
+        <li className="rounded bg-slate-100 px-4 py-2 transition-all hover:scale-[102%] hover:bg-slate-100">
+          课表查询
+        </li>
+        <li className="rounded px-4 py-2">【WIP】课程卡片制作</li>
       </ul>
-
       <p className="fixed bottom-0 p-4 text-sm">
         花野猫筑之以 ❤
         <br />
@@ -181,19 +182,19 @@ function Sidebar() {
 function Header() {
   const router = useRouter()
   return (
-    <header className="space-around sticky  top-0 flex h-16  w-full flex-row-reverse items-center border-b-2 border-b-neutral-200 bg-neutral-100 text-neutral-900 md:flex-row">
-      <div className="w-0 flex-[1.5] text-center md:flex-1">
+    <header className="space-around sticky top-0 z-[10]  flex h-16 w-full  flex-row-reverse items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
+      <div className="w-0 flex-[1] text-center md:flex-1">
         <Search
-          iconClassName={'text-neutral-400'}
-          className="w-48 md:w-64 focus:ring-current"
+          iconClassName={'text-slate-400'}
+          className="w-44 rounded text-sm ring-1 ring-slate-300 focus:ring-blue-400 md:w-64"
           onSubmit={(v) =>
             router.push({ pathname: '/search', query: { query: v } })
           }
           placeholder={'搜索'}
         />
       </div>
-      <div className="flex w-0 flex-1 justify-center md:flex-[3]">
-        <div className="w-full text-center font-bold">𝙘𝙝𝙚𝙚𝙧 · 绮课</div>
+      <div className="flex w-0 flex-1 justify-center md:flex-[4]">
+        <h1 className="w-full text-center text-2xl text-slate-900">绮课</h1>
         {/* <div>todo: logo</div> */}
       </div>
     </header>

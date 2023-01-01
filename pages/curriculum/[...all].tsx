@@ -23,7 +23,7 @@ const TimetablePage = (props) => {
   const { owner, courses } = props
   const title = router.isFallback
     ? '课表'
-    : `${owner.label} ${owner.name}的课表`
+    : `${owner.label} ${owner.name}`
 
   const terms = Array.from(new Set(courses?.map((e) => e.term)))?.sort(
     (a: string, b: string) => b.localeCompare(a)
@@ -86,6 +86,7 @@ const TimetablePage = (props) => {
                 // getStaticProps runs in the background when using fallback: true
                 courses={courses.filter((e) => e.term === term)}
                 icsUrl={`${window.location.origin}/api/ical/${type}/${id}/${term}.ics`}
+                title={title}
               />
             )}
           </div>
