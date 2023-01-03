@@ -54,7 +54,7 @@ type CollectItemMeta = {
 }
 
 const mapping: Record<CAN_COLLECT_ROUTES, (router: any) => CollectItemMeta> = {
-  [CAN_COLLECT_ROUTES['/curriculum/[...all]']]: getTimeTableMeta,
+  [CAN_COLLECT_ROUTES['/schedule/[...all]']]: getTimeTableMeta,
   [CAN_COLLECT_ROUTES['/subjects/[id]']]: getSubjectMeta,
   [CAN_COLLECT_ROUTES['/courses/[id]']]: getCourseMeta,
 }

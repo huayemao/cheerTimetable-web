@@ -75,7 +75,7 @@ export function SearchResult({
                   data={list.data}
                   renderListItem={(e, i) => {
                     return (
-                      <Link href={`/curriculum/${list.type}/${e.id}`}>
+                      <Link href={`/schedule/${list.type}/${e.id}`}>
                         <a>
                           <span className="font-medium text-blue-400">
                             #{i + 1}

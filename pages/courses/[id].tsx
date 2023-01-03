@@ -90,7 +90,7 @@ function CoursePage({
             <List
               data={course.enrollments}
               renderListItem={(e, i) => (
-                <Link href={`/curriculum/student/${e.student.id}`}>
+                <Link href={`/schedule/student/${e.student.id}`}>
                   <a>
                     <span className="font-medium text-blue-400">#{i + 1}</span>
                     &emsp;

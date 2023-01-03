@@ -30,9 +30,9 @@ function Component({ title = '', className }: Props) {
   }
 
   const pathNameMapping = {
-    student: CAN_COLLECT_ROUTES['/curriculum/[...all]'],
-    teacher: CAN_COLLECT_ROUTES['/curriculum/[...all]'],
-    location: CAN_COLLECT_ROUTES['/curriculum/[...all]'],
+    student: CAN_COLLECT_ROUTES['/schedule/[...all]'],
+    teacher: CAN_COLLECT_ROUTES['/schedule/[...all]'],
+    location: CAN_COLLECT_ROUTES['/schedule/[...all]'],
     subject: CAN_COLLECT_ROUTES['/subjects/[id]'],
     course: CAN_COLLECT_ROUTES['/courses/[id]'],
   }
@@ -40,7 +40,7 @@ function Component({ title = '', className }: Props) {
   const getHref = (data, type) => {
     const pathname = pathNameMapping[type]
 
-    if (pathname === CAN_COLLECT_ROUTES['/curriculum/[...all]']) {
+    if (pathname === CAN_COLLECT_ROUTES['/schedule/[...all]']) {
       return {
         pathname,
         query: {

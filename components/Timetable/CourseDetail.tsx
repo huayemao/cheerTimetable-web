@@ -25,7 +25,7 @@ export function CourseDetail({ course }) {
           <Link
             key={id || i}
             href={{
-              pathname: `/curriculum/${OwnerType.teacher}/${id}`,
+              pathname: `/schedule/${OwnerType.teacher}/${id}`,
             }}
           >
             <a className="underline">{name}</a>
@@ -42,7 +42,7 @@ export function CourseDetail({ course }) {
         ) : (
           <Link
             href={{
-              pathname: `/curriculum/${OwnerType.location}/${course.location.id}`,
+              pathname: `/schedule/${OwnerType.location}/${course.location.id}`,
             }}
           >
             <a className="underline">{course.location.name}</a>
