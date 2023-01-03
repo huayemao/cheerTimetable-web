@@ -1,6 +1,6 @@
 import cn from 'clsx'
 import { useRouter } from 'next/router'
-import s from './Timetable.module.css'
+import s from './Main.module.css'
 import { CourseDetailModal } from './CourseDetailModal'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
 import { getWeekStr } from 'lib/getGridCells'
