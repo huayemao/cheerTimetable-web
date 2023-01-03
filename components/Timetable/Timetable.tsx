@@ -17,7 +17,11 @@ type Cell = {
   rowSpan: number
 }
 
+const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+
 // todo: Mini Card
+// todo: 如果没有课，默认折叠最后一行
+// todo: 无课表课程
 export default function Timetable({ courses, show7days }: TimetableProps) {
   const router = useRouter()
   const modal: string = router.query.modal as string
@@ -28,20 +32,22 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
     [colCount, courses, show7days]
   )
 
+  const headerArr = show7days ? DAYS : DAYS.slice(0, -2)
+
   return (
-    <div className="">
+    <>
       <div
         className={cn(
           s.timetable,
           {
             [s['show-7-days']]: show7days,
           },
-          'rounded-t !bg-slate-100 border-slate-200 border-[.1em] border-b-0'
+          'rounded-t border-[.1em] border-b-0 border-slate-200 !bg-slate-100'
         )}
       >
-        {['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((e) => (
+        {headerArr.map((e) => (
           <div
-            key={'e'}
+            key={e}
             className={
               'grid-grow-0 h-8 w-full place-self-center bg-slate-100 text-center text-sm font-semibold leading-[2.5em]'
             }
@@ -63,7 +69,7 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
           <>
             <Cell
               showModal={parseInt(modal, 10) === i}
-              key={i}
+              key={`${i}${rowSpan}${courses?.[0]?.id || 0}`}
               num={i}
               courses={courses}
               rowSpan={rowSpan}
@@ -71,6 +77,6 @@ export default function Timetable({ courses, show7days }: TimetableProps) {
           </>
         ))}
       </div>
-    </div>
+    </>
   )
 }

@@ -96,7 +96,7 @@ const TimetablePage = (props) => {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { all } = context.params
   const [type, id] = all
 
@@ -107,18 +107,18 @@ export async function getStaticProps(context) {
       courses: JSON.parse(JSON.stringify(courses)) as CourseItem[],
       owner,
     },
-    revalidate: 60 * 60 * 48,
+    // revalidate: 60 * 60 * 48,
   }
 }
 
-export async function getStaticPaths() {
-  const paths = [
-    {
-      all: ['student', '8305180722'],
-    },
-  ].map((e) => ({ params: e }))
+// export async function getStaticPaths() {
+//   const paths = [
+//     {
+//       all: ['student', '8305180722'],
+//     },
+//   ].map((e) => ({ params: e }))
 
-  return { paths, fallback: true }
-}
+//   return { paths, fallback: true }
+// }
 
 export default TimetablePage

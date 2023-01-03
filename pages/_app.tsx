@@ -6,14 +6,10 @@ import { NewLayout } from 'components/common/Layout'
 
 // https://nextjs.org/docs/advanced-features/custom-app
 function MyApp({ Component, pageProps, router }: AppProps) {
-  const shouldIgnoreNewLayout = !['/search', '/schedule'].some((e) =>
-    router.pathname.includes(e)
-  )
-
   return (
     <PreferenceProvider {...pageProps}>
       <CollectionProvider {...pageProps}>
-        <NewLayout {...pageProps} ignore={shouldIgnoreNewLayout}>
+        <NewLayout {...pageProps} router={router}>
           <Component {...pageProps} />
         </NewLayout>
       </CollectionProvider>

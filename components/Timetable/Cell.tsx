@@ -68,6 +68,8 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
     <div
       onClickCapture={handleNav}
       className={cn(
+        s.cell,
+        'h-full',
         {
           // 'border-t border-slate-300': isFirstRow,
           // 'border-l border-slate-300': isFirstCol,
@@ -85,18 +87,14 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
           }
         />
       )} */}
-      <div
-        className={cn(s.cell, 'h-full bg-white')}
-      >
-        {hasCourse && (
-          <>
-            <LessonPreview course={courses[0]} />
-            {showModal && (
-              <CourseDetailModal courses={courses} router={router} num={num} />
-            )}
-          </>
-        )}
-      </div>
+      {hasCourse && (
+        <>
+          <LessonPreview course={courses[0]} />
+          {showModal && (
+            <CourseDetailModal courses={courses} router={router} num={num} />
+          )}
+        </>
+      )}
     </div>
   )
 }

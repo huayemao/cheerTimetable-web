@@ -1,5 +1,5 @@
 .timetable {
-  @apply mx-0 grid grid-cols-5 auto-rows-fr;
+  @apply mx-0 grid auto-rows-fr grid-cols-5;
   @apply gap-[.1em] bg-slate-200;
 }
 
@@ -12,11 +12,11 @@
 }
 
 .course-title {
-  @apply mb-0.5 truncate font-semibold text-sm text-slate-600;
+  @apply mb-0.5 truncate text-sm font-semibold text-slate-600;
 }
 
 .cell {
-  @apply bg-white relative flex flex-col items-center justify-center px-3 py-2 text-sm  focus:outline-none md:text-base;
+  @apply relative flex  flex-col items-center justify-center bg-white px-3 py-2 text-sm  focus:outline-none md:text-base;
   @apply transition-all hover:bg-slate-100;
   duration: 80ms;
 }
@@ -27,7 +27,8 @@
   }
 
   .show-7-days {
-    @apply mx-0 gap-1 bg-slate-50;
+    @apply mx-0  bg-slate-50;
+    @apply gap-x-0;
   }
 
   .timetable {
@@ -35,7 +36,7 @@
   }
 
   .cell {
-    @apply border-0 bg-white text-base font-normal text-slate-900 shadow-sm md:text-lg;
+    @apply border-0 text-base font-normal text-slate-900 shadow-sm md:text-lg;
   }
 
   .show-7-days .cell {
@@ -43,11 +44,11 @@
   }
 
   .show-7-days .course-title {
-    @apply text-sm md:text-lg;
+    @apply text-xs font-semibold md:text-lg;
   }
 
   .course-title {
-    @apply text-base font-medium leading-5;
+    @apply text-sm font-medium leading-5;
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;

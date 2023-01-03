@@ -65,7 +65,7 @@ const TimetablePage = ({ type, id }: Props) => {
   // 这里以前为什么要判断这么多呀? 可能是因为 fallback: true ，现在不需要了，全 CSR 了
   // todo: calc min h
   return (
-    <div className="flex flex-col items-center overflow-y-auto bg-slate-50 min-h-[70vh]">
+    <div className="">
       {/* {title} */}
       {courses && (
         <Content

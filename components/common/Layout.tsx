@@ -4,7 +4,7 @@ import { SideBar } from '../SideBar'
 import 'css-doodle'
 import useMediaQuery from '../../lib/hooks/useMediaQuery'
 import useBodyScrollLock from 'lib/hooks/useBodyScrollLock'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Loading from 'components/Loading'
 import { GithubLink } from '../Links/GithubLink'
 import { YuqueLink } from '../Links/YuequeLink'
@@ -141,10 +141,41 @@ export default function Layout({
 type Props = {
   children: JSX.Element
   ignore: boolean
+  router: Router
 }
 
-export function NewLayout({ children, ignore }: Props) {
-  if (ignore) {
+export function NewLayout({ children, ignore, router }: Props) {
+  const shouldIgnoreNewLayout = !['/search', '/schedule'].some((e) =>
+    router.pathname.includes(e)
+  )
+
+  function Header() {
+    const router = useRouter()
+    return (
+      <header className="space-around sticky top-0 z-[10]  flex h-16 w-full  flex-row-reverse items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
+        <div className="hidden w-0 text-center md:block md:flex-1">
+          <Search
+            iconClassName={'text-slate-400'}
+            className="w-44 rounded text-sm ring-1 ring-slate-300 focus:ring-blue-400"
+            onSubmit={(v) =>
+              router.push({ pathname: '/search', query: { query: v } })
+            }
+            placeholder={'搜索'}
+          />
+        </div>
+        <div className="flex w-0 flex-1  justify-center gap-4 md:flex-[4]">
+          <div
+            id="headerContent"
+            className="text-center text-2xl font-semibold text-slate-600"
+          >
+            {/* 绮课 */}
+          </div>
+        </div>
+      </header>
+    )
+  }
+
+  if (shouldIgnoreNewLayout) {
     return children
   }
   return (
@@ -152,7 +183,9 @@ export function NewLayout({ children, ignore }: Props) {
       <Header />
       <div className="grid w-full grid-cols-1 md:grid-cols-5">
         <Sidebar />
-        <main className="col-span-4">{children}</main>
+        <main className="col-span-4 h-full bg-slate-50 md:py-2 md:px-8 md:pb-8">
+          {children}
+        </main>
       </div>
     </div>
   )
@@ -165,6 +198,9 @@ function Sidebar() {
     <aside className="top-16 col-span-1 row-span-4 hidden border-gray-200 md:sticky md:block md:h-[calc(100vh-4rem)] md:border-r md:p-4">
       <ul className="">
         {/* todo: 这里加一个搜索框 */}
+        <li className="rounded  px-4 py-2 transition-all hover:scale-[102%] hover:bg-slate-100">
+          收藏夹
+        </li>
         <li className="rounded bg-slate-100 px-4 py-2 transition-all hover:scale-[102%] hover:bg-slate-100">
           课表查询
         </li>
@@ -176,27 +212,5 @@ function Sidebar() {
         赏他一碗米线
       </p>
     </aside>
-  )
-}
-
-function Header() {
-  const router = useRouter()
-  return (
-    <header className="space-around sticky top-0 z-[10]  flex h-16 w-full  flex-row-reverse items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
-      <div className="w-0 flex-[1] text-center md:flex-1">
-        <Search
-          iconClassName={'text-slate-400'}
-          className="w-44 rounded text-sm ring-1 ring-slate-300 focus:ring-blue-400 md:w-64"
-          onSubmit={(v) =>
-            router.push({ pathname: '/search', query: { query: v } })
-          }
-          placeholder={'搜索'}
-        />
-      </div>
-      <div className="flex w-0 flex-1 justify-center md:flex-[4]">
-        <h1 className="w-full text-center text-2xl text-slate-900">绮课</h1>
-        {/* <div>todo: logo</div> */}
-      </div>
-    </header>
   )
 }
