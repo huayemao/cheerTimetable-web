@@ -16,10 +16,11 @@ export default function Content() {
     fetcher
   )
   return (
-    <div className='bg-slate-50 min-h-[70vh]'>
+    <div className="min-h-[70vh]] bg-slate-50">
+      {/* todo: 这个也放到 header 吧 */}
       <section className="sticky top-16 col-span-3 flex h-12 items-center bg-slate-50 md:top-2 md:bg-transparent">
         <span className="text-xl text-slate-500">←</span>{' '}
-        <div className="ml-auto">{query} 的搜索结果</div>
+        <div className="relative z-[11] ml-auto">{query} 的搜索结果</div>
       </section>
       {/* todo: 或者其实搜课表也集成到这个搜索页吧 */}
       {/* todo: 其实课表页 table 应该用 grid 的 row-start 之类的去计算 */}
