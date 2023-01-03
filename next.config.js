@@ -3,6 +3,10 @@ const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
 module.exports = withPWA({
   reactStrictMode: true,
+  experimental: {
+    appDir: true,
+    serverComponentsExternalPackages: ["prisma", "@prisma/client"],
+  },
   pwa: {
     dest: 'public',
     runtimeCaching,

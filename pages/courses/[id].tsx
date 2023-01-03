@@ -91,12 +91,10 @@ function CoursePage({
               data={course.enrollments}
               renderListItem={(e, i) => (
                 <Link href={`/schedule/student/${e.student.id}`}>
-                  <a>
-                    <span className="font-medium text-blue-400">#{i + 1}</span>
-                    &emsp;
-                    <span className="text-lg">{e.student.name}</span>&emsp;
-                    {e.student.facultyName} {e.student.className}
-                  </a>
+                  <span className="font-medium text-blue-400">#{i + 1}</span>
+                  &emsp;
+                  <span className="text-lg">{e.student.name}</span>&emsp;
+                  {e.student.facultyName} {e.student.className}
                 </Link>
               )}
             />

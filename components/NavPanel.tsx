@@ -40,8 +40,8 @@ function Component() {
               title={
                 <div>
                   我的收藏 &nbsp;
-                  <Link href={'/collection'}>
-                    <a className="text-sm text-gray-700">详情</a>
+                  <Link href={'/collection'} className="text-sm text-gray-700">
+                    详情
                   </Link>
                 </div>
               }

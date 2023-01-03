@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 import {
   Location as IconLocation,
   Group as IconGroup,
@@ -7,10 +7,10 @@ import {
   Hash as IconHash,
   Academic as IconAcademic,
   Calculator as IconCalculator,
-  Collection as IconCollection
-} from 'components/Icons';
-import { getWeekStr } from 'lib/getGridCells';
-import { OwnerType } from 'lib/types/Owner';
+  Collection as IconCollection,
+} from 'components/Icons'
+import { getWeekStr } from 'lib/getGridCells'
+import { OwnerType } from 'lib/types/Owner'
 
 export function CourseDetail({ course }) {
   const list = [
@@ -27,8 +27,9 @@ export function CourseDetail({ course }) {
             href={{
               pathname: `/schedule/${OwnerType.teacher}/${id}`,
             }}
+            className="underline"
           >
-            <a className="underline">{name}</a>
+            {name}
           </Link>
           {i < arr.length - 1 && '、'}
         </div>
@@ -41,11 +42,12 @@ export function CourseDetail({ course }) {
           '无上课地点信息'
         ) : (
           <Link
+            className="underline"
             href={{
               pathname: `/schedule/${OwnerType.location}/${course.location.id}`,
             }}
           >
-            <a className="underline">{course.location.name}</a>
+            {course.location.name}
           </Link>
         )
       ) : null,
@@ -54,11 +56,12 @@ export function CourseDetail({ course }) {
       icon: IconGroup,
       content: (
         <Link
+          className="underline"
           href={{
             pathname: `/courses/${course?.courseId}`,
           }}
         >
-          <a className="underline">{course?.studentCount + ' 人'}</a>
+          {course?.studentCount + ' 人'}
         </Link>
       ),
     },
@@ -78,7 +81,7 @@ export function CourseDetail({ course }) {
       icon: IconCalculator,
       content: course ? (course.credit || '') + ' 学分' : null,
     },
-  ];
+  ]
   return (
     <div>
       <ul className="space-y-1 text-gray-900">
@@ -92,5 +95,5 @@ export function CourseDetail({ course }) {
         ))}
       </ul>
     </div>
-  );
+  )
 }

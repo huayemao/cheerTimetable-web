@@ -56,13 +56,11 @@ const CourseChoose = ({ courses, router, num }: Props) => {
 
         return (
           <div key={course.seq}>
-            <Link href={params}>
-              <a className="text-blue-500">
-                {course.name}{' '}
-                <span className="text-sm font-light text-gray-500">
-                  {weekStr}
-                </span>
-              </a>
+            <Link href={params} className="text-blue-500">
+              {course.name}{' '}
+              <span className="text-sm font-light text-gray-500">
+                {weekStr}
+              </span>
             </Link>
           </div>
         )
@@ -70,4 +68,3 @@ const CourseChoose = ({ courses, router, num }: Props) => {
     </>
   )
 }
-

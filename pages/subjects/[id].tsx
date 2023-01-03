@@ -37,12 +37,10 @@ function CoursePage({
               data={subject.courses}
               renderListItem={(e: Course, i) => (
                 <Link href={`/courses/${e.id}`}>
-                  <a>
-                    <span className="font-medium text-blue-400">#{i + 1}</span>
-                    &emsp;
-                    {e.className}&emsp;
-                    {e.term}&emsp;
-                  </a>
+                  <span className="font-medium text-blue-400">#{i + 1}</span>
+                  &emsp;
+                  {e.className}&emsp;
+                  {e.term}&emsp;
                 </Link>
               )}
             />

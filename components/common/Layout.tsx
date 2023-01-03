@@ -154,6 +154,7 @@ export function NewLayout({ children, ignore, router }: Props) {
     return (
       <header className="space-around sticky top-0 z-[10]  flex h-16 w-full  flex-row-reverse items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
         <div className="hidden w-0 text-center md:block md:flex-1">
+          {/* todo: 这个搜索框 */}
           <Search
             iconClassName={'text-slate-400'}
             className="w-44 rounded text-sm ring-1 ring-slate-300 focus:ring-blue-400"

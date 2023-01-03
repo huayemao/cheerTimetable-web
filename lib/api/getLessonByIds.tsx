@@ -1,20 +1,31 @@
-import prisma from '../prisma';
+import prisma from '../prisma'
 
 export async function getLessonByIds(ids) {
   return await prisma.lesson.findMany({
     include: {
-      location: true,
+      location: {
+        select: {
+          id: true,
+          name: true,
+          building: true,
+        },
+      },
       course: {
         include: { subject: true },
       },
       tuition: {
         include: {
-          teacher: true,
+          teacher: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
       },
     },
     where: {
       id: { in: ids },
     },
-  });
+  })
 }

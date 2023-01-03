@@ -14,10 +14,8 @@ export default function NavBar({ children }) {
   return (
     <nav className="sticky top-0 z-10 flex h-14 w-full items-center justify-around border-gray-200 bg-white bg-opacity-80 drop-shadow-sm backdrop-blur-lg backdrop-filter">
       <div className="flex-1 text-center lg:hidden">
-        <Link href={'/'}>
-          <a className={'flex-1 text-3xl text-blue-400 hover:text-blue-500'}>
-            绮课
-          </a>
+        <Link href={'/'} className={'flex-1 text-3xl text-blue-400 hover:text-blue-500'}>
+          绮课
         </Link>
       </div>
       <div

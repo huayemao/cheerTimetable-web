@@ -37,8 +37,8 @@ export function WordsOfTenderness({ list, onChange, activeIndex }) {
         我也来试试{' '}
       </a>
       留下一些句子，让别人感到温暖吧。{' '}
-      <Link href={'/sentences'}>
-        <a className="text-xs underline ">所有留言</a>
+      <Link className="text-xs underline" href={'/sentences'}>
+        所有留言
       </Link>
     </div>
   )

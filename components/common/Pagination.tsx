@@ -51,16 +51,13 @@ export function Pagination({ pageCount }) {
               pathname: router.pathname,
             }}
             shallow
+            className={
+              'inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 leading-8' +
+                ((pageNum ? pageNum === e : e === 1) &&
+                  ' border-blue-600 bg-blue-600 text-white') || ''
+            }
           >
-            <a
-              className={
-                'inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 leading-8' +
-                  ((pageNum ? pageNum === e : e === 1) &&
-                    ' border-blue-600 bg-blue-600 text-white') || ''
-              }
-            >
-              {e}
-            </a>
+            {e}
           </Link>
         </li>
       ))}

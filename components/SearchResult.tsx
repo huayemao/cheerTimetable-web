@@ -76,14 +76,12 @@ export function SearchResult({
                   renderListItem={(e, i) => {
                     return (
                       <Link href={`/schedule/${list.type}/${e.id}`}>
-                        <a>
-                          <span className="font-medium text-blue-400">
-                            #{i + 1}
-                          </span>
-                          &emsp;
-                          <span className="text-lg">{e.name}</span>&emsp;
-                          {e[list.key]}
-                        </a>
+                        <span className="font-medium text-blue-400">
+                          #{i + 1}
+                        </span>
+                        &emsp;
+                        <span className="text-lg">{e.name}</span>&emsp;
+                        {e[list.key]}
                       </Link>
                     )
                   }}
@@ -94,7 +92,7 @@ export function SearchResult({
           )
         })
       ) : (
-        <div className='w-full flex justify-center'>
+        <div className="flex w-full justify-center">
           <Empty />
         </div>
       )}

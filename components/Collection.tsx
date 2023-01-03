@@ -94,10 +94,11 @@ function Component({ title = '', className }: Props) {
                       key={e.id}
                       className="hover:bg-coolGray-100 relative  rounded-md bg-white p-3 shadow"
                     >
-                      <Link href={getHref(e, k)}>
-                        <a className="text-base font-medium leading-5">
-                          {e.name} @<span className="text-sm">{e.label}</span>
-                        </a>
+                      <Link
+                        href={getHref(e, k)}
+                        className="text-base font-medium leading-5"
+                      >
+                        {e.name} @<span className="text-sm">{e.label}</span>
                       </Link>
                     </li>
                   ))}

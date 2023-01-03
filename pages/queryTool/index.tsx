@@ -119,13 +119,13 @@ const QueryToolSelect = ({ queryTools }) => {
       <ul className="divide-y">
         <li key={'绮课'} className="py-2 text-center">
           <Link shallow href={'/'}>
-            <a>绮课</a>
+            绮课
           </Link>
         </li>
         {map(queryTools, ({ name, url }) => (
           <li key={name} className="py-2 text-center">
             <Link shallow href={'/?queryTool=' + encodeURIComponent(url)}>
-              <a>{name}</a>
+              {name}
             </Link>
           </li>
         ))}

@@ -24,12 +24,12 @@
     "ical-generator": "^3.2.1",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.21",
-    "next": "12.3.0",
+    "next": "^13",
     "next-pwa": "^5.4.4",
     "node-fetch": "2",
     "qs": "^6.10.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "swr": "^1.2.2"
   },
   "prisma": {

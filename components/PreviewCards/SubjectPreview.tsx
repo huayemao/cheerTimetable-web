@@ -48,14 +48,11 @@ export function SubjectPreview({
                     }}
                     key={subject.id}
                     passHref
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-2  inline-flex items-center justify-center rounded border  px-2 py-1 text-gray-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring active:bg-blue-500"
                   >
-                    <a
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-2  inline-flex items-center justify-center rounded border  px-2 py-1 text-gray-500 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring active:bg-blue-500"
-                    >
-                      <span className="text-sm font-medium">全部开课</span>
-                      <ArrowNarrowRightIcon className="ml-3 h-3 w-3" />
-                    </a>
+                    <span className="text-sm font-medium">全部开课</span>
+                    <ArrowNarrowRightIcon className="ml-3 h-3 w-3" />
                   </Link>
                 </div>
               )}

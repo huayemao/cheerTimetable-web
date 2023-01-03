@@ -17,13 +17,12 @@ export default function TermSelect({
   const termItems = rawTermList.map((e) => ({ key: e, label: e + ' 学期' }))
   const renderOption = useCallback(
     ({ label, key, isActive }) => (
-      <Link replace href={`/schedule/${type}/${id}?term=${key}`} shallow>
-        <a
-          href="#"
-          className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal"
-        >
-          {label}
-        </a>
+      <Link
+        replace
+        href={`/schedule/${type}/${id}?term=${key}`} shallow
+        className="group flex w-full items-center rounded-lg p-1 pl-4 font-normal"
+      >
+        {label}
       </Link>
     ),
     [id, type]
