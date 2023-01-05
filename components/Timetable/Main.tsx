@@ -1,11 +1,11 @@
 import { memo, useCallback, useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
 import cn from 'clsx'
 import { Cell } from './Cell'
 import s from './Main.module.css'
 import { parseTime } from '../../lib/parseCourseFields'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
 import getGridCells from 'lib/getGridCells'
+import { useSearchParams } from 'next/navigation'
 
 type TimetableProps = {
   courses: CourseItem[]
@@ -23,8 +23,8 @@ const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周�
 // todo: 如果没有课，默认折叠最后一行
 // todo: 无课表课程
 export default memo(function Timetable({ courses, show7days }: TimetableProps) {
-  const router = useRouter()
-  const modal: string = router.query.modal as string
+  const sp = useSearchParams()
+  const modal: string = sp.get('modal') as string
   const colCount = show7days ? 7 : 5
 
   const cells = useMemo(

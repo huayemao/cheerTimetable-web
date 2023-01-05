@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, useEffect } from 'react'
-export const PreferenceContext = createContext()
+export const PreferenceContext = createContext({})
 export const PreferenceDispatch = createContext()
 
 const initialData = {

@@ -1,5 +1,6 @@
+import qs from 'qs'
 import cn from 'clsx'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import s from './Main.module.css'
 import { CourseDetailModal } from './CourseDetailModal'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
@@ -44,6 +45,9 @@ export default function LessonPreview({ course }: LessonPreviewProps) {
 
 export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   const router = useRouter()
+  const sp = useSearchParams()
+  const modal = sp.get('modal')
+  const pathname = usePathname()
 
   const isFirstRow = Math.floor(num / 7) === 0
   const isFirstCol = Math.floor(num % 7) === 0
@@ -52,16 +56,20 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   const multiCourse = courses.length > 1
 
   const handleNav = useCallback(() => {
-    !router.query.modal &&
+    const targetUrl =
+      pathname +
+      '/?' +
+      qs.stringify({
+        ...Object.fromEntries(sp.entries()),
+        modal: num,
+      })
+
+    // 这里当初为何要用 num 来标识 modal 呀？，应该用 lessonId 的
+    // 现在 push 之后居然会强制发请求。。。
+    // https://beta.nextjs.org/docs/routing/linking-and-navigating#conditions-for-soft-navigation
+    !modal &&
       courses.length &&
-      router.push(
-        {
-          pathname: router.asPath.split('?')[0],
-          query: { ...omit(router.query, 'all'), modal: num },
-        },
-        undefined,
-        { shallow: true }
-      )
+      router.push(targetUrl, { forceOptimisticNavigation: true })
   }, [courses.length, num, router])
 
   return (

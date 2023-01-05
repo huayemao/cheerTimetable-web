@@ -10,10 +10,6 @@ import { Schedule } from 'pages/api/schedule/[...all]'
 import { fetcher } from 'lib/fetcher'
 import { OwnerType } from 'lib/types/Owner'
 
-// 几个问题
-// title 应该在哪里去拿？难道不是 props 吗？但是既然客户端渲染了，就将错就错吧
-// isFallback 是干什么的
-
 type Props = Awaited<ReturnType<typeof getStaticProps>>['props']
 
 const TimetablePage = ({ type, id }: Props) => {
