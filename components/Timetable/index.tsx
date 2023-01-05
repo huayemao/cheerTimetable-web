@@ -28,19 +28,11 @@ type Props = {
 export default memo(function Schedule({ courses, type, id }: Props) {
   // todo: 抽一个 useTerm 吧
 
-  const { terms, hasTermSearchParam, navToTerm, activeTerm } = useTerm(courses)
+  const { hasTermSearchParam, navToTerm, activeTerm } = useTerm()
 
   const dispath = usePreferenceDispatch()
   // @ts-ignore
   const { show7DaysOnMobile } = usePreference()
-
-  // todo: 抽出去
-  useEffect(() => {
-    if (!terms.length) return
-    if (!hasTermSearchParam) {
-      navToTerm(terms[0])
-    }
-  }, [terms])
 
   const isMobile = useMediaQuery('(max-width: 768px)', true, false)
   const show7days = !isMobile || (isMobile && show7DaysOnMobile)
@@ -50,10 +42,7 @@ export default memo(function Schedule({ courses, type, id }: Props) {
       <H1 title={<></>}>
         {courses?.length ? (
           <div className={'mx-auto space-y-2'}>
-            <Timetable
-              courses={courses.filter((c) => c.term === activeTerm)}
-              show7days={show7days}
-            />
+            <Timetable courses={courses} show7days={show7days} />
           </div>
         ) : (
           <Empty content={'这里一节课都没有呀'} />
