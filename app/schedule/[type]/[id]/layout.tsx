@@ -2,6 +2,7 @@ import { NewLayout } from '@/components/common/NewLayout'
 import { getTimetable } from '@/lib/api/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
 import ScheduleLayoutTitle from '@/components/ScheduleLayoutTitle'
+import Link from 'next/link'
 
 export default async function ScheduleLayout({
   children,
@@ -24,7 +25,19 @@ export default async function ScheduleLayout({
       <body>
         {/* 移动端是左返回按钮，桌面端是 logo */}
         <NewLayout
-          navSection={<>{'<'}</>}
+          navSection={
+            <>
+              <Link href="./" className="md:hidden">
+                {'<'}
+              </Link>
+              <Link
+                href={'/'}
+                className="hidden text-center text-2xl font-semibold text-slate-600 md:block"
+              >
+                绮课
+              </Link>
+            </>
+          }
           title={<ScheduleLayoutTitle title={title} terms={terms} />}
         >
           {children}

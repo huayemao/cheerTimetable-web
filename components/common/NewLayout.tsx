@@ -12,7 +12,11 @@ export function NewLayout({ children, navSection, title }: Props) {
       <header className="space-around sticky top-0 z-[10]  flex h-16 w-full  flex-row-reverse items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
         <div className="hidden w-0 text-center md:block md:flex-1">
           {/* 这个内容叫什么？ yari 的 css 类名叫 top-navigation-wrap */}
-          {navSection || '绮课'}
+          {navSection || (
+            <div className="text-center text-2xl font-semibold text-slate-600">
+              绮课
+            </div>
+          )}
         </div>
         <div className="flex w-0 flex-1  justify-center gap-4 md:flex-[4]">
           <div

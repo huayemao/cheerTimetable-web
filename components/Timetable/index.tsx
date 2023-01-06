@@ -41,7 +41,7 @@ export default memo(function Schedule({ courses, type, id }: Props) {
     <div className={'space-y-4'}>
       <H1 title={<></>}>
         {courses?.length ? (
-          <div className={'mx-auto space-y-2'}>
+          <div className={'mx-auto'}>
             <Timetable courses={courses} show7days={show7days} />
           </div>
         ) : (

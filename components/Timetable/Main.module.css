@@ -21,7 +21,7 @@
   duration: 80ms;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   .timetable-title {
     word-spacing: 999px;
   }
@@ -31,16 +31,12 @@
     @apply gap-x-0;
   }
 
-  .timetable {
-    @apply bg-slate-50 md:gap-y-4 md:gap-x-3;
-  }
-
   .cell {
     @apply border-0 text-base font-normal text-slate-900 shadow-sm md:text-lg;
   }
 
   .show-7-days .cell {
-    @apply text-sm font-light md:text-base;
+    @apply font-light md:text-base px-[.3em];
   }
 
   .show-7-days .course-title {
