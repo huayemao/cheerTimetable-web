@@ -3,12 +3,22 @@ import s from './Content.module.css'
 import clsx from 'clsx'
 import Head from 'next/head'
 
-export function H2({ title, children, close = false }) {
+export function H2({
+  title,
+  children,
+  close = false,
+  slate = false,
+  className = '',
+}) {
   return (
     <details
       className={clsx(
-        'relative mx-auto space-y-2 rounded-lg px-4 py-4 marker:mr-6 marker:text-slate-600 open:bg-white md:m-2  md:px-8 ',
-        s.card
+        'relative mx-auto space-y-2 rounded-lg px-4 py-4 marker:mr-6 marker:text-slate-600 md:m-2 md:px-8 ',
+        {
+          'open:bg-white': !slate,
+          [s.card]: !slate,
+        },
+        className
       )}
       open={!close}
     >

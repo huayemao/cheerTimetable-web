@@ -13,7 +13,7 @@ module.exports = withPWA({
     buildExcludes: [/middleware-manifest.json$/],
   },
   images: {
-    domains: ['gw.alipayobjects.com'],
+    domains: ['gw.alipayobjects.com', 'avatar.vercel.sh'],
   },
   typescript: {
     // !! WARN !!
