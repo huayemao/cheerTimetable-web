@@ -1,6 +1,7 @@
 'use client'
 
 import { CourseItem } from '@/lib/types/CourseItem'
+import { useCallback } from 'react'
 import { useTerm } from '../lib/hooks/useTerm'
 
 type props = {
@@ -9,7 +10,10 @@ type props = {
 }
 
 export default function ScheduleLayoutTitle({ title, terms }: props) {
-  const { navToTerm, activeTerm } = useTerm()
+  const { navToTerm, activeTerm, prefetchTerms } = useTerm()
+  const prefetch = useCallback(() => {
+    prefetchTerms(terms)
+  }, [terms])
 
   return (
     <div className="flex flex-col items-start gap-1 md:flex-row md:items-end">
@@ -18,6 +22,7 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
       </h1>
       <div className="flex items-center gap-2">
         <select
+          onFocus={prefetch}
           onChange={(v) => {
             navToTerm(v.target.value)
           }}

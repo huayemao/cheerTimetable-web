@@ -11,6 +11,18 @@ export function useTerm() {
   const activeTerm = sp.get('term')
   const hasTermSearchParam = !!sp.get('term')
 
+  const prefetchTerms = (terms) => {
+    for (const term of terms) {
+      router.prefetch(
+        pathname +
+          '/?' +
+          qs.stringify({
+            term,
+          })
+      )
+    }
+  }
+
   const navToTerm = (term) => {
     const targetURL =
       pathname +
@@ -20,5 +32,5 @@ export function useTerm() {
       })
     router.replace(targetURL, { forceOptimisticNavigation: true })
   }
-  return { navToTerm, activeTerm, hasTermSearchParam }
+  return { navToTerm, activeTerm, hasTermSearchParam, prefetchTerms }
 }
