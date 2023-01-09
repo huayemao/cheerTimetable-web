@@ -1,4 +1,5 @@
 import { ReactElement, ReactNode } from 'react'
+import { SideBarSearch } from './SideBarSearch'
 
 export type Props = {
   children: JSX.Element
@@ -45,17 +46,10 @@ export function NewLayout({ children, navSection, title }: Props) {
 function Sidebar() {
   /* todo: 移动端改成 bottom Tab */
   return (
-    <aside className="top-16 col-span-1 row-span-4 hidden border-gray-200 md:sticky md:block md:h-[calc(100vh-4rem)] md:border-r md:p-4">
+    <aside className="top-16 col-span-1 row-span-4 hidden space-y-2 border-gray-200 md:sticky md:block md:h-[calc(100vh-4rem)] md:border-r md:p-4">
       {/* todo: 这个搜索框如何 SSR 化？ ? */}
-      {/* <Search
-                  iconClassName={'text-slate-400'}
-                  className="w-44 rounded text-sm ring-1 ring-slate-300 focus:ring-blue-400"
-                  onSubmit={(v) =>
-                    router.push({ pathname: '/search', query: { query: v } })
-                  }
-                  placeholder={'搜索'}
-                /> */}
-      <ul className="">
+      {<SideBarSearch />}
+      <ul className="space-y-1">
         {/* todo: 这里加一个搜索框 */}
         <li className="rounded  px-4 py-2 transition-all hover:scale-[102%] hover:bg-slate-100">
           收藏夹

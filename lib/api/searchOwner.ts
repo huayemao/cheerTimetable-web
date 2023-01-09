@@ -41,5 +41,15 @@ export async function searchOwner(name: string) {
     },
   })
 
-  return await Promise.all([students, teachers, locations])
+  const subjects = prisma.subject.findMany({
+    where: {
+      name: { contains: name },
+    },
+    orderBy: {
+      credit: 'desc',
+    },
+  })
+
+  // todo: transaction 里面可以套 transaction 吗
+  return await Promise.all([students, teachers, locations, subjects])
 }

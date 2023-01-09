@@ -19,6 +19,7 @@ type Props = {
   dropDownBtn?: ReactElement | null
   className?: string
   iconClassName?: string
+  wrapperClassName?: string
 }
 
 function Search({
@@ -29,6 +30,7 @@ function Search({
   dropDownBtn = null,
   className = '',
   iconClassName = '',
+  wrapperClassName = '',
 }: Props) {
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => onChange(e.target.value),
@@ -51,7 +53,10 @@ function Search({
   )
 
   return (
-    <div id="search" className={'dropdown relative inline-block '}>
+    <div
+      id="search"
+      className={clsx('dropdown relative inline-block ', wrapperClassName)}
+    >
       {dropDownBtn}
       <input
         defaultValue={defaultValue}
@@ -59,12 +64,13 @@ function Search({
         onKeyPress={handleKeyDown}
         onSubmit={handleSubmit}
         className={clsx(
-          'p-2 focus:border-transparent focus:outline-none focus:ring-1',
+          'p-2 focus:border-transparent focus:outline-none focus:ring-1 w-full',
           {
             'pl-16': isValidElement(dropDownBtn),
-            [className]: true,
+
             // [presetInputClassNames]: true,
-          }
+          },
+          className
         )}
         placeholder={placeholder}
         autoComplete="off"
@@ -76,7 +82,7 @@ function Search({
         enterKeyHint="go"
       />
       <SearchIcon
-        className={clsx('absolute right-2  top-2.5 h-6 w-6', {
+        className={clsx('absolute right-2 top-2 h-6 w-6', {
           [iconClassName]: true,
         })}
       ></SearchIcon>
