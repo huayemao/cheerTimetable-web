@@ -8,28 +8,23 @@ export function useTerm() {
   const pathname = usePathname() || ''
   const sp = useSearchParams()
 
-  const activeTerm = sp.get('term')
-  const hasTermSearchParam = !!sp.get('term')
+  const activeTerm = pathname.match(/\d+\-\d+-\d+/)?.[0]
+  const hasTermSearchParam = activeTerm
 
   const prefetchTerms = (terms) => {
     for (const term of terms) {
       router.prefetch(
-        pathname +
-          '/?' +
-          qs.stringify({
-            term,
-          })
+        !!activeTerm
+          ? pathname.replace(/\d+\-\d+-\d+/, term)
+          : pathname + '/' + term
       )
     }
   }
 
   const navToTerm = (term) => {
-    const targetURL =
-      pathname +
-      '/?' +
-      qs.stringify({
-        term,
-      })
+    const targetURL = !!activeTerm
+      ? pathname.replace(/\d+\-\d+-\d+/, term)
+      : pathname + '/' + term
     router.replace(targetURL, { forceOptimisticNavigation: true })
   }
   return { navToTerm, activeTerm, hasTermSearchParam, prefetchTerms }
