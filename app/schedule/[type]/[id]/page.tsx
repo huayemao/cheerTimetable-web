@@ -8,14 +8,13 @@ const Schedule = dynamic(() => import('@/components/Timetable'), {
   loading: () => <p>...</p>,
 })
 
-// https://beta.nextjs.org/docs/data-fetching/fetching#segment-cache-configuration
-export const revalidate = false; // revalidate every hour
-
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
 
 export default async function Home({ params, searchParams }) {
   const { id, type } = params
   const { term } = searchParams
+
+ 
   const { courses, owner } = await getTimetable(type as OwnerType, id, term)
   return (
     <div className="bg-slate-50">

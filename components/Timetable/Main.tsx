@@ -66,15 +66,13 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         )}
       >
         {cells.map(({ courses, rowSpan }, i, arr) => (
-          <>
-            <Cell
-              showModal={parseInt(modal, 10) === i}
-              key={`${i}${rowSpan}${courses?.[0]?.id || 0}`}
-              num={i}
-              courses={courses}
-              rowSpan={rowSpan}
-            />
-          </>
+          <Cell
+            showModal={parseInt(modal, 10) === i}
+            key={`${i}${rowSpan}${courses?.[0]?.id || 0}`}
+            num={i}
+            courses={courses}
+            rowSpan={rowSpan}
+          />
         ))}
       </div>
     </>

@@ -13,6 +13,10 @@ export default async function ScheduleLayout({
 }) {
   // layout 中不能取 searchParams 吗？
   const { id, type } = params
+  // 升级之后不知道抽什么风，build 时路由会是这个
+  if (decodeURIComponent(id) === '[id]') {
+    return null
+  }
 
   // todo: getScheduleMeta 返回 terms、owner
   const { courses, owner, terms } = await getTimetable(type as OwnerType, id)
@@ -20,29 +24,23 @@ export default async function ScheduleLayout({
   const title = label + name
 
   return (
-    <html>
-      <head />
-      <body>
-        {/* 移动端是左返回按钮，桌面端是 logo */}
-        <NewLayout
-          navSection={
-            <>
-              <Link href="./" className="md:hidden text-xl">
-                {'←'}
-              </Link>
-              <Link
-                href={'/'}
-                className="hidden text-center text-2xl font-semibold text-slate-600 md:block"
-              >
-                绮课
-              </Link>
-            </>
-          }
-          title={<ScheduleLayoutTitle title={title} terms={terms} />}
-        >
-          {children}
-        </NewLayout>
-      </body>
-    </html>
+    <NewLayout
+      navSection={
+        <>
+          <Link href="./" className="text-xl md:hidden">
+            {'←'}
+          </Link>
+          <Link
+            href={'/'}
+            className="hidden text-center text-2xl font-semibold text-slate-600 md:block"
+          >
+            绮课
+          </Link>
+        </>
+      }
+      title={<ScheduleLayoutTitle title={title} terms={terms} />}
+    >
+      {children}
+    </NewLayout>
   )
 }

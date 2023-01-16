@@ -10,6 +10,9 @@ import { searchOwner } from '@/lib/api/searchOwner'
 // 实体通过一个 modal 进入，可以增加一点动效
 // 参考 notion 的 cover，有没有对应的 api?
 
+// 如果没有这个，build 后不 work
+export const revalidate = 0
+
 export default async function Content({ searchParams }) {
   const { query } = searchParams
   // todo: 搜索提示页
@@ -26,7 +29,7 @@ export default async function Content({ searchParams }) {
         <div className="relative z-[11] ml-auto">{query} 的搜索结果</div>
       </section> */}
       {/* todo: 其实课表页 table 应该用 grid 的 row-start 之类的去计算 */}
-      {data?.length ? (
+      {data.some((e) => !!e.length) ? (
         <article className="space-y-8">
           <section className="mx-auto p-4">
             {/* 如果不用 tab 的话确实展示密度太小了，用了的话又破坏了之前 h2 的设计，没有用武之地了 */}
@@ -39,7 +42,7 @@ export default async function Content({ searchParams }) {
           </section>
         </article>
       ) : (
-        <>加载中</>
+        <>没有数据</>
       )}
     </div>
   )
