@@ -14,6 +14,7 @@ type CellProps = {
   showModal: boolean
   num: number
   rowSpan: number
+  handleNav: (num: number) => void
 }
 
 type LessonPreviewProps = {
@@ -44,7 +45,13 @@ export default function LessonPreview({ course }: LessonPreviewProps) {
   )
 }
 
-export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
+export const Cell = ({
+  courses,
+  showModal,
+  num,
+  rowSpan,
+  handleNav,
+}: CellProps) => {
   const router = useRouter()
   const sp = useSearchParams()
   const modal = sp.get('modal')
@@ -56,26 +63,11 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
   const hasCourse = courses.length > 0
   const multiCourse = courses.length > 1
 
-  const handleNav = useCallback(() => {
-    const targetUrl =
-      pathname +
-      '/?' +
-      qs.stringify({
-        ...Object.fromEntries(sp.entries()),
-        modal: num,
-      })
-
-    // 这里当初为何要用 num 来标识 modal 呀？，应该用 lessonId 的
-    // 现在 push 之后居然会强制发请求。。。
-    // https://beta.nextjs.org/docs/routing/linking-and-navigating#conditions-for-soft-navigation
-    !modal &&
-      courses.length &&
-      router.push(targetUrl, { forceOptimisticNavigation: true })
-  }, [courses.length, num, router])
-
   return (
     <div
-      onClickCapture={handleNav}
+      onClickCapture={() => {
+        handleNav(num)
+      }}
       className={cn(
         s.cell,
         'h-full',
@@ -90,16 +82,16 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
     >
       {/* todo: 这个要改掉 */}
       {courses.length > 1 && (
-        <div className="absolute bottom-1 right-1 md:bottom-2 md:right-2  h-[.75em] w-[.75em] font-thin">
+        <div className="absolute bottom-1 right-1 h-[.75em] w-[.75em]  font-thin md:bottom-2 md:right-2">
           <ArrowTopRightOnSquareIcon className="text-xs font-thin" />
         </div>
       )}
       {hasCourse && (
         <>
           <LessonPreview course={courses[0]} />
-          {showModal && (
+          {/* {showModal && (
             <CourseDetailModal courses={courses} router={router} num={num} />
-          )}
+          )} */}
         </>
       )}
     </div>

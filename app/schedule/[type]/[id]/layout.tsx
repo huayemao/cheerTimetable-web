@@ -1,4 +1,3 @@
-import { ArrowLongLeftIcon } from '@heroicons/react/20/solid'
 import { NewLayout } from '@/components/common/NewLayout'
 import { getTimetable } from '@/lib/api/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
@@ -28,9 +27,6 @@ export default async function ScheduleLayout({
     <NewLayout
       navSection={
         <>
-          <Link href="/" className=" md:hidden">
-            <ArrowLongLeftIcon className="h-6 w-6 " />
-          </Link>
           <Link
             href={'/'}
             className="hidden text-center text-2xl font-semibold text-slate-600 md:block"

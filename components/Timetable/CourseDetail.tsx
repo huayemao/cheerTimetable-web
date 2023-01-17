@@ -15,10 +15,12 @@ import { OwnerType } from 'lib/types/Owner'
 export function CourseDetail({ course }) {
   const list = [
     {
+      label: '开课编号',
       icon: IconHash,
       content: course?.courseId,
     },
     {
+      label: '授课教师',
       icon: IconUsers,
       content: course?.teachers.map(({ id, name }, i, arr) => (
         <div key={id}>
@@ -36,6 +38,7 @@ export function CourseDetail({ course }) {
       )),
     },
     {
+      label: '上课地点',
       icon: IconLocation,
       content: course ? (
         course.location.name === '无' ? (
@@ -53,6 +56,7 @@ export function CourseDetail({ course }) {
       ) : null,
     },
     {
+      label: '上课学生',
       icon: IconGroup,
       content: (
         <Link
@@ -66,31 +70,39 @@ export function CourseDetail({ course }) {
       ),
     },
     {
+      label: '上课班级',
       icon: IconAcademic,
       content: course ? course.classId : null,
     },
     {
+      label: '周次',
       icon: IconCalendar,
       content: course ? getWeekStr(course) : null,
     },
     {
+      label: '类型',
       icon: IconCollection,
       content: course?.category,
     },
     {
+      label: '学分',
       icon: IconCalculator,
       content: course ? (course.credit || '') + ' 学分' : null,
     },
   ]
   return (
     <div>
-      <ul className="space-y-1 text-gray-900">
-        {list.map(({ icon: Icon, content }, i) => (
+      <ul className="  text-gray-900">
+        {list.map(({ icon: Icon, content, label }, i) => (
           <li
             key={i}
-            className="relative inline-flex w-full items-center rounded-t-lg py-2  px-4 text-sm font-medium hover:bg-gray-100 md:text-lg"
+            className="relative inline-flex w-full items-center  rounded-t-lg py-2 px-4  text-xs  hover:bg-gray-100 md:text-sm"
           >
-            <Icon className="mr-2 h-4 w-4" /> {content}
+            <span className="flex flex-1 items-center font-semibold text-right w-full">
+              <Icon className="mr-2 h-4 w-4" />
+              {label}
+            </span>{' '}
+            <span className="flex-1 w-full text-right">{content}</span>
           </li>
         ))}
       </ul>
