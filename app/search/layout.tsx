@@ -1,5 +1,6 @@
 import { NewLayout } from '@/components/common/NewLayout'
 import Link from 'next/link'
+import { ArrowLongLeftIcon } from '@heroicons/react/20/solid'
 
 export default async function ScheduleLayout({
   children,
@@ -16,8 +17,8 @@ export default async function ScheduleLayout({
         <NewLayout
           navSection={
             <>
-              <Link href="./" className="text-xl md:hidden">
-                {'←'}
+              <Link href="/" className=" md:hidden">
+                <ArrowLongLeftIcon className="h-6 w-6 " />
               </Link>
               <Link
                 href={'/'}

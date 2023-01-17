@@ -1,5 +1,6 @@
 import qs from 'qs'
 import cn from 'clsx'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/20/solid'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import s from './Main.module.css'
 import { CourseDetailModal } from './CourseDetailModal'
@@ -88,13 +89,11 @@ export const Cell = ({ courses, showModal, num, rowSpan }: CellProps) => {
       )}
     >
       {/* todo: 这个要改掉 */}
-      {/* {courses.length > 1 && (
-        <span
-          className={
-            'from-purle-400 absolute inset-0 -translate-y-1 translate-x-1 rounded-l-xl rounded-b-xl bg-gradient-to-bl from-slate-200/80 to-slate-50/10'
-          }
-        />
-      )} */}
+      {courses.length > 1 && (
+        <div className="absolute bottom-1 right-1 md:bottom-2 md:right-2  h-[.75em] w-[.75em] font-thin">
+          <ArrowTopRightOnSquareIcon className="text-xs font-thin" />
+        </div>
+      )}
       {hasCourse && (
         <>
           <LessonPreview course={courses[0]} />

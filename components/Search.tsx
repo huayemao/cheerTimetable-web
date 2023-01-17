@@ -8,7 +8,7 @@ import React, {
   useCallback,
 } from 'react'
 import { noop } from 'lodash'
-import { SearchIcon } from '@heroicons/react/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 
 type Props = {
@@ -64,7 +64,7 @@ function Search({
         onKeyPress={handleKeyDown}
         onSubmit={handleSubmit}
         className={clsx(
-          'p-2 focus:border-transparent focus:outline-none focus:ring-1 w-full',
+          'w-full p-2 focus:border-transparent focus:outline-none focus:ring-1',
           {
             'pl-16': isValidElement(dropDownBtn),
 
@@ -81,11 +81,11 @@ function Search({
         type="text"
         enterKeyHint="go"
       />
-      <SearchIcon
+      <MagnifyingGlassIcon
         className={clsx('absolute right-2 top-2 h-6 w-6', {
           [iconClassName]: true,
         })}
-      ></SearchIcon>
+      />
     </div>
   )
 }

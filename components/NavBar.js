@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import cn from 'clsx'
 import Link from 'next/link'
 import { useMenu, useMenuDispatch } from 'contexts/menuContext'
-import { MenuIcon, XIcon } from '@heroicons/react/solid'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid'
 
 export default function NavBar({ children }) {
   const toggleCollapsed = useMenuDispatch()
@@ -35,9 +35,9 @@ export default function NavBar({ children }) {
         >
           <span className="sr-only">Open main menu</span>
           {collapsed ? (
-            <MenuIcon className="h-6 w-6" />
+            <Bars3Icon className="h-6 w-6" />
           ) : (
-            <XIcon className="h-6 w-6"></XIcon>
+            <XMarkIcon className="h-6 w-6"></XMarkIcon>
           )}
         </button>
       </div>

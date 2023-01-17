@@ -62,18 +62,19 @@ export function CourseDetailModal({ courses, router, num }: Props) {
 
 // 显然这个还是坏的
 const CourseChoose = ({ courses, router, num }: Props) => {
+  const pathname = usePathname()
   return (
     <>
       {map(courses, (course: CourseItem) => {
-        const params = {
-          pathname: router.asPath.split('?')[0],
-          query: { ...omit(router.query, 'all'), modal: num, seq: course.seq },
-        }
+        const href = `${pathname}?${qs.stringify({
+          modal: num,
+          seq: course.seq,
+        })}`
         const weekStr = getWeekStr(course)
 
         return (
           <div key={course.seq}>
-            <Link href={params} className="text-blue-500">
+            <Link href={href} className="text-blue-500">
               {course.name}{' '}
               <span className="text-sm font-light text-gray-500">
                 {weekStr}
