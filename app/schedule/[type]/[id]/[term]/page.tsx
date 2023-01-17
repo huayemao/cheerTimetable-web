@@ -1,12 +1,7 @@
 import { getTimetable } from '@/lib/api/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
-// import Schedule from '@/components/Timetable'
+import Schedule from '@/components/Timetable'
 import dynamic from 'next/dynamic'
-
-const Schedule = dynamic(() => import('@/components/Timetable'), {
-  ssr: false,
-  loading: () => <p>...</p>,
-})
 
 // 还是不行，在上一级加载全量的总行了吧。。。；
 // 但如果那样，在这一级获取步道原来的数据呀，或者就是一模一样的请求，这样似乎能够缓存？

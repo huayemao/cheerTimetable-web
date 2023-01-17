@@ -4,6 +4,7 @@ import { Location, Student, Teacher } from '@prisma/client'
 import { H2 } from 'components/H2'
 import Image from 'next/image'
 import { searchOwner } from '@/lib/api/searchOwner'
+import Link from 'next/link'
 
 // 通过课程也应当可以进入一份课表，filter subject 的 courses 就可以了，类似于选课，学生就知道课程开在什么时候了。。
 // 这样从搜索结果里面其实可以设定成既可以进课表，又可以进实体。实体可以用封面、头像之类的进行美化
@@ -61,11 +62,11 @@ function SearchResults({ data }: { data: Student[] }) {
     <H2Wrapper data={data} category={'学生'}>
       <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
         {(data as Student[]).map((s) => (
-          <li
-            className="flex items-center gap-2 bg-white p-4 text-sm shadow"
-            key={s.id}
-          >
-            <div className="relative">
+          <li className=" bg-white p-4 text-sm shadow" key={s.id}>
+            <Link
+              href={`/schedule/student/${s.id}`}
+              className={'flex items-center gap-2'}
+            >
               {/* https://github.com/vercel/avatar */}
               <Image
                 className="mr-2 flex-shrink-0 rounded-full shadow-inner"
@@ -76,18 +77,18 @@ function SearchResults({ data }: { data: Student[] }) {
                 )}.svg`}
                 alt={s.name}
               />
-            </div>
-            <div className="w-0 flex-1">
-              <div className="font-semibold text-gray-800">{s.name}</div>
-              <div className="truncate  text-gray-900 ">{s.className}</div>
-            </div>
-            <div className="w-0 flex-1 font-light text-gray-900">
-              <div className="truncate">{s.facultyName}</div>
-              <div className="truncate">{s.professionName}</div>
-            </div>
-            {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
-            {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
-            {/* <div className="col-span-1 items-center justify-center">○</div> */}
+              <div className="w-0 flex-1">
+                <div className="font-semibold text-gray-800">{s.name}</div>
+                <div className="truncate  text-gray-900 ">{s.className}</div>
+              </div>
+              <div className="w-0 flex-1 font-light text-gray-900">
+                <div className="truncate">{s.facultyName}</div>
+                <div className="truncate">{s.professionName}</div>
+              </div>
+              {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
+              {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
+              {/* <div className="col-span-1 items-center justify-center">○</div> */}
+            </Link>
           </li>
         ))}
       </ul>

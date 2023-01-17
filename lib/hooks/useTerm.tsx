@@ -13,11 +13,13 @@ export function useTerm() {
 
   const prefetchTerms = (terms) => {
     for (const term of terms) {
-      router.prefetch(
-        !!activeTerm
-          ? pathname.replace(/\d+\-\d+-\d+/, term)
-          : pathname + '/' + term
-      )
+      setTimeout(() => {
+        router.prefetch(
+          !!activeTerm
+            ? pathname.replace(/\d+\-\d+-\d+/, term)
+            : pathname + '/' + term
+        )
+      }, 200)
     }
   }
 

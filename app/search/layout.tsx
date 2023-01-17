@@ -28,7 +28,7 @@ export default async function ScheduleLayout({
             </>
           }
           /* 这里的困难是 layout 无法拿到 searchParams */
-          title={'搜索结果'}
+          title={<>搜索结果</>}
         >
           {children}
         </NewLayout>

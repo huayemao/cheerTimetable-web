@@ -1,3 +1,3 @@
 export default function Loading() {
-    return <p>Loading...</p>
-  }
+  return <p className="w-full h-full flex justify-center items-center">Loading...</p>
+}

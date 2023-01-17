@@ -1,12 +1,8 @@
 import { getTimetable } from '@/lib/api/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
-// import Schedule from '@/components/Timetable'
+import Schedule from '@/components/Timetable'
 import dynamic from 'next/dynamic'
 
-const Schedule = dynamic(() => import('@/components/Timetable'), {
-  ssr: false,
-  loading: () => <p>...</p>,
-})
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
 
