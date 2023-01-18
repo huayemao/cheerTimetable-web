@@ -76,8 +76,10 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
     if (hash.length > 1 && !modal) {
       const modal = hash.slice(1)
       setModal(modal)
+    } else {
+      setModal('')
     }
-  })
+  }, [courses])
 
   useLayoutEffect(() => {
     if (!!modal) {
@@ -138,29 +140,27 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         ))}
       </div>
 
-      <div className="flex space-x-2">
-        <div
-          ref={ref}
-          className={clsx(
-            ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
-            {
-              '!right-0': modal,
-            },
-            'p-6'
-          )}
-        >
-          <button onClick={handleNavBack}>
-            <ArrowLongLeftIcon className="h-6 w-6 text-slate-500" />
-          </button>
-          {/* <h3 className="test">{course?.name}</h3> */}
-          <div className="flex w-full justify-center ">
-            <CourseDetail
-              className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
-              course={activeCourses[0]}
-            />
-          </div>
-          {/* todo: cell 里面的信息，弄个 portal 穿到这里来？，或者不用，直接可以读到信息 */}
+      <div
+        ref={ref}
+        className={clsx(
+          ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
+          {
+            '!right-0': modal,
+          },
+          'p-6'
+        )}
+      >
+        <button onClick={handleNavBack}>
+          <ArrowLongLeftIcon className="h-6 w-6 text-slate-500" />
+        </button>
+        {/* <h3 className="test">{course?.name}</h3> */}
+        <div className="flex w-full justify-center ">
+          <CourseDetail
+            className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
+            course={activeCourses[0]}
+          />
         </div>
+        {/* todo: cell 里面的信息，弄个 portal 穿到这里来？，或者不用，直接可以读到信息 */}
       </div>
     </>
   )
