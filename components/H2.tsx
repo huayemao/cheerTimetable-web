@@ -13,7 +13,7 @@ export function H2({
   return (
     <details
       className={clsx(
-        'relative mx-auto space-y-2 rounded-lg px-4 py-4 marker:mr-6 marker:text-slate-600 md:m-2 md:px-8 ',
+        'relative mx-auto space-y-2 rounded-lg px-4 py-3 open:py-4 marker:mr-6 marker:text-slate-600 md:m-2 md:px-8 ',
         {
           'open:bg-white': !slate,
           [s.card]: !slate,
