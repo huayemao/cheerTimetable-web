@@ -12,11 +12,11 @@
 }
 
 .course-title {
-  @apply mb-0.5 truncate text-sm font-semibold text-slate-600;
+  @apply mb-0.5 truncate text-xs font-semibold text-slate-600 md:text-sm;
 }
 
 .cell {
-  @apply relative flex  flex-col items-center justify-center bg-white px-3 py-2 text-sm  focus:outline-none md:text-base;
+  @apply relative flex  flex-col items-center justify-center bg-white px-3 py-2 text-sm focus:outline-none  md:px-3 md:text-base;
   @apply transition-all hover:bg-slate-100;
   duration: 80ms;
 }
@@ -36,7 +36,7 @@
   }
 
   .show-7-days .cell {
-    @apply font-light md:text-base px-[.3em];
+    @apply px-[.3em] font-light md:text-base;
   }
 
   .show-7-days .course-title {
@@ -44,7 +44,7 @@
   }
 
   .course-title {
-    @apply text-sm font-medium leading-5;
+    @apply leading-5;
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;

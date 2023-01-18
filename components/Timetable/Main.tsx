@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import clsx from 'clsx'
 import { CourseDetail } from './CourseDetail'
 import useClickOutside from '@/lib/hooks/useClickOutside'
+import { H2 } from '../H2'
 
 type TimetableProps = {
   courses: CourseItem[]
@@ -123,7 +124,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         <div
           ref={ref}
           className={clsx(
-            'fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full bg-white shadow transition-all md:w-[50%] lg:w-[42%]',
+            'fixed overflow-auto bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full bg-white shadow-lg transition-all md:w-[50%] lg:w-[42%]',
             {
               '!right-0': modal,
             },
@@ -133,11 +134,15 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
           <button onClick={handleNavBack}>
             <ArrowLongLeftIcon className="h-6 w-6 " />
           </button>
-          <h3 className="text-center text-xl"> {activeCourses[0]?.name}</h3>
-          <CourseDetail course={activeCourses[0]} />
+          <h3 className="mb-4 text-center text-xl">{activeCourses[0]?.name}</h3>
+          <div className=" flex w-full justify-center">
+            <CourseDetail
+              className="max-w-[328px] md:max-w-[364px]"
+              course={activeCourses[0]}
+            />
+          </div>
           {/* todo: cell 里面的信息，弄个 portal 穿到这里来？，或者不用，直接可以读到信息 */}
         </div>
-        {/* 移动端的交互就用下滑把 */}
       </div>
     </>
   )

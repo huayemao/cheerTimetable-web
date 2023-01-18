@@ -12,7 +12,7 @@ import {
 import { getWeekStr } from 'lib/getGridCells'
 import { OwnerType } from 'lib/types/Owner'
 
-export function CourseDetail({ course }) {
+export function CourseDetail({ course, className = '' }) {
   const list = [
     {
       label: '开课编号',
@@ -23,7 +23,7 @@ export function CourseDetail({ course }) {
       label: '授课教师',
       icon: IconUsers,
       content: course?.teachers.map(({ id, name }, i, arr) => (
-        <div key={id}>
+        <span key={id}>
           <Link
             key={id || i}
             href={{
@@ -34,7 +34,7 @@ export function CourseDetail({ course }) {
             {name}
           </Link>
           {i < arr.length - 1 && '、'}
-        </div>
+        </span>
       )),
     },
     {
@@ -91,18 +91,18 @@ export function CourseDetail({ course }) {
     },
   ]
   return (
-    <div>
-      <ul className="  text-gray-900">
+    <div className={className}>
+      <ul className="  text-gray-900 divide-y">
         {list.map(({ icon: Icon, content, label }, i) => (
           <li
             key={i}
             className="relative inline-flex w-full items-center  rounded-t-lg py-2 px-4  text-xs  hover:bg-gray-100 md:text-sm"
           >
-            <span className="flex flex-1 items-center font-semibold text-right w-full">
+            <span className="flex w-full flex-1 items-center text-right font-semibold">
               <Icon className="mr-2 h-4 w-4" />
               {label}
             </span>{' '}
-            <span className="flex-1 w-full text-right">{content}</span>
+            <span className="w-full flex-[2] text-right">{content}</span>
           </li>
         ))}
       </ul>

@@ -19,8 +19,8 @@ export default memo(function H1({ title, children }) {
     update()
   }, [
     // document.querySelector('body'),
-    window.location.pathname,
-    window.location.search,
+    // window.location.pathname,
+    // window.location.search,
   ])
 
   return (
