@@ -1,4 +1,12 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import cn from 'clsx'
 import { ArrowLongLeftIcon } from '@heroicons/react/20/solid'
 import { Cell } from './Cell'
@@ -71,6 +79,16 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
     }
   })
 
+  useLayoutEffect(() => {
+    if (!!modal) {
+      const originalStyle = window.getComputedStyle(document.body).overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = originalStyle
+      }
+    }
+  }, [modal])
+
   return (
     <>
       <div
@@ -124,7 +142,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         <div
           ref={ref}
           className={clsx(
-            'fixed overflow-auto bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full bg-white shadow-lg transition-all md:w-[50%] lg:w-[42%]',
+            ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
             {
               '!right-0': modal,
             },
@@ -132,12 +150,12 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
           )}
         >
           <button onClick={handleNavBack}>
-            <ArrowLongLeftIcon className="h-6 w-6 " />
+            <ArrowLongLeftIcon className="h-6 w-6 text-slate-500" />
           </button>
-          <h3 className="mb-4 text-center text-xl">{activeCourses[0]?.name}</h3>
-          <div className=" flex w-full justify-center">
+          {/* <h3 className="test">{course?.name}</h3> */}
+          <div className="flex w-full justify-center ">
             <CourseDetail
-              className="max-w-[328px] md:max-w-[364px]"
+              className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
               course={activeCourses[0]}
             />
           </div>

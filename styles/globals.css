@@ -37,3 +37,13 @@ textarea:focus {
   --container-color: #fff;
   --hue: 152;
 }
+
+.test {
+  background-image: linear-gradient(
+    90deg,
+    rgb(230, 73, 128) 5%,
+    rgb(255, 135, 135) 95%
+  );
+}
+
+
