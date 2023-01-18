@@ -15,7 +15,7 @@ import s from './Main.module.css'
 import { parseTime } from '../../lib/parseCourseFields'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
 import getGridCells from 'lib/getGridCells'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import clsx from 'clsx'
 import { CourseDetail } from './CourseDetail'
 import useClickOutside from '@/lib/hooks/useClickOutside'
@@ -74,15 +74,20 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
     }
   })
 
+  const pathname = usePathname()
+
   useEffect(() => {
-    const hash = window.location.hash
-    if (hash.length > 1 && !modal) {
-      const modal = hash.slice(1)
-      setModal(modal)
-    } else {
-      setModal('')
-    }
-  }, [courses])
+    // 这里得等一下，否则课表跳转后 offcanvs 的状态仍然保持
+    setTimeout(() => {
+      const hash = window.location.hash
+      if (hash.length > 1 && !modal) {
+        const modal = hash.slice(1)
+        setModal(modal)
+      } else {
+        setModal('')
+      }
+    }, 100)
+  }, [courses, pathname])
 
   useLayoutEffect(() => {
     if (hasSelectedCourse) {

@@ -11,7 +11,7 @@ export function NewLayout({ children, navSection, title }: Props) {
   function Header() {
     return (
       <header className="space-around sticky top-0 z-[10]  flex h-16 w-full items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
-        <div className="ml-4 w-0 text-center md:block md:flex-[1]">
+        <div className="ml-4  w-0 text-center md:block md:flex-[1]">
           {/* 这个内容叫什么？ yari 的 css 类名叫 top-navigation-wrap */}
           {navSection || (
             <div className="text-center text-2xl font-semibold text-slate-600">

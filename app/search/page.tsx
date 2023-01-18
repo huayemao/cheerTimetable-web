@@ -16,12 +16,11 @@ import Link from 'next/link'
 export const revalidate = 0
 
 export default async function Content({ searchParams }) {
+  // todo: 要不还是改回使用 params 吧，否则现在子组件没法改 layout
   const { query } = searchParams
   // todo: 搜索提示页
-  // todo: loading 效果
-  if (!query) return null
   // 如果要搜课程的话那这个函数就不应该叫做 searchOwner 了
-  const data = await searchOwner(query)
+  const data = query ? await searchOwner(query) : []
 
   return (
     <div className="min-h-[70vh]] bg-slate-50">
@@ -43,9 +42,9 @@ export default async function Content({ searchParams }) {
             <LocationResult data={data[2]} />
           </section>
         </article>
-      ) : (
-        <>没有数据</>
-      )}
+      ) : query ? (
+        <div>没有数据</div>
+      ) : null}
     </div>
   )
 }
