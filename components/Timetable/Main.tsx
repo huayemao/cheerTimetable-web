@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   memo,
   useCallback,
   useEffect,
@@ -37,7 +38,7 @@ const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周�
 // todo: 无课表课程
 export default memo(function Timetable({ courses, show7days }: TimetableProps) {
   const colCount = show7days ? 7 : 5
-  const [modal, setModal] = useState('')
+  const [modal, setModal] = useState<number | string>('')
 
   const cells = useMemo(
     () => getGridCells(show7days, courses, colCount),
@@ -49,8 +50,10 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
 
   const ref = useRef(null)
 
+  const hasSelectedCourse = !!modal || modal === 0
+
   useClickOutside(ref, () => {
-    if (!!modal) {
+    if (hasSelectedCourse) {
       handleNavBack()
     }
   })
@@ -82,7 +85,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
   }, [courses])
 
   useLayoutEffect(() => {
-    if (!!modal) {
+    if (hasSelectedCourse) {
       const originalStyle = window.getComputedStyle(document.body).overflow
       document.body.style.overflow = 'hidden'
       return () => {
@@ -131,7 +134,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
               window.history.pushState({ num }, '', `#${num}`)
               setModal(num)
             }}
-            showModal={!!modal}
+            showModal={hasSelectedCourse}
             key={`${i}${rowSpan}${courses?.[0]?.id || 0}`}
             num={i}
             courses={courses}
@@ -140,16 +143,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         ))}
       </div>
 
-      <div
-        ref={ref}
-        className={clsx(
-          ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
-          {
-            '!right-0': modal,
-          },
-          'p-6'
-        )}
-      >
+      <OffCanvas open={hasSelectedCourse} ref={ref}>
         <button onClick={handleNavBack}>
           <ArrowLongLeftIcon className="h-6 w-6 text-slate-500" />
         </button>
@@ -160,8 +154,25 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
             course={activeCourses[0]}
           />
         </div>
-        {/* todo: cell 里面的信息，弄个 portal 穿到这里来？，或者不用，直接可以读到信息 */}
-      </div>
+      </OffCanvas>
     </>
+  )
+})
+
+// eslint-disable-next-line react/display-name
+const OffCanvas = forwardRef(({ children, open }, myRef) => {
+  return (
+    <div
+      ref={myRef}
+      className={clsx(
+        ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
+        {
+          '!right-0': open,
+        },
+        'p-6'
+      )}
+    >
+      {children}
+    </div>
   )
 })
