@@ -1,5 +1,6 @@
 import React from 'react'
 import qs from 'qs'
+import Avatar from 'boring-avatars'
 import { Location, Student, Teacher } from '@prisma/client'
 import { H2 } from 'components/H2'
 import Image from 'next/image'
@@ -67,15 +68,15 @@ function SearchResults({ data }: { data: Student[] }) {
               href={`/schedule/student/${s.id}`}
               className={'flex items-center gap-2'}
             >
-              {/* https://github.com/vercel/avatar */}
-              <Image
-                className="mr-2 flex-shrink-0 rounded-full shadow-inner"
-                width={46}
-                height={46}
-                src={`https://avatar.vercel.sh/${encodeURIComponent(
-                  s.professionName + s.grade + s.name
-                )}.svg`}
-                alt={s.name}
+              <Avatar
+                size={46}
+                name={s.facultyName + s.name}
+                variant="marble"
+                colors={
+                  s.sex === '男'
+                    ? ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
+                    : ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899']
+                }
               />
               <div className="w-0 flex-1">
                 <div className="font-semibold text-gray-800">{s.name}</div>

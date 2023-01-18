@@ -97,6 +97,11 @@ export function CourseDetail({
       content: course ? (course.credit || '') + ' 学分' : null,
     },
   ]
+
+  // todo: 从这里面找样式
+  // https://app.haikei.app/
+  // https://omatsuri.app/gradient-generator
+  // 随机去分配背景图（封面）
   return (
     <div className={className}>
       <div className="test text-white flex justify-center items-center flex-col rounded-t h-24">
