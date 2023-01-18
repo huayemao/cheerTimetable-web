@@ -42,19 +42,31 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
 
   useClickOutside(ref, () => {
     if (!!modal) {
-      history.back()
+      handleNavBack()
     }
   })
 
-  const handleNavBack = (e) => {
+  const handleNavBack = () => {
     setModal('')
+    const uri = window.location.toString()
+    if (uri.indexOf('#') > 0) {
+      const cleanURI = uri.substring(0, uri.indexOf('#'))
+      window.history.replaceState({}, document.title, cleanURI)
+    }
   }
 
   useEffect(() => {
     window.addEventListener('popstate', handleNavBack, true)
-
     return () => {
       window.removeEventListener('popstate', handleNavBack, true)
+    }
+  })
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash.length > 1 && !modal) {
+      const modal = hash.slice(1)
+      setModal(modal)
     }
   })
 
@@ -92,6 +104,9 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         {cells.map(({ courses, rowSpan }, i, arr) => (
           <Cell
             handleNav={(num) => {
+              if (!courses.length) {
+                return
+              }
               window.history.pushState({ num }, '', `#${num}`)
               setModal(num)
             }}
@@ -108,18 +123,14 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         <div
           ref={ref}
           className={clsx(
-            'fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full bg-white shadow transition-all lg:w-[42%]',
+            'fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full bg-white shadow transition-all md:w-[50%] lg:w-[42%]',
             {
               '!right-0': modal,
             },
             'p-6'
           )}
         >
-          <button
-            onClick={() => {
-              history.back()
-            }}
-          >
+          <button onClick={handleNavBack}>
             <ArrowLongLeftIcon className="h-6 w-6 " />
           </button>
           <h3 className="text-center text-xl"> {activeCourses[0]?.name}</h3>
