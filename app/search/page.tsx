@@ -4,7 +4,7 @@ import Avatar from 'boring-avatars'
 import { Location, Student, Teacher } from '@prisma/client'
 import { H2 } from 'components/H2'
 import Image from 'next/image'
-import { searchOwner } from '@/lib/api/searchOwner'
+import { searchOwner } from '@/lib/service/searchOwner'
 import Link from 'next/link'
 
 // 通过课程也应当可以进入一份课表，filter subject 的 courses 就可以了，类似于选课，学生就知道课程开在什么时候了。。

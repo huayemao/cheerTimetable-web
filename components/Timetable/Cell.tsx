@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import s from './Main.module.css'
 import { CourseDetailModal } from './CourseDetailModal'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
-import { getWeekStr } from 'lib/getGridCells'
+import { getWeekStr } from '@/lib/client/getGridCells'
 import { useCallback } from 'react'
 import { omit } from 'lodash'
 

@@ -9,7 +9,7 @@ import {
   Calculator as IconCalculator,
   Collection as IconCollection,
 } from 'components/Icons'
-import { getWeekStr } from 'lib/getGridCells'
+import { getWeekStr } from '@/lib/client/getGridCells'
 import { OwnerType } from 'lib/types/Owner'
 import { CourseItem } from '@/lib/types/CourseItem'
 

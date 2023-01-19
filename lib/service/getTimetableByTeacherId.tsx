@@ -1,8 +1,6 @@
 import prisma from '../prisma'
 import { Owner } from 'lib/types/Owner'
-import { parseCourseItemByLesson } from './parseCourseItemByLesson'
-import { chunk } from 'lodash'
-import { getLessonByIds } from './getLessonByIds'
+import { parseCourseItemByLesson } from 'lib/utils/parseCourseItemByLesson'
 
 export async function getTimetableByTeacherId(id: any, term) {
   const [teacher, courses4Terms] = await prisma.$transaction([

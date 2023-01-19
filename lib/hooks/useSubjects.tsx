@@ -1,4 +1,4 @@
-import { fetcher } from 'lib/fetcher'
+import { fetcher } from '@/lib/client/fetcher'
 import useSWR from 'swr'
 import { URLSearchParams } from 'url'
 import qs from 'qs'

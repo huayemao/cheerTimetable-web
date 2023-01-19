@@ -1,15 +1,15 @@
 import Layout from 'components/common/Layout'
 import { Quote as IconQuote } from 'components/Icons'
-import { getSentences } from 'lib/getSentences'
+import { getSentences } from 'lib/service/getSentences'
 import React from 'react'
 
 type Props = {
   sentences: any[]
 }
 
-export default function Sentences({ sentences }: Props) {
+export default function Testimonials({ sentences }: Props) {
   return (
-    <Layout title={'数字花园'}>
+    <Layout title={'Testimonial'}>
       <div className="grid gap-6 p-8 md:grid-cols-2">
         {sentences.map((e) => (
           <blockquote

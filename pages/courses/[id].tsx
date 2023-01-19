@@ -15,7 +15,7 @@ import {
   Location,
 } from '@prisma/client'
 import List from 'components/common/List'
-import { parseCourseItemByLesson } from 'lib/api/parseCourseItemByLesson'
+import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
 import { CourseDetail } from 'components/Timetable/CourseDetail'
 import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
 import LessonPreview from 'components/Timetable/Cell'

@@ -1,4 +1,4 @@
-import { getTimetable } from '@/lib/api/getTimetable'
+import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
 import Schedule from '@/components/Timetable'
 import dynamic from 'next/dynamic'

@@ -1,4 +1,4 @@
-import { getCoursesBySubject } from 'lib/api/getCoursesBySubject'
+import { getCoursesBySubject } from 'lib/service/getCoursesBySubject'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // http://localhost:3000/api/ical/student/8305180722/2018-2019-2.ics

@@ -7,7 +7,7 @@ import { mapValues, omit, map } from 'lodash'
 import { CourseItem } from 'lib/types/CourseItem'
 import Modal from 'components/common/Modal'
 import List from 'components/common/List'
-import { getWeekStr } from 'lib/getGridCells'
+import { getWeekStr } from '@/lib/client/getGridCells'
 import { CourseDetail } from './CourseDetail'
 import { usePathname, useSearchParams } from 'next/navigation'
 

@@ -1,4 +1,4 @@
-import { getSubjects } from 'lib/api/getSubjects'
+import { getSubjects } from 'lib/service/getSubjects'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // http://localhost:3000/api/ical/student/8305180722/2018-2019-2.ics

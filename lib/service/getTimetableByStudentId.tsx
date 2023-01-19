@@ -1,7 +1,7 @@
 import prisma from '../prisma'
 import { CourseItem } from 'lib/types/CourseItem'
 import { Owner } from 'lib/types/Owner'
-import { parseCourseItemByLesson } from './parseCourseItemByLesson'
+import { parseCourseItemByLesson } from 'lib/utils/parseCourseItemByLesson'
 // import { chunk } from 'lodash'
 // import { getLessonByIds } from './getLessonByIds'
 

@@ -1,4 +1,4 @@
-import { searchOwner } from 'lib/api/searchOwner'
+import { searchOwner } from 'lib/service/searchOwner'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(

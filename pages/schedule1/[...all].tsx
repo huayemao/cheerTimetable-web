@@ -7,7 +7,7 @@ import ScheduleComponent from '../../components/Timetable'
 import { TERMS } from '../../constants'
 import useSWR from 'swr'
 import { Schedule } from 'pages/api/schedule/[...all]'
-import { fetcher } from 'lib/fetcher'
+import { fetcher } from '@/lib/client/fetcher'
 import { OwnerType } from 'lib/types/Owner'
 
 type Props = Awaited<ReturnType<typeof getStaticProps>>['props']

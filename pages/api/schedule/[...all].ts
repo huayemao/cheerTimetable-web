@@ -1,4 +1,4 @@
-import { getTimetable } from 'lib/api/getTimetable'
+import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from 'lib/types/Owner'
 import type { NextApiRequest, NextApiResponse } from 'next'
 

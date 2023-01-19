@@ -1,5 +1,4 @@
-import { parseSlot } from 'lib/parseCourseItem'
-import { Course, Lesson, Subject, Tuition, Teacher } from '@prisma/client'
+import { parseSlot } from 'lib/client/parseCourseItem'
 import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
 import { MyLesson } from 'lib/types/Lesson'
 
