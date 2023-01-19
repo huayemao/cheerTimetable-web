@@ -72,37 +72,42 @@ function SearchResults({ data }: { data: Student[] }) {
     <H2Wrapper data={data} category={'学生'}>
       <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
         {(data as Student[]).map((s) => (
-          <li className=" bg-white p-4 text-sm shadow" key={s.id}>
-            <Link
-              href={`/schedule/student/${s.id}`}
-              className={'flex items-center gap-2'}
-            >
-              <Avatar
-                size={46}
-                name={s.facultyName + s.name}
-                variant="marble"
-                colors={
-                  s.sex === '男'
-                    ? ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
-                    : ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899']
-                }
-              />
-              <div className="w-0 flex-1">
-                <div className="font-semibold text-gray-800">{s.name}</div>
-                <div className="truncate  text-gray-900 ">{s.className}</div>
-              </div>
-              <div className="w-0 flex-1 font-light text-gray-900">
-                <div className="truncate">{s.facultyName}</div>
-                <div className="truncate">{s.professionName}</div>
-              </div>
-              {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
-              {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
-              {/* <div className="col-span-1 items-center justify-center">○</div> */}
-            </Link>
-          </li>
+          <Person
+            key={s.id}
+            href={`/schedule/student/${s.id}`}
+            name={s.name}
+            avatarName={s.facultyName + s.name}
+            plateau={
+              s.sex === '男'
+                ? ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
+                : ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899']
+            }
+            infos={[s.className, s.facultyName, s.professionName]}
+          />
         ))}
       </ul>
     </H2Wrapper>
+  )
+}
+
+function Person({ href, name, avatarName, plateau, infos }): JSX.Element {
+  return (
+    <li className=" bg-white p-4 text-sm shadow">
+      <Link href={href} className={'flex items-center gap-2'}>
+        <Avatar size={46} name={avatarName} variant="marble" colors={plateau} />
+        <div className="w-0 flex-1">
+          <div className="font-semibold text-gray-800">{name}</div>
+          <div className="truncate  text-gray-900 ">{infos[0]}</div>
+        </div>
+        <div className="w-0 flex-1 font-light text-gray-900">
+          <div className="truncate">{infos[1]}</div>
+          <div className="truncate">{infos[2]}</div>
+        </div>
+        {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
+        {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
+        {/* <div className="col-span-1 items-center justify-center">○</div> */}
+      </Link>
+    </li>
   )
 }
 
@@ -111,34 +116,14 @@ function TeacherResult({ data }: { data: Teacher[] }) {
     <H2Wrapper data={data} category={'教师'}>
       <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
         {data.map((teacher) => (
-          <li
-            className="flex items-center gap-2 bg-white p-4 text-sm shadow"
+          <Person
             key={teacher.id}
-          >
-            <div className="relative">
-              {/* https://github.com/vercel/avatar */}
-              <Image
-                className="mr-2 flex-shrink-0 rounded-full shadow-inner"
-                width={46}
-                height={46}
-                src={`https://avatar.vercel.sh/${encodeURIComponent(
-                  teacher.facultyName + teacher.title + teacher.name
-                )}.svg`}
-                alt={teacher.name}
-              />
-            </div>
-            <div className="w-0 flex-1">
-              <div className="font-semibold text-gray-800">{teacher.name}</div>
-              <div className="truncate  text-gray-900 ">{teacher.title}</div>
-            </div>
-            <div className="w-0 flex-1 font-light text-gray-900">
-              <div className="truncate">{teacher.facultyName}</div>
-              <div className="truncate">{teacher.eduBackground}</div>
-            </div>
-            {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
-            {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
-            {/* <div className="col-span-1 items-center justify-center">○</div> */}
-          </li>
+            href={`/schedule/teacher/${teacher.id}`}
+            name={teacher.name}
+            avatarName={teacher.facultyName + teacher.name}
+            plateau={['#ffedd5', '#fed7aa', '#fdba74', '#fb923c', '#f97316']}
+            infos={[teacher.title, teacher.facultyName, teacher.eduBackground]}
+          />
         ))}
       </ul>
     </H2Wrapper>
