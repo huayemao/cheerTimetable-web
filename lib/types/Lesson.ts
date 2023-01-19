@@ -8,11 +8,18 @@ import {
 } from '@prisma/client'
 
 export type MyLesson = Lesson & {
-  location: Location
-  tuition: (Tuition & {
-    teacher: Teacher
-  })[]
   course: Course & {
     subject: Subject
+  }
+  tuition: (Tuition & {
+    teacher: {
+      name: string
+      id: string
+    }
+  })[]
+  location: {
+    name: string
+    id: string
+    building: string
   }
 }
