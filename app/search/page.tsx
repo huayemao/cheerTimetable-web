@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import qs from 'qs'
 import Avatar from 'boring-avatars'
 import { Location, Student, Teacher } from '@prisma/client'
@@ -18,35 +18,44 @@ export const revalidate = 0
 export default async function Content({ searchParams }) {
   // todo: 要不还是改回使用 params 吧，否则现在子组件没法改 layout
   const { query } = searchParams
-  // todo: 搜索提示页
   // 如果要搜课程的话那这个函数就不应该叫做 searchOwner 了
   const data = query ? await searchOwner(query) : []
 
   return (
     <div className="min-h-[70vh]] bg-slate-50">
+      <Suspense fallback={'加载中。。。'}>
+        <SearchR promise={data} query={query}></SearchR>
+      </Suspense>
       {/* todo: 这个也放到 header 吧，但是 layout 页无法拿到 searchParams */}
       {/* <section className="sticky top-16 col-span-3 flex h-12 items-center bg-slate-50 md:top-2 md:bg-transparent">
         <span className="text-xl text-slate-500">←</span>{' '}
         <div className="relative z-[11] ml-auto">{query} 的搜索结果</div>
       </section> */}
       {/* todo: 其实课表页 table 应该用 grid 的 row-start 之类的去计算 */}
-      {data.some((e) => !!e.length) ? (
-        <article className="space-y-8">
-          <section className="mx-auto p-4">
-            {/* 如果不用 tab 的话确实展示密度太小了，用了的话又破坏了之前 h2 的设计，没有用武之地了 */}
-            {/* 而且用 Tab 好像不利于 SEO ? 而且没办法以言看到全部内容   */}
-            {/* 暂时设计成没有结果的就折叠吧 */}
-
-            <SearchResults data={data[0]} />
-            <TeacherResult data={data[1]} />
-            <LocationResult data={data[2]} />
-          </section>
-        </article>
-      ) : query ? (
-        <div>没有数据</div>
-      ) : null}
     </div>
   )
+}
+
+// Albums Component
+async function SearchR({ promise, query }) {
+  // Wait for the albums promise to resolve
+  const data = await promise
+
+  return data.some((e) => !!e.length) ? (
+    <article className="space-y-8">
+      <section className="mx-auto p-4">
+        {/* 如果不用 tab 的话确实展示密度太小了，用了的话又破坏了之前 h2 的设计，没有用武之地了 */}
+        {/* 而且用 Tab 好像不利于 SEO ? 而且没办法以言看到全部内容   */}
+        {/* 暂时设计成没有结果的就折叠吧 */}
+
+        <SearchResults data={data[0]} />
+        <TeacherResult data={data[1]} />
+        <LocationResult data={data[2]} />
+      </section>
+    </article>
+  ) : query ? (
+    <div>没有数据</div>
+  ) : null
 }
 
 const H2Wrapper = ({ category, data, children }) => {
@@ -57,6 +66,7 @@ const H2Wrapper = ({ category, data, children }) => {
   )
 }
 
+// todo: 抽一个 People
 function SearchResults({ data }: { data: Student[] }) {
   return (
     <H2Wrapper data={data} category={'学生'}>
