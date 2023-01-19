@@ -26,6 +26,7 @@ export async function getTimetableByTeacherId(id: any, term) {
                   select: {
                     id: true,
                     name: true,
+                    building: true,
                   },
                 },
                 tuition: {
