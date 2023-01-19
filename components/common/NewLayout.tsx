@@ -36,7 +36,7 @@ export function NewLayout({ children, navSection, title }: Props) {
       <Header />
       <div className="grid w-full grid-cols-1 md:grid-cols-5">
         <Sidebar />
-        <main className="col-span-4 h-full min-h-[calc(100vh-4rem)] bg-slate-50 md:py-2 md:px-8 md:pb-8">
+        <main className="col-span-4 mb-12 h-full min-h-[calc(100vh-4rem)] bg-slate-50 md:mb-0 md:py-2 md:px-8 md:pb-8">
           {children}
         </main>
       </div>

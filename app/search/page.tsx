@@ -70,23 +70,29 @@ const H2Wrapper = ({ category, data, children }) => {
 function SearchResults({ data }: { data: Student[] }) {
   return (
     <H2Wrapper data={data} category={'学生'}>
-      <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
-        {(data as Student[]).map((s) => (
-          <Person
-            key={s.id}
-            href={`/schedule/student/${s.id}`}
-            name={s.name}
-            avatarName={s.facultyName + s.name}
-            plateau={
-              s.sex === '男'
-                ? ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
-                : ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899']
-            }
-            infos={[s.className, s.facultyName, s.professionName]}
-          />
-        ))}
-      </ul>
+      <Students data={data} />
     </H2Wrapper>
+  )
+}
+
+export function Students({ data }: { data: Student[] }) {
+  return (
+    <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
+      {(data as Student[]).map((s) => (
+        <Person
+          key={s.id}
+          href={`/schedule/student/${s.id}`}
+          name={s.name}
+          avatarName={s.facultyName + s.name}
+          plateau={
+            s.sex === '男'
+              ? ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
+              : ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899']
+          }
+          infos={[s.className, s.facultyName, s.professionName]}
+        />
+      ))}
+    </ul>
   )
 }
 

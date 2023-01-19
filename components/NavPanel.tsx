@@ -1,10 +1,5 @@
 import { GithubIcon } from './Links/GithubLink'
-import {
-  CollectionIcon,
-  HeartIcon,
-  PaperAirplaneIcon,
-  PhotographIcon,
-} from '@heroicons/react/outline'
+import { CircleStackIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from 'components/common/Tooltip'
 import { YuqueIcon } from 'components/Links/YuequeLink'
 import { useRouter } from 'next/router'
@@ -51,7 +46,7 @@ function Component() {
           style="light"
         >
           <button className="mouse hidden h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0  text-blue-500 shadow-lg transition duration-200 ease-in focus:outline-none active:shadow-lg lg:flex">
-            <CollectionIcon className="inline-block h-6 w-6" />
+            <CircleStackIcon className="inline-block h-6 w-6" />
           </button>
         </Tooltip>
       </div>
@@ -67,7 +62,7 @@ function Component() {
             onClick={() => router.push('/collection')}
             className="mouse flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 p-0 text-blue-500 shadow transition duration-200 ease-in focus:outline-none active:shadow-lg"
           >
-            <CollectionIcon className="inline-block h-6 w-6" />
+            <CircleStackIcon className="inline-block h-6 w-6" />
           </button>
         </Tooltip>
       </div>

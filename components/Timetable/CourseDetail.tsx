@@ -18,8 +18,9 @@ export function CourseDetail({
   className = '',
 }: {
   course: CourseItem
-  className: string
+  className?: string
 }) {
+  // todo: 这里面要考虑是否加上 slot
   const list = [
     {
       label: '开课编号',
