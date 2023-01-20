@@ -1,3 +1,4 @@
+'use client'
 import {
   forwardRef,
   memo,
@@ -31,7 +32,7 @@ type Cell = {
   rowSpan: number
 }
 
-const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+export const DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 
 // todo: Mini Card
 // todo: 如果没有课，默认折叠最后一行
@@ -149,8 +150,14 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
       </div>
 
       <OffCanvas open={hasSelectedCourse} ref={ref}>
-        <button onClick={handleNavBack}>
-          <ArrowLongLeftIcon className="h-6 w-6 text-slate-500" />
+        <button
+          className="test p-2 text-transparent font-bold text-2xl"
+          style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}
+          onClick={handleNavBack}
+        >
+          {/* 返回 */}
+          ⟵
+          {/* <ArrowLongLeftIcon className="h-6 w-6 test text-transparent" style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}/> */}
         </button>
         {/* <h3 className="test">{course?.name}</h3> */}
         <div className="flex w-full justify-center ">

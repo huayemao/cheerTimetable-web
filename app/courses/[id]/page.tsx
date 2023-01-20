@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import Layout from 'components/common/Layout'
+import MiniSchedule from 'components/Timetable/Mini'
 import Head from 'next/head'
 import List from 'components/common/List'
 import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
@@ -28,21 +28,18 @@ export default async function CoursePage({
     return null
   }
 
-  const label = course ? course.subject.name : null
-
   // todo: 这个其实应该是个课表视图（mini schedule）
   return (
     <>
       {!!courseItems[0] && (
         <H2 title={'开课信息'} slate>
-          <div className="flex gap-4">
-            {courseItems?.map((c) => (
-              <CourseDetail
-                key={c.courseId + c.slot}
-                className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
-                course={c}
-              />
-            ))}
+          <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-6 p-4 md:px-8">
+            <CourseDetail
+              key={courseItems[0].courseId + courseItems[0].slot}
+              className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
+              course={courseItems[0]}
+            />
+            <MiniSchedule show7days courses={courseItems} />
           </div>
         </H2>
       )}
