@@ -21,6 +21,7 @@ import clsx from 'clsx'
 import { CourseDetail } from './CourseDetail'
 import useClickOutside from '@/lib/hooks/useClickOutside'
 import { H2 } from '../H2'
+import Carousel from 'nuka-carousel'
 
 type TimetableProps = {
   courses: CourseItem[]
@@ -151,20 +152,79 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
 
       <OffCanvas open={hasSelectedCourse} ref={ref}>
         <button
-          className="test p-2 text-transparent font-bold text-2xl"
+          className="test p-2 text-2xl font-bold text-transparent"
           style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}
           onClick={handleNavBack}
         >
-          {/* 返回 */}
-          ⟵
+          {/* 返回 */}⟵
           {/* <ArrowLongLeftIcon className="h-6 w-6 test text-transparent" style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}/> */}
         </button>
         {/* <h3 className="test">{course?.name}</h3> */}
         <div className="flex w-full justify-center ">
-          <CourseDetail
-            className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
-            course={activeCourses[0]}
-          />
+          {/* <Swiper
+            slidesPerView={2}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {activeCourses.map((c) => (
+              <SwiperSlide key={c.courseId}>
+                <CourseDetail
+                  className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
+                  course={c}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper> */}
+          {activeCourses.length > 1 ? (
+            <Carousel
+              className="max-w-[100vw]"
+              renderBottomCenterControls={({
+                slideCount,
+                currentSlide,
+                goToSlide,
+              }) => {
+                return (
+                  <div className="relative top-4 flex gap-2">
+                    {Array.from({ length: slideCount }, (_, i) => i).map(
+                      (e) => (
+                        <div
+                          className={clsx(
+                            'h-2 w-2 rounded-full bg-clip-padding p-1 ring-2 ring-slate-300',
+                            {
+                              'bg-slate-400': currentSlide === e,
+                            }
+                          )}
+                          key={e}
+                          onClick={() => goToSlide(e)}
+                        />
+                      )
+                    )}
+                  </div>
+                )
+              }}
+              renderCenterRightControls={null}
+              renderCenterLeftControls={null}
+            >
+              {activeCourses.map((c) => (
+                <div className="flex justify-center p-2" key={c.courseId}>
+                  <CourseDetail
+                    className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
+                    course={c}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          ) : (
+            <div
+              className="flex justify-center p-2"
+              key={activeCourses[0]?.courseId}
+            >
+              <CourseDetail
+                className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
+                course={activeCourses[0]}
+              />
+            </div>
+          )}
         </div>
       </OffCanvas>
     </>
