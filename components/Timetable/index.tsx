@@ -12,6 +12,7 @@ import { CourseItem } from 'lib/types/CourseItem'
 import { OwnerType } from 'lib/types/Owner'
 import { memo, useEffect, useMemo } from 'react'
 import { useTerm } from '@/lib/hooks/useTerm'
+import { useLayoutDispatch } from 'contexts/layoutContext'
 // https://box-shadow.dev/?ref=tiny-helpers
 
 // https://beta.nextjs.org/docs/upgrade-guide#step-4-migrating-pages
@@ -23,19 +24,41 @@ type Props = {
   courses: CourseItem[]
   type: OwnerType
   id: string
+  title: string
+  terms: string[]
 }
 
-export default memo(function Schedule({ courses, type, id }: Props) {
+export default memo(function Schedule({
+  courses,
+  type,
+  id,
+  title,
+  terms,
+}: Props) {
   // todo: 抽一个 useTerm 吧
 
   const { hasTermSearchParam, navToTerm, activeTerm } = useTerm()
 
-  const dispath = usePreferenceDispatch()
+  const dispath = useLayoutDispatch()
   // @ts-ignore
   const { show7DaysOnMobile } = usePreference()
 
   const isMobile = useMediaQuery('(max-width: 768px)', true, false)
   const show7days = !isMobile || (isMobile && show7DaysOnMobile)
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispath({
+        type: 'SET_SCHEDULE_HEADER',
+        payload: {
+          data: {
+            title,
+            terms,
+          },
+        },
+      })
+    }, 0)
+  }, [])
 
   return (
     <div className={'space-y-4'}>

@@ -161,20 +161,6 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         </button>
         {/* <h3 className="test">{course?.name}</h3> */}
         <div className="flex w-full justify-center ">
-          {/* <Swiper
-            slidesPerView={2}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
-          >
-            {activeCourses.map((c) => (
-              <SwiperSlide key={c.courseId}>
-                <CourseDetail
-                  className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"
-                  course={c}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper> */}
           {activeCourses.length > 1 ? (
             <Carousel
               className="max-w-[100vw]"

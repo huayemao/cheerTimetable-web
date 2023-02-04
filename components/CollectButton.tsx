@@ -1,3 +1,4 @@
+'use client'
 import React, { useCallback } from 'react'
 import { BookmarkIcon } from '@heroicons/react/solid'
 import { BookmarkIcon as BookmarkIconO } from '@heroicons/react/outline'
@@ -8,12 +9,11 @@ import {
   useCollection,
   useCollectionDispatch,
 } from 'contexts/collectionContext'
-import { type } from 'os'
+// todo: 从 document title 去读吧
 
 const getPageProps = (router) => router.components[router.route].props.pageProps
 
 const getTimeTableMeta = (router): CollectItemMeta => {
-  const { owner } = getPageProps(router)
   const [type, id] = router.query.all || []
   const { label, name } = owner || {}
   return {
@@ -59,12 +59,11 @@ const mapping: Record<CAN_COLLECT_ROUTES, (router: any) => CollectItemMeta> = {
   [CAN_COLLECT_ROUTES['/courses/[id]']]: getCourseMeta,
 }
 
-const CollectButton = () => {
-  const router = useRouter()
+export const CollectButton = () => {
   const dispatch = useCollectionDispatch()
   const collection = useCollection()
-  const fn = mapping[router.route]
-  const info = fn(router)
+  const fn = getTimeTableMeta
+  const info = fn()
   const handleToggle = useCallback(() => {
     dispatch({
       type: 'SET',
@@ -74,9 +73,6 @@ const CollectButton = () => {
     })
   }, [dispatch, info])
 
-  if (!router.isReady || router.isFallback) {
-    return null
-  }
   const followed = collection[info.type].find((e) => e.id === info.id)
 
   return (

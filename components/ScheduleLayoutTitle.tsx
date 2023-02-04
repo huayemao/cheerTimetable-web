@@ -1,8 +1,7 @@
 'use client'
-
-import { CourseItem } from '@/lib/types/CourseItem'
 import { useCallback } from 'react'
 import { useTerm } from '../lib/hooks/useTerm'
+import CollectButton from './CollectButton'
 
 type props = {
   title: string
@@ -45,6 +44,8 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
         >
           <option value="2">全部周</option>
         </select>
+        {/* todo: 这个按钮要重新写 */}
+        {/* <CollectButton /> */}
       </div>
     </div>
   )

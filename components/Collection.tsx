@@ -1,5 +1,4 @@
-import { Disclosure } from '@headlessui/react'
-import { ChevronUpIcon } from '@heroicons/react/solid'
+"use client"
 import {
   useCollection,
   useCollectionDispatch,

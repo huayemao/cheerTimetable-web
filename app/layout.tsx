@@ -1,11 +1,9 @@
 import { NewLayout } from '@/components/common/NewLayout'
 import '@/styles/globals.css'
-import {
-  MagnifyingGlassIcon,
-  Cog8ToothIcon,
-  HomeIcon,
-} from '@heroicons/react/24/outline'
-import Link from 'next/link'
+import CollectionProvider from 'contexts/collectionContext'
+import LayoutProvider from 'contexts/layoutContext'
+import PreferenceProvider from 'contexts/preferenceContext'
+import { BottomTab } from './BottomTab'
 
 export default function RootLayout({
   children,
@@ -18,23 +16,17 @@ export default function RootLayout({
     <html>
       <head />
       <body>
-        {children}
-        <BottomTab />
+        <LayoutProvider>
+          <PreferenceProvider>
+            <CollectionProvider>
+              <NewLayout>
+                {children}
+                <BottomTab />
+              </NewLayout>
+            </CollectionProvider>
+          </PreferenceProvider>
+        </LayoutProvider>
       </body>
     </html>
   )
 }
-
-const BottomTab = () => (
-  <div className="fixed left-4 right-4 bottom-4 z-10 mx-auto flex h-12 items-center justify-between rounded-lg shadow backdrop-blur md:hidden">
-    <div className="flex flex-1 justify-center text-center">
-      <HomeIcon className="h-8 w-8 text-slate-600" />
-    </div>
-    <Link href={'/search'} className="flex flex-1 justify-center">
-      <MagnifyingGlassIcon className="h-8 w-8 text-slate-600" />
-    </Link>
-    <div className="flex flex-1 justify-center">
-      <Cog8ToothIcon className="h-8 w-8 text-slate-600" />
-    </div>
-  </div>
-)

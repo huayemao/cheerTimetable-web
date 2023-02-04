@@ -1,3 +1,4 @@
+"use client"
 import useCollapsible from 'lib/hooks/useCollapsible'
 import React, {
   createContext,

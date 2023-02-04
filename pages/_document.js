@@ -1,9 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { APP_NAME, APP_DESCRIPTION, AUTHOR, KEY_WORDS } from '../constants/siteConfig'
 
-const APP_NAME = '绮课-cheerTimetable'
-const APP_DESCRIPTION = '中南大学本科生课表查询工具。根据学生姓名、教师姓名、教室名称查询课表，同时支持查询课程的上课学生列表。'
-const AUTHOR = '花野猫'
-const KEY_WORDS = '绮课,中南大学,本科生,课表,课程表,数字花园'
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
 
 export default class MyDocument extends Document {
