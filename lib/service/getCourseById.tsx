@@ -1,6 +1,7 @@
-import prisma from '../prisma';
+import { cache } from 'react'
+import prisma from '../prisma'
 
-export async function getCourseById(id: any) {
+export default cache(async function getCourseById(id: any) {
   return await prisma.course.findUnique({
     where: {
       id: id,
@@ -28,5 +29,5 @@ export async function getCourseById(id: any) {
         },
       },
     },
-  });
-}
+  })
+})

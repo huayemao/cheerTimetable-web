@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default 'JSESSIONID=8F5225080BBAF5226B2F6518BEBD56C1; BIGipServero5E8DA9Hppp9PO46RpPJdw=!m5JfND7YbifP/NlhDR2oAlGb+ywnCpjvEnVSkZVivUEwtycaWlJF3pCCoy0MCKSVKJGJO8ncx61KU8c='
+export default 'JSESSIONID=48C848693F6023D3813B09EB45F5CBD7'

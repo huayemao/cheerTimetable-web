@@ -1,13 +1,10 @@
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import MiniSchedule from 'components/Timetable/Mini'
-import Head from 'next/head'
-import List from 'components/common/List'
 import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
 import { CourseDetail } from 'components/Timetable/CourseDetail'
 import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
 import LessonPreview from 'components/Timetable/Cell'
-import { getCourseById } from '../../../lib/service/getCourseById'
+import getCourseById from '../../../lib/service/getCourseById'
 import { Students } from 'app/search/page'
 import { H2 } from '@/components/H2'
 
@@ -33,7 +30,7 @@ export default async function CoursePage({
     <>
       {!!courseItems[0] && (
         <H2 title={'开课信息'} slate>
-          <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-6 p-4 md:px-8">
+          <div className="flex flex-col items-stretch gap-4 p-4 md:flex-row md:gap-6 md:px-8">
             <CourseDetail
               key={courseItems[0].courseId + courseItems[0].slot}
               className="max-w-[308px] rounded bg-white shadow md:max-w-[364px]"

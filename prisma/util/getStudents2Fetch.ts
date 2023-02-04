@@ -40,7 +40,7 @@ export async function getStudents2Fetch(terms) {
 async function getExistedStudentIds(terms: any) {
   // 本来年级太高的，不应该再拉数据了，但是考虑到医学生。。。 拉六年内的学生课表吧
   const START_GRADE_NUM =
-    terms.length === 1 ? Number(TERMS[0].split('-')[0]) - 6 - 2000 : 14
+    terms.length < TERMS.length ? Number(TERMS[0].split('-')[0]) - 4 - 2000 : 14
 
   const OR = terms.map((e) => ({
     courseId: { contains: e.replaceAll('-', '') },

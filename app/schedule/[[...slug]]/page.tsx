@@ -5,11 +5,12 @@ import dynamic from 'next/dynamic'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
 
-// todo: 和 terms 合成一个
 export default async function SchedulePage({ params }) {
   const { slug } = params
   const [type, id, term] = slug
-
+  if (decodeURIComponent(type) === '[[...slug]]') {
+    return
+  }
   const { courses, owner, terms } = await getTimetable(
     type as OwnerType,
     id,
