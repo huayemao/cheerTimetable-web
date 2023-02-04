@@ -20,14 +20,16 @@ export const getTimetable = cache(
     }
     const { courses, owner, terms } = await fnMapping[type](id, term)
 
-    return {
-      courses: mergeSameCourse(courses as CourseItem[]),
-      owner,
-      terms:
-        terms ||
-        (Array.from(new Set(courses?.map((e) => e.term)))?.sort(
-          (a: string, b: string) => b.localeCompare(a)
-        ) as string[]),
-    }
+    return JSON.parse(
+      JSON.stringify({
+        courses: mergeSameCourse(courses as CourseItem[]),
+        owner,
+        terms:
+          terms ||
+          (Array.from(new Set(courses?.map((e) => e.term)))?.sort(
+            (a: string, b: string) => b.localeCompare(a)
+          ) as string[]),
+      })
+    )
   }
 )

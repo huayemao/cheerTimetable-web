@@ -8,19 +8,20 @@ export default async function SchedulePage({ params }) {
   const { slug } = params
   const [type, id, term] = slug
   if (decodeURIComponent(type) === '[[...slug]]') {
-    return
+    return null
   }
   const { courses, owner, terms } = await getTimetable(
     type as OwnerType,
     id,
     term
   )
+  const title = (owner.label || '') + owner.name
   return (
     <div className="bg-slate-50">
       {
         <Schedule
           terms={terms}
-          title={(owner.label || '') + owner.name}
+          title={title}
           courses={courses}
           type={type}
           id={id}
