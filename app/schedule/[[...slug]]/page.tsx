@@ -1,7 +1,6 @@
 import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
 import Schedule from '@/components/Timetable'
-import dynamic from 'next/dynamic'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
 
@@ -21,7 +20,7 @@ export default async function SchedulePage({ params }) {
       {
         <Schedule
           terms={terms}
-          title={owner?.label || '' + owner?.name}
+          title={(owner.label || '') + owner.name}
           courses={courses}
           type={type}
           id={id}
