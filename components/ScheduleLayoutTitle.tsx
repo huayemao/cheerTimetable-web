@@ -45,7 +45,7 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
           <option value="2">全部周</option>
         </select>
         {/* todo: 这个按钮要重新写 */}
-        {/* <CollectButton /> */}
+        <CollectButton />
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import {
   useCollection,
   useCollectionDispatch,
@@ -17,7 +17,6 @@ type Props = {
 }
 
 function Component({ title = '', className }: Props) {
-  const dispatch = useCollectionDispatch()
   const data = useCollection()
 
   const nameMapping = {
@@ -29,31 +28,16 @@ function Component({ title = '', className }: Props) {
   }
 
   const pathNameMapping = {
-    student: CAN_COLLECT_ROUTES['/schedule/[...all]'],
-    teacher: CAN_COLLECT_ROUTES['/schedule/[...all]'],
-    location: CAN_COLLECT_ROUTES['/schedule/[...all]'],
-    subject: CAN_COLLECT_ROUTES['/subjects/[id]'],
-    course: CAN_COLLECT_ROUTES['/courses/[id]'],
+    student: CAN_COLLECT_ROUTES['student'],
+    teacher: CAN_COLLECT_ROUTES['teacher'],
+    location: CAN_COLLECT_ROUTES['location'],
+    subject: CAN_COLLECT_ROUTES['subject'],
+    course: CAN_COLLECT_ROUTES['course'],
   }
 
   const getHref = (data, type) => {
     const pathname = pathNameMapping[type]
-
-    if (pathname === CAN_COLLECT_ROUTES['/schedule/[...all]']) {
-      return {
-        pathname,
-        query: {
-          all: [type, data.id],
-        },
-      }
-    } else {
-      return {
-        pathname,
-        query: {
-          id: data.id,
-        },
-      }
-    }
+    return pathname + data.id
   }
 
   return (
@@ -97,7 +81,7 @@ function Component({ title = '', className }: Props) {
                         href={getHref(e, k)}
                         className="text-base font-medium leading-5"
                       >
-                        {e.name} @<span className="text-sm">{e.label}</span>
+                        {e.label}
                       </Link>
                     </li>
                   ))}

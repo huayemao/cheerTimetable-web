@@ -8,18 +8,11 @@ export default async function Head({ params }) {
   if (decodeURIComponent(type) === '[[...slug]]') {
     return null
   }
-  const { courses, owner, terms } = await getTimetable(
-    type as OwnerType,
-    id,
-    term
-  )
+  const { owner } = await getTimetable(type as OwnerType, id, term)
 
-  const name = (owner.label || '') + owner.name
-
-  // todo: 要找一个标签把类型写进去
   return (
     <>
-      <title>{`${name}@${term || terms[0]}`}</title>
+      <title>{`${owner.name}@${owner.label}`}</title>
     </>
   )
 }

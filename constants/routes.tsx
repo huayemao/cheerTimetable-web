@@ -1,5 +1,7 @@
 export enum CAN_COLLECT_ROUTES {
-  '/schedule/[...all]' = '/schedule/[...all]',
-  '/courses/[id]' = '/courses/[id]',
-  '/subjects/[id]' = '/subjects/[id]',
+  student = '/schedule/student/',
+  location = '/schedule/location/',
+  teacher = '/schedule/teacher/',
+  course = '/courses/',
+  subject = '/subjects/',
 }

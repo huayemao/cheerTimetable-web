@@ -1,50 +1,15 @@
 'use client'
 import React, { useCallback } from 'react'
-import { BookmarkIcon } from '@heroicons/react/solid'
-import { BookmarkIcon as BookmarkIconO } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
+import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { CAN_COLLECT_ROUTES } from '../constants/routes'
 import { Course, Subject } from '@prisma/client'
 import {
   useCollection,
   useCollectionDispatch,
 } from 'contexts/collectionContext'
+import { useSelectedLayoutSegments } from 'next/navigation'
+import { StarIcon } from '@heroicons/react/24/solid'
 // todo: 从 document title 去读吧
-
-const getPageProps = (router) => router.components[router.route].props.pageProps
-
-const getTimeTableMeta = (router): CollectItemMeta => {
-  const [type, id] = router.query.all || []
-  const { label, name } = owner || {}
-  return {
-    type,
-    id,
-    label,
-    name,
-  }
-}
-
-const getSubjectMeta = (router): CollectItemMeta => {
-  const { subject } = getPageProps(router)
-  const { id } = router.query
-  return {
-    type: 'subject',
-    id,
-    label: (subject as Subject)?.department,
-    name: (subject as Subject)?.name,
-  }
-}
-
-const getCourseMeta = (router): CollectItemMeta => {
-  const { course } = getPageProps(router)
-  const { id } = router.query
-  return {
-    type: 'course',
-    id,
-    label: (course as Course)?.term,
-    name: (course as Course)?.className,
-  }
-}
 
 type CollectItemMeta = {
   type: string
@@ -53,17 +18,13 @@ type CollectItemMeta = {
   name: string
 }
 
-const mapping: Record<CAN_COLLECT_ROUTES, (router: any) => CollectItemMeta> = {
-  [CAN_COLLECT_ROUTES['/schedule/[...all]']]: getTimeTableMeta,
-  [CAN_COLLECT_ROUTES['/subjects/[id]']]: getSubjectMeta,
-  [CAN_COLLECT_ROUTES['/courses/[id]']]: getCourseMeta,
-}
-
 export const CollectButton = () => {
   const dispatch = useCollectionDispatch()
   const collection = useCollection()
-  const fn = getTimeTableMeta
-  const info = fn()
+  const segments = useSelectedLayoutSegments()
+  // [ 'schedule', 'student/8210221303' ] 为什么会是这样？
+
+  const info: CollectItemMeta = getType(segments)
   const handleToggle = useCallback(() => {
     dispatch({
       type: 'SET',
@@ -79,9 +40,9 @@ export const CollectButton = () => {
     <button className="inline-flex items-center" onClick={handleToggle}>
       <div className="mr-2 h-6 w-6 align-middle text-blue-500">
         {followed ? (
-          <BookmarkIcon className="h-5 w-5" />
+          <StarIcon className="h-5 w-5" />
         ) : (
-          <BookmarkIconO className="h-5 w-5" />
+          <StarIconOutline className="h-5 w-5" />
         )}
       </div>
       {followed && '已'}收藏
@@ -90,3 +51,17 @@ export const CollectButton = () => {
 }
 
 export default CollectButton
+
+function getType(segments: string[]) {
+  let type: string | null = null
+  let id: string | null = null
+  if (segments[0] === 'schedule') {
+    ;[type, id] = segments[1].split('/')
+  }
+  return {
+    type,
+    id,
+    label: document.title,
+    name: '',
+  }
+}
