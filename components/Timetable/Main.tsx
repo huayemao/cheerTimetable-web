@@ -152,7 +152,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
 
       <OffCanvas open={hasSelectedCourse} ref={ref}>
         <button
-          className="test p-2 text-2xl font-bold text-transparent"
+          className="gradient p-2 text-2xl font-bold text-transparent"
           style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}
           onClick={handleNavBack}
         >

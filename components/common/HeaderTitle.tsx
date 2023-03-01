@@ -31,5 +31,5 @@ export function HeaderTitle({}) {
       </>
     )
   }
-  return <>{'绮课'}</>
+  return <></>
 }

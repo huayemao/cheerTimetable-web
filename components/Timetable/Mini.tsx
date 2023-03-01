@@ -27,7 +27,7 @@ export default memo(function MiniSchedule({
   )
 
   return (
-    <div className="test max-w-[308px] rounded p-2 md:max-w-[364px] md:p-4">
+    <div className="gradient max-w-[308px] rounded p-2 md:max-w-[364px] md:p-4">
       <div
         className={cn(
           s.timetable,
@@ -60,7 +60,7 @@ export default memo(function MiniSchedule({
           >
             {courses.length ? (
               <div
-                className="test flex h-full w-full flex-col items-center justify-center rounded p-1 text-lg font-semibold text-transparent"
+                className="gradient flex h-full w-full flex-col items-center justify-center rounded p-1 text-lg font-semibold text-transparent"
                 title={courses.map((e) => getWeekStr(e))}
                 style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}
               >

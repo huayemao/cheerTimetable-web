@@ -38,14 +38,13 @@ export const CollectButton = () => {
 
   return (
     <button className="inline-flex items-center" onClick={handleToggle}>
-      <div className="mr-2 h-6 w-6 align-middle text-blue-500">
+      <div className="mr-2 h-6 w-6 align-middle text-slate-500">
         {followed ? (
           <StarIcon className="h-5 w-5" />
         ) : (
           <StarIconOutline className="h-5 w-5" />
         )}
       </div>
-      {followed && '已'}收藏
     </button>
   )
 }
@@ -61,7 +60,7 @@ function getType(segments: string[]) {
   return {
     type,
     id,
-    label: document.title,
+    label: document?.title || '',
     name: '',
   }
 }

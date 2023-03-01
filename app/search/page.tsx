@@ -141,29 +141,30 @@ function LocationResult({ data }: { data: Location[] }) {
     <H2Wrapper data={data} category={'地点'}>
       <ul className=" grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
         {data.map((location) => (
-          <li
-            className="flex items-center gap-2 bg-white p-4 text-sm shadow"
-            key={location.id}
-          >
-            <div className="relative">
-              {/* todo: 根据校区名的色板 */}
-              <div className="h-[46px] w-[46px] items-center justify-center bg-slate-100">
-                {location.campus}
+          <li key={location.id}>
+            <Link
+              href={`/schedule/location/${location.id}`}
+              className="flex items-center gap-2 bg-white p-4 text-sm shadow"
+            >
+              <div className="relative">
+                {/* todo: 根据校区名的色板 */}
+                <div className="h-[46px] w-[46px] items-center justify-center bg-slate-100">
+                  {location.campus}
+                </div>
               </div>
-            </div>
-            <div className="w-0 flex-1">
-              <div className="font-semibold text-gray-800">{location.name}</div>
-              <div className="truncate  text-gray-900 ">
-                {location.building}
+              <div className="w-0 flex-1">
+                <div className="font-semibold text-gray-800">
+                  {location.name}
+                </div>
+                <div className="truncate  text-gray-900 ">
+                  {location.building}
+                </div>
               </div>
-            </div>
-            <div className="w-0 flex-1 font-light text-gray-900">
-              <div className="truncate">{location.category}</div>
-              <div className="truncate">{location.seatCount}</div>
-            </div>
-            {/* todo: 这里是一个 ICON，点击后查看学生名片 */}
-            {/* 或者做成一个折叠块？参考https://developer.mozilla.org/en-US/plus/updates */}
-            {/* <div className="col-span-1 items-center justify-center">○</div> */}
+              <div className="w-0 flex-1 font-light text-gray-900">
+                <div className="truncate">{location.category}</div>
+                <div className="truncate">{location.seatCount}</div>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>

@@ -8,9 +8,9 @@ import {
 export default function Home() {
   return (
     <div>
-      <h1>{APP_NAME}</h1>
-      <p>{APP_DESCRIPTION}</p>
-      <div className="flex h-full min-h-[80vh] w-full items-center justify-center">
+      {/* <h1>{APP_NAME}</h1>
+      <p>{APP_DESCRIPTION}</p> */}
+      {/* <div className="flex h-full min-h-[80vh] w-full items-center justify-center">
         <div className="w-96 rounded-lg bg-white p-2 shadow ring-1 ring-slate-700/5 dark:bg-slate-900 dark:ring-white/10">
           <div className="grid grid-cols-5 gap-2">
             <div className="pt-full dark:highlight-white/10 aspect-square rounded-sm bg-indigo-50 ring-1 ring-inset ring-slate-900/5 dark:ring-0"></div>
@@ -63,7 +63,7 @@ export default function Home() {
             <span className="flex-1 text-right">blue-900</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

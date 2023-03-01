@@ -105,7 +105,7 @@ export function CourseDetail({
   // 随机去分配背景图（封面）
   return (
     <div className={className}>
-      <div className="test text-white flex justify-center items-center flex-col rounded-t h-24">
+      <div className="gradient text-white flex justify-center items-center flex-col rounded-t h-24">
         <h3 className='font-semibold '>{course?.name}</h3>
         <span>{course?.term}</span>
       </div>

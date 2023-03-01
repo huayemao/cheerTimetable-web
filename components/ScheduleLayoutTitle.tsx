@@ -15,11 +15,11 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
   }, [terms])
 
   return (
-    <div className="flex flex-col items-start gap-1 md:flex-row md:items-end">
+    <div className="flex flex-col items-center justify-center gap-1 md:w-full md:flex-row md:items-end">
       <h1 className="inline-flex text-xl  font-light text-slate-700 md:mr-4 md:text-2xl">
         {title}
       </h1>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <select
           onFocus={prefetch}
           onChange={(v) => {
@@ -36,15 +36,14 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
             </option>
           ))}
         </select>
-        <select
+        {/* <select
           defaultValue={'2'}
           name="week"
           id=""
           className="rounded  border border-slate-200 bg-white px-[.2em] py-[.12em] text-xs font-medium text-slate-700 focus:border-transparent focus:ring-1 focus:ring-slate-500"
         >
           <option value="2">全部周</option>
-        </select>
-        {/* todo: 这个按钮要重新写 */}
+        </select> */}
         <CollectButton />
       </div>
     </div>
