@@ -79,7 +79,9 @@ export default memo(function Schedule({
             订阅当前学期日历 (experimental):
           </h4>
           <div className="text-sm">
-            {`${window?.location?.origin}/api/ical/${type}/${id}/${activeTerm}.ics`}
+            {`${window?.location?.origin}/api/ical/${type}/${id}/${
+              activeTerm || terms[0]
+            }.ics`}
           </div>
         </div>
       </H2>
