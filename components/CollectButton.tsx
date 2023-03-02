@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { CAN_COLLECT_ROUTES } from '../constants/routes'
 import { Course, Subject } from '@prisma/client'
@@ -9,9 +9,8 @@ import {
 } from 'contexts/collectionContext'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { StarIcon } from '@heroicons/react/24/solid'
-// todo: 从 document title 去读吧
 
-type CollectItemMeta = {
+type CollectionItem = {
   type: string
   id: string
   label: string
@@ -24,17 +23,27 @@ export const CollectButton = () => {
   const segments = useSelectedLayoutSegments()
   // [ 'schedule', 'student/8210221303' ] 为什么会是这样？
 
-  const info: CollectItemMeta = getType(segments)
+  const [collectionItem, setCollectionItem] = useState<CollectionItem | null>(
+    null
+  )
+
+  useEffect(() => {
+    const item: CollectionItem = getType(segments)
+    setCollectionItem(item)
+  }, [])
+
   const handleToggle = useCallback(() => {
     dispatch({
       type: 'SET',
       payload: {
-        data: info,
+        data: collectionItem,
       },
     })
-  }, [dispatch, info])
+  }, [dispatch, collectionItem])
 
-  const followed = collection[info.type].find((e) => e.id === info.id)
+  const followed = collectionItem
+    ? collection[collectionItem.type].find((e) => e.id === collectionItem.id)
+    : false
 
   return (
     <button className="inline-flex items-center" onClick={handleToggle}>
@@ -52,15 +61,15 @@ export const CollectButton = () => {
 export default CollectButton
 
 function getType(segments: string[]) {
-  let type: string | null = null
-  let id: string | null = null
+  let type: string = ''
+  let id: string = ''
   if (segments[0] === 'schedule') {
     ;[type, id] = segments[1].split('/')
   }
   return {
     type,
     id,
-    label: document?.title || '',
+    label: window ? document.title : '',
     name: '',
   }
 }
