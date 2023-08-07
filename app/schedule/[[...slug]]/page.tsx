@@ -1,6 +1,8 @@
+import Schedule from '@/components/Timetable'
+import prisma from '@/lib/prisma'
 import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
-import Schedule from '@/components/Timetable'
+import baseTerms from 'constants/terms'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
 
@@ -29,4 +31,26 @@ export default async function SchedulePage({ params }) {
       }
     </div>
   )
+}
+
+export async function generateStaticParams() {
+  const terms = baseTerms.slice(0, 4)
+
+  const students = await prisma.student.findMany({
+    where: {
+      grade: {
+        gte: '2020',
+      },
+    },
+    distinct: ['className'],
+  })
+  const params = terms.flatMap((term) => {
+    return students.map((s) => {
+      return {
+        slug: ['student', s.id, term],
+      }
+    })
+  })
+
+  return params
 }

@@ -6,3 +6,5 @@ export async function seedRelations() {
   await login4query()
   await withPersist(seedEnrollment, 'Enrollment')()
 }
+
+
