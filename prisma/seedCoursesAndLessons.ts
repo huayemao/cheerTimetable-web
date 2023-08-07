@@ -102,7 +102,7 @@ export async function seedCourses(offset = 0) {
 
   for (let i = offset; i < ids.length; i++) {
     const id = ids[i]
-    await sleep(300)
+    // await sleep(120)
 
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, terms)) || {}
