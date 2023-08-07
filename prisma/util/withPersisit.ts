@@ -1,5 +1,5 @@
-import prisma from '../../lib/prisma'
 import { Update } from '@prisma/client'
+import prisma from '../../lib/prisma'
 
 export async function getLastUpdateRecord(forceUpdate = false) {
   const count = await prisma.update.count({})
@@ -35,7 +35,7 @@ export async function getLastUpdateRecord(forceUpdate = false) {
   return lastRecord as Update
 }
 
-export const withPersisit = (fn: () => Promise<any>, tableName: string) => {
+export const withPersist = (fn: () => Promise<any>, tableName: string) => {
   const fieldName = tableName.slice(0, 1).toLowerCase() + tableName.slice(1)
 
   return async () => {

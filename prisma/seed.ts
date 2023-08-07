@@ -1,13 +1,14 @@
+import {
+  checkInvalidCourseIdsFromEnrollment,
+  checkInvalidCourseIdsFromLesson
+} from './checkIntegrity'
 import { seedEntities } from './seedEntities'
 import { seedRelations } from './seedRelations'
-import {
-  checkInvalidCourseIdsFromLesson,
-  checkInvalidCourseIdsFromEnrollment,
-} from './checkIntegrity'
 
 async function run() {
   let exception: any
   try {
+    // await clearStorage()
     await seedEntities()
     await seedRelations()
     await checkInvalidCourseIdsFromEnrollment()

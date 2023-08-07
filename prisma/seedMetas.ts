@@ -1,25 +1,36 @@
+import { chunk } from 'lodash'
+import { TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import {
   getCourseMeta,
   getLocationMeta,
   getStudentMeta,
-  getTeacherMeta,
+  getTeacherMeta
 } from './api/getMetas'
-import { TERMS } from '../constants'
-import { chunk } from 'lodash'
-import { withPersisit } from './util/withPersisit'
 import { isUpdating } from './util/isUpdating'
+import { withPersist } from './util/withPersisit'
 
 export const seedMetas = async () => {
-  const updating = await isUpdating()
-  const seedStudentMeta = seedAllTerms(getStudentMeta, 'StudentMeta', updating)
+  const seedStudentMeta = seedAllTerms(
+    getStudentMeta,
+    'StudentMeta',
+    await isUpdating('studentMeta')
+  )
   const seedLocationMeta = seedAllTerms(
     getLocationMeta,
     'LocationMeta',
-    updating
+    await isUpdating('locationMeta')
   )
-  const seedCourseMeta = seedAllTerms(getCourseMeta, 'CourseMeta', updating)
-  const seedTeacherMeta = seedAllTerms(getTeacherMeta, 'TeacherMeta', updating)
+  const seedCourseMeta = seedAllTerms(
+    getCourseMeta,
+    'CourseMeta',
+    await isUpdating('courseMeta')
+  )
+  const seedTeacherMeta = seedAllTerms(
+    getTeacherMeta,
+    'TeacherMeta',
+    await isUpdating('teacherMeta')
+  )
 
   await seedStudentMeta()
   await seedLocationMeta()
@@ -50,6 +61,6 @@ export const seedMetas = async () => {
       }
     }
 
-    return withPersisit(seedFn, tableName)
+    return withPersist(seedFn, tableName)
   }
 }

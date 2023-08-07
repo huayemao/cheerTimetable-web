@@ -1,7 +1,6 @@
-import { supplementSubjectAndSeedCourses } from './seedCoursesAndLessons'
-import { seedCourses } from './seedCoursesAndLessons'
-import { seedEnrollment } from './seedEnrollments'
 import { login4query } from './api/login4query'
+import { seedCourses, supplementSubjectAndSeedCourses } from './seedCoursesAndLessons'
+import { seedEnrollment } from './seedEnrollments'
 
 export async function seedRelations() {
   await login4query()

@@ -1,4 +1,4 @@
-export function seedUtilNoData(getList, model) {
+export function seedUntilNoData(getList, model) {
   return async () => {
     let pageNum = 1
     let { hasMore } = await saveOnePage(pageNum)
@@ -17,7 +17,7 @@ export function seedUtilNoData(getList, model) {
 
       return {
         payload,
-        hasMore: list.length,
+        hasMore: 1000 === list.length,
       }
     }
   }

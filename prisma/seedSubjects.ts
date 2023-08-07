@@ -1,14 +1,15 @@
 import prisma from '../lib/prisma'
 import { getSubjects } from './api/getSubjects'
-import { seedUtilNoData } from './util/seedUtilNoData'
+import { seedUntilNoData } from './util/seedUtilNoData'
 
 export async function seedSubjects() {
-  const versions = [
-    2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
-  ]
+  const versions = Array.from(
+    { length: new Date().getFullYear() - 2012 + 1 },
+    (_, i) => 2012 + i
+  )
 
   for (const version of versions) {
-    await seedUtilNoData(async (...args) => {
+    await seedUntilNoData(async (...args) => {
       const [pageNum, pageSize] = args
       return await getSubjects(pageNum, pageSize, version)
     }, prisma.subject)()

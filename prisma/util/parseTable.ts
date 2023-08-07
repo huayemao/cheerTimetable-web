@@ -4,6 +4,11 @@ import { mapKeys } from 'lodash'
 export function parseTable<T>(html, fieldExtractorMapping = {}, mapping = {}) {
   const doc = new JSDOM(html)
   const table = doc.window.document.querySelector('#dataTables')
+  if (!table) {
+    throw Error(
+      '响应错误，可能是认证失败，或者请求频率太快，响应的 html：' + doc.window.document.body.innerHTML
+    )
+  }
   const rows = [...table.rows]
   const ths = [...rows[0].cells].map((e) => e.innerHTML)
 

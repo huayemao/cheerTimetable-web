@@ -1,5 +1,5 @@
-import prisma from '../lib/prisma'
 import { TERMS } from '../constants'
+import prisma from '../lib/prisma'
 import { getLessonsById } from './api/getLessonsByID'
 import { getStudents2Fetch } from './util/getStudents2Fetch'
 import { isUpdating } from './util/isUpdating'
@@ -7,7 +7,7 @@ import { isUpdating } from './util/isUpdating'
 const GAP = 4
 
 export async function seedEnrollment(offset = 0, gap = GAP) {
-  const terms = (await isUpdating()) ? TERMS.slice(0, 1) : TERMS
+  const terms = (await isUpdating('enrollment')) ? TERMS.slice(0, 1) : TERMS
   const students2Fetch = await getStudents2Fetch(terms)
   console.log('start seeding enrollment，total: ', students2Fetch.length)
 

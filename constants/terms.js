@@ -10,7 +10,7 @@ const baseTerms = (() => {
   const curMonth = DATE.getMonth() + 1
   const shouldShowNextYear = curMonth > 6
   return Array.from(
-    { length: curYear - 2016 + 1 },
+    { length: curYear - 2014 + 1 },
     (e, i) => curYear - i
   ).flatMap((e) => {
     if (e === curYear) {

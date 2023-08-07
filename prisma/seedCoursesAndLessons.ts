@@ -1,11 +1,18 @@
-import { Course, CourseMeta, Subject, Tuition } from '@prisma/client'
-import { COURSES } from '../_data/metas'
-import prisma from '../lib/prisma'
-import { getCourseStuffs } from './util/getCourseStuffs'
+import { Course, Tuition } from '@prisma/client'
 import { TERMS } from '../constants'
+import prisma from '../lib/prisma'
+import { COURSES } from '../_data/metas'
+import { getCourseStuffs } from './util/getCourseStuffs'
 import { getSubjectMeta } from './util/getFromMeta'
 import { isUpdating } from './util/isUpdating'
 
+const sleep = async (time) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}
+
+/* meta 中有而 subject 列表中没有的课程 */
 export async function supplementSubjectAndSeedCourses() {
   const subjects = await prisma.subject.findMany({
     select: {
@@ -25,7 +32,7 @@ export async function supplementSubjectAndSeedCourses() {
 async function upsertSubject(data, subjectId: string) {
   await prisma.subject.upsert({
     create: data,
-    update: data,
+    update: { ...data, tooOld: false },
     where: {
       id: subjectId,
     },
@@ -35,6 +42,7 @@ async function upsertSubject(data, subjectId: string) {
 export async function seedSubjectByCourseMeta(courseMetas) {
   console.log('start supplementing Subject')
   for (let i = 0; i < courseMetas.length; i++) {
+    // await sleep(120)
     const element = courseMetas[i]
     const subjectId = element.kch.trim()
 
@@ -74,7 +82,7 @@ function logProgress(id: any, i: number, total: number) {
 }
 
 export async function seedCourses(offset = 0) {
-  const updating = await isUpdating()
+  const updating = await isUpdating('course')
   const terms = updating ? TERMS.slice(0, 1) : TERMS
 
   console.log('seed courses and lessons from subject')
@@ -94,6 +102,7 @@ export async function seedCourses(offset = 0) {
 
   for (let i = offset; i < ids.length; i++) {
     const id = ids[i]
+    await sleep(300)
 
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, terms)) || {}
@@ -109,10 +118,7 @@ export async function seedCourses(offset = 0) {
 
   async function makeFlag(id: string) {
     if (terms.length === TERMS.length) {
-      await prisma.subject.update({
-        data: {
-          tooOld: true,
-        },
+      await prisma.subject.delete({
         where: {
           id: id,
         },
@@ -134,12 +140,12 @@ async function getIds2Fetch(terms) {
   const excludeCondition = {
     AND: {
       updatedAt: {
-        // 如果 3 天内更新过，且 unopenTerms 是 terms，就过滤掉，其实刚刚更新过的通通过滤掉就好了。。
+        // 如果 3 天内更新过，就过滤掉
         gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
       },
-      unopenTerms: {
-        equals: terms,
-      },
+      // unopenTerms: {
+      //   equals: terms,
+      // },
     },
   }
   const allSubjectIds = (
@@ -180,9 +186,7 @@ async function getIds2Fetch(terms) {
       select: { id: true },
       where: {
         id: idCondition,
-        tooOld: {
-          not: true,
-        },
+        tooOld: false,
         NOT: excludeCondition,
       },
     })
@@ -222,7 +226,6 @@ async function updateSubjectDetail(
         data: tuitions,
         skipDuplicates: true,
       }),
-      // 其实这里更新一下 updatedAt 就好了，但是现在这样做可以区分 terms
       prisma.subject.update({
         data: {
           unopenTerms: [],

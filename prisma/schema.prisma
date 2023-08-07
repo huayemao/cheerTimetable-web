@@ -59,7 +59,7 @@ model Teacher {
 
 model Student {
     id             String       @id
-    seq            Int          @unique
+    seq            Int
     grade          String
     name           String
     facultyName    String
