@@ -1,10 +1,8 @@
 import _ from 'lodash'
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { Student } from 'prisma/prisma-client'
-import { parseTable } from '../util/parseTable'
-import { COOKIE } from '../../constants'
 import { HEADERS } from '../util/header'
+import { parseTable } from '../util/parseTable'
 
 const { map, mapKeys, mapValues } = _
 

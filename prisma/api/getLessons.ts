@@ -1,7 +1,7 @@
-import { parseTable } from '../util/parseTable'
-import qs from 'qs'
 import fetch from 'node-fetch'
+import qs from 'qs'
 import { HEADERS } from '../util/header'
+import { parseTable } from '../util/parseTable'
 
 type params = {
   jsid?: string

@@ -1,10 +1,8 @@
 import { login4query } from './api/login4query'
-import { seedCourses, supplementSubjectAndSeedCourses } from './seedCoursesAndLessons'
 import { seedEnrollment } from './seedEnrollments'
+import { withPersist } from './util/withPersisit'
 
 export async function seedRelations() {
   await login4query()
-  await supplementSubjectAndSeedCourses()
-  await seedCourses()
-  await seedEnrollment()
+  await withPersist(seedEnrollment, 'Enrollment')()
 }

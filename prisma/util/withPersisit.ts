@@ -3,8 +3,9 @@ import prisma from '../../lib/prisma'
 
 export async function getLastUpdateRecord(forceUpdate = false) {
   const count = await prisma.update.count({})
+  const locationCount = await prisma.location.count({})
 
-  !count &&
+  !locationCount &&
     (await prisma.location.create({
       data: {
         id: '00default',

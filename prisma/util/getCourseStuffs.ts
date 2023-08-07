@@ -1,14 +1,14 @@
 // @ts-nocheck
-import { Course, Lesson, Subject, Tuition } from '@prisma/client'
+import { Course, Subject, Tuition } from '@prisma/client'
+import { TERMS } from 'constants'
 import { compact, groupBy, map, omit } from 'lodash'
 import { getLessons, LessonRes1 } from '../api/getLessons'
 import { getLessonsById, LessonRes } from '../api/getLessonsByID'
 import { getSubjectCategory } from '../api/getSubjectCategory'
-import { mapByTerms } from './mapByTerm'
 import { getSubjectMeta } from './getFromMeta'
-import { LessonData, parseLesson } from './parseLessons'
+import { mapByTerms } from './mapByTerm'
+import { parseLesson } from './parseLessons'
 import { parseSubject } from './parseSubject'
-import { TERMS } from 'constants'
 
 export const getInt = (str: string | undefined) => parseInt(str?.trim() || '0')
 
@@ -48,6 +48,7 @@ export async function getCourseStuffs(
   if (!items.length) {
     return null
   }
+
 
   const subject: Subject = parseSubject(subjectId, name, items, itemsAlt, cats)
 

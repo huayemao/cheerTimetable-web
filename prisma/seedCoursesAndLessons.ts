@@ -107,7 +107,8 @@ export async function seedCourses(offset = 0) {
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, terms)) || {}
 
-    if (courses?.length && lessons?.length && tuitions?.length) {
+    const arr = [courses?.length, lessons?.length, tuitions?.length]
+    if (arr.every((e) => !!e)) {
       await updateSubjectDetail(id, terms, courses, lessons, tuitions)
       logProgress(id, i, ids.length)
     } else {
@@ -140,8 +141,11 @@ async function getIds2Fetch(terms) {
   const excludeCondition = {
     AND: {
       updatedAt: {
-        // 如果 3 天内更新过，就过滤掉
+        // 如果 3 天内更新过，且早已创建,就过滤掉
         gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+      },
+      createdAt: {
+        lte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
       },
       // unopenTerms: {
       //   equals: terms,

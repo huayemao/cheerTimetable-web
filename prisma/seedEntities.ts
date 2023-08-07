@@ -2,6 +2,10 @@ import prisma from '../lib/prisma'
 import { getLocations } from './api/getLocations'
 import { getTeachers } from './api/getTeachers'
 import { login4query } from './api/login4query'
+import {
+  seedCourses,
+  supplementSubjectAndSeedCourses
+} from './seedCoursesAndLessons'
 import { seedMetas } from './seedMetas'
 import { seedStudents } from './seedStudents'
 import { seedSubjects } from './seedSubjects'
@@ -22,4 +26,9 @@ export async function seedEntities() {
 
   await withPersist(seedStudents, 'Student')()
   await withPersist(seedSubjects, 'Subject')()
+
+  await withPersist(async () => {
+    await seedCourses()
+    await supplementSubjectAndSeedCourses()
+  }, 'Course')()
 }

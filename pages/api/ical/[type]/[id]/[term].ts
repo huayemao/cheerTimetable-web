@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getTimetable } from '@/lib/service/getTimetable'
 import { Teacher } from '@prisma/client'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -7,10 +8,8 @@ import utc from 'dayjs/plugin/utc'
 import ical, {
   ICalEvent,
   ICalEventRepeatingFreq,
-  ICalRepeatingOptions,
+  ICalRepeatingOptions
 } from 'ical-generator'
-import { getTimetable } from '@/lib/service/getTimetable'
-import { parseLocation, parseTime } from 'lib/parseCourseFields'
 import { CourseItem, TimetaleSlot, WeekInterval } from 'lib/types/CourseItem'
 import { OwnerType } from 'lib/types/Owner'
 import type { NextApiRequest, NextApiResponse } from 'next'
