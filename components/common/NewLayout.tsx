@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ReactChildren } from 'react'
+import { Logo } from '../Logo'
 import { HeaderTitle } from './HeaderTitle'
 import { NavLink } from './NavLink'
 import { SideBarSearch } from './SideBarSearch'
@@ -20,8 +21,9 @@ export function NewLayout({ children, navSection = '', params }: Props) {
           {navSection || (
             <Link
               href={'/'}
-              className="ml-4 text-center text-2xl font-semibold text-slate-600 md:ml-8"
+              className="whitespace-nowrap flex gap-2 items-center ml-4 text-center text-2xl lg:text-4xl font-semibold text-primary-800 md:ml-8"
             >
+              <Logo />
               绮课
             </Link>
           )}
