@@ -21,10 +21,10 @@ export function NewLayout({ children, navSection = '', params }: Props) {
           {navSection || (
             <Link
               href={'/'}
-              className="whitespace-nowrap flex gap-2 items-center ml-4 text-center text-2xl lg:text-4xl font-semibold text-primary-800 md:ml-8"
+              className="whitespace-nowrap flex gap-2 drop-shadow-lg shadow-primary-500 items-center ml-4 text-center text-2xl lg:text-4xl font-semibold  md:ml-8"
             >
               <Logo />
-              绮课
+              {/* <span className="font-sans">cheer</span> */}
             </Link>
           )}
         </div>
