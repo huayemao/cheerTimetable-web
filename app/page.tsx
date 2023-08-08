@@ -1,16 +1,11 @@
 import { SearchBox } from '@/components/SearchBox'
 import { getProfessions } from '@/lib/service/profession'
-import { Metadata } from 'next'
 import { Departments } from '../components/Departments'
 import {
-  APP_DESCRIPTION, APP_INTRODUCTION,
+  APP_INTRODUCTION,
   APP_NAME
 } from '../constants/siteConfig'
 
-export const metadata: Metadata = {
-  title: APP_NAME + '——' + APP_DESCRIPTION,
-  description: APP_INTRODUCTION,
-}
 
 export default async function Home() {
   const data = await getProfessions()

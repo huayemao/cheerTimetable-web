@@ -2,8 +2,43 @@ import Schedule from '@/components/Timetable'
 import prisma from '@/lib/prisma'
 import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
+import { APP_NAME } from 'constants/siteConfig'
+import { Metadata } from 'next'
 
 // https://beta.nextjs.org/docs/api-reference/segment-config#configrevalidate
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string[] }
+}): Promise<Metadata> {
+  // read route params
+  const { slug } = params
+  const [type, id, term, grade] = slug
+  if (decodeURIComponent(type) === '[[...slug]]') {
+    return {}
+  }
+  const { courses, owner, terms } = await getTimetable(
+    type as OwnerType,
+    id,
+    term,
+    grade
+  )
+
+  return {
+    title: `${owner.name}@${owner.label} | ${APP_NAME}`,
+    abstract:
+      '中南大学' +
+      `${owner.label}${owner.name}` +
+      (term ? `${term}学期` : '') +
+      '课表',
+    description:
+      '中南大学' +
+      `${owner.label}${owner.name}` +
+      (term ? `${term}学期` : '') +
+      '课表',
+  }
+}
 
 export default async function SchedulePage({ params }) {
   const { slug } = params
