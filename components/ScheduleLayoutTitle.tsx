@@ -5,11 +5,17 @@ import CollectButton from './CollectButton'
 
 type props = {
   title: string
+  label?: string
   terms: string[]
   grades?: string[]
 }
 
-export default function ScheduleLayoutTitle({ title, terms, grades }: props) {
+export default function ScheduleLayoutTitle({
+  title,
+  terms,
+  grades,
+  label,
+}: props) {
   const { navToTerm, activeTerm, prefetchTerms } = useTerm()
   const prefetch = useCallback(() => {
     prefetchTerms(terms)
@@ -18,7 +24,8 @@ export default function ScheduleLayoutTitle({ title, terms, grades }: props) {
   return (
     <div className="flex flex-col items-center justify-center gap-1 md:w-full md:flex-row md:items-end">
       <h1 className="inline-flex text-xl  font-light text-slate-700 md:mr-4 md:text-2xl">
-        {title}
+        {title}{' '}
+        <sub>{label}</sub>
       </h1>
       <div className="flex items-center justify-center gap-2">
         {(terms?.length && (

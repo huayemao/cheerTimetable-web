@@ -1,14 +1,12 @@
 'use client'
+import { Tab } from '@headlessui/react'
+import classNames from 'clsx'
 import {
-  useCollection,
-  useCollectionDispatch,
+  useCollection
 } from 'contexts/collectionContext'
 import { map } from 'lodash'
 import Link from 'next/link'
-import { memo, ReactNode, useState } from 'react'
-import { Tab } from '@headlessui/react'
-import classNames from 'clsx'
-import { Tooltip } from './common/Tooltip'
+import { memo, ReactNode } from 'react'
 import { CAN_COLLECT_ROUTES } from '../constants'
 
 type Props = {

@@ -5,7 +5,7 @@ import {
   useCollection,
   useCollectionDispatch
 } from 'contexts/collectionContext'
-import { useSelectedLayoutSegments } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React, { useCallback, useEffect, useState } from 'react'
 
 type CollectionItem = {
@@ -18,7 +18,8 @@ type CollectionItem = {
 export const CollectButton = () => {
   const dispatch = useCollectionDispatch()
   const collection = useCollection()
-  const segments = useSelectedLayoutSegments()
+  const segments = usePathname()?.split('/') || []
+
   // [ 'schedule', 'student/8210221303' ] 为什么会是这样？
 
   const [collectionItem, setCollectionItem] = useState<CollectionItem | null>(
@@ -27,7 +28,9 @@ export const CollectButton = () => {
 
   useEffect(() => {
     const item: CollectionItem = getType(segments)
-    setCollectionItem(item)
+    if (item) {
+      setCollectionItem(item)
+    }
   }, [])
 
   const handleToggle = useCallback(() => {
@@ -39,7 +42,7 @@ export const CollectButton = () => {
     })
   }, [dispatch, collectionItem])
 
-  const followed = collectionItem
+  const followed = collectionItem?.type
     ? collection[collectionItem.type].find((e) => e.id === collectionItem.id)
     : false
 
@@ -61,8 +64,8 @@ export default CollectButton
 function getType(segments: string[]) {
   let type: string = ''
   let id: string = ''
-  if (segments[0] === 'schedule') {
-    ;[type, id] = segments[1].split('/')
+  if (segments[1] === 'schedule') {
+    ;[type, id] = segments.slice(2, 4)
   }
   return {
     type,

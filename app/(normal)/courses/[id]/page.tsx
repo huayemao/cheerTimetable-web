@@ -1,12 +1,19 @@
-import { useRouter } from 'next/router'
-import MiniSchedule from 'components/Timetable/Mini'
-import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
-import { CourseDetail } from 'components/Timetable/CourseDetail'
-import { SubjectPreview } from 'components/PreviewCards/SubjectPreview'
-import LessonPreview from 'components/Timetable/Cell'
-import getCourseById from '../../../lib/service/getCourseById'
-import { Students } from 'app/search/page'
 import { H2 } from '@/components/H2'
+import getCourseById from '@/lib/service/getCourseById'
+import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
+import { Students } from 'app/(search)/search/page'
+import { CourseDetail } from 'components/Timetable/CourseDetail'
+import MiniSchedule from 'components/Timetable/Mini'
+import { APP_NAME } from 'constants/siteConfig'
+import { Metadata } from 'next'
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const course = await getCourseById(params.id)
+  return {
+    title: `${course?.subject.name}@${course?.term} | ${APP_NAME}`,
+    abstract: `中南大学课程：${course?.subject.name}@${course?.term}`,
+  }
+}
 
 export default async function CoursePage({
   params,

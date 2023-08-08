@@ -1,3 +1,5 @@
+import { NewLayout } from '@/components/common/NewLayout'
+import ScheduleLayoutTitle from '@/components/ScheduleLayoutTitle'
 import Schedule from '@/components/Timetable'
 import prisma from '@/lib/prisma'
 import { getTimetable } from '@/lib/service/getTimetable'
@@ -54,17 +56,28 @@ export default async function SchedulePage({ params }) {
   )
   const title = (owner.label || '') + owner.name
   return (
-    <div className="bg-slate-50">
-      {
-        <Schedule
+    <NewLayout
+      key={2}
+      title={
+        <ScheduleLayoutTitle
+          title={owner.name}
+          label={owner.label}
           terms={terms}
-          title={title}
-          courses={courses}
-          type={type}
-          id={id}
         />
       }
-    </div>
+    >
+      <div className="bg-slate-50">
+        {
+          <Schedule
+            terms={terms}
+            title={title}
+            courses={courses}
+            type={type}
+            id={id}
+          />
+        }
+      </div>
+    </NewLayout>
   )
 }
 

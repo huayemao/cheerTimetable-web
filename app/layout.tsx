@@ -1,4 +1,3 @@
-import { NewLayout } from '@/components/common/NewLayout'
 import '@/styles/globals.css'
 import {
   APP_DESCRIPTION,
@@ -35,10 +34,8 @@ export default function RootLayout({
         <LayoutProvider>
           <PreferenceProvider>
             <CollectionProvider>
-              <NewLayout params={params}>
-                {children}
-                <BottomTab />
-              </NewLayout>
+              {children}
+              <BottomTab />
             </CollectionProvider>
           </PreferenceProvider>
         </LayoutProvider>

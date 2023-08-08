@@ -8,7 +8,8 @@
   src: url(/fonts/qike.TTF);
 }
 
-h1 {
+h1,
+h2 {
   font-family: qike;
 }
 

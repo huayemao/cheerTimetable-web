@@ -1,18 +1,17 @@
 import Link from 'next/link'
-import { ReactChildren } from 'react'
+import { ReactElement } from 'react'
 import { Logo } from '../Logo'
 import { HeaderTitle } from './HeaderTitle'
 import { NavLink } from './NavLink'
 import { SideBarSearch } from './SideBarSearch'
 
 export type Props = {
-  children: ReactChildren
-  navSection?: ReactChildren
-  title?: ReactChildren
-  params: any
+  children: ReactElement
+  navSection?: ReactElement
+  title?: ReactElement
 }
 
-export function NewLayout({ children, navSection = '', params }: Props) {
+export function NewLayout({ children, navSection, title }: Props) {
   function Header() {
     return (
       <header className="space-around sticky top-0 z-[10]  flex h-16 w-full items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
@@ -29,12 +28,14 @@ export function NewLayout({ children, navSection = '', params }: Props) {
           )}
         </div>
         <div className="flex w-0 flex-[4] gap-4">
-          <div
-            id="headerContent"
-            className="text-center text-2xl font-semibold text-slate-600 w-full"
-          >
-            <HeaderTitle />
-          </div>
+          {title ?? (
+            <h1
+              id="headerContent"
+              className="text-center text-2xl text-slate-600 w-full"
+            >
+              <HeaderTitle />
+            </h1>
+          )}
         </div>
       </header>
     )

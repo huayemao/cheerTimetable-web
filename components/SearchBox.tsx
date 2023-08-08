@@ -1,17 +1,15 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import { Logo } from './Logo'
 
 export const SearchBox = () => {
-  const router = useRouter()
 
   return (
     <div className="ltablet:max-w-sm bg-muted-200 dark:bg-muted-800/60 rounded-xl p-8 lg:max-w-md">
       <div className="mb-8 max-w-sm">
         <Logo />
-        <p className="font-heading text-xl font-medium leading-normal leading-normal mb-2">
+        <h2 className="font-heading text-xl font-medium leading-normal leading-normal mb-2">
           搜索课表
-        </p>
+        </h2>
         <p className="font-alt text-sm font-normal leading-normal leading-normal text-muted-400">
           你可以在这里搜索学生、任课教师、上课地点、专业名称。其中上课地点和专业名称支持模糊搜索
         </p>
@@ -65,5 +63,3 @@ export const SearchBox = () => {
     </div>
   )
 }
-
-
