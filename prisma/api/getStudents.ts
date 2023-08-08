@@ -3,7 +3,6 @@ import fetch from 'node-fetch'
 import qs from 'qs'
 import { Student } from 'prisma/prisma-client'
 import { parseTable } from '../util/parseTable'
-import { COOKIE } from '../../constants'
 import prisma from '../../lib/prisma'
 import { HEADERS } from '../util/header'
 

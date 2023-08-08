@@ -1,11 +1,9 @@
-import { parseTable } from '../util/parseTable'
-import qs from 'qs'
-import fetch from 'node-fetch'
 import { Location } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
-import { COOKIE } from '../../constants'
+import fetch from 'node-fetch'
+import qs from 'qs'
 import { HEADERS } from '../util/header'
-import prisma from '../../lib/prisma'
+import { parseTable } from '../util/parseTable'
 
 const mapping = {
   教室编号: 'id',
