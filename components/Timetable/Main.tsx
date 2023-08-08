@@ -1,5 +1,6 @@
 'use client'
 import getGridCells from '@/lib/client/getGridCells'
+import 'client-only'
 import { default as clsx, default as cn } from 'clsx'
 import { CourseItem } from 'lib/types/CourseItem'
 import { usePathname } from 'next/navigation'
