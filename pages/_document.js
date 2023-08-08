@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import { APP_NAME, APP_DESCRIPTION, KEY_WORDS } from '../constants/siteConfig'
+import { APP_NAME, APP_DESCRIPTION, AUTHOR, KEY_WORDS } from '../constants/siteConfig'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
 

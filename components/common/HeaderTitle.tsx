@@ -1,7 +1,5 @@
 'use client'
 
-import 'client-only'
-
 export function HeaderTitle({}) {
   if (document.title.includes('——')) {
     const [title, sub] = document.title.replace('。', '').split('——')
