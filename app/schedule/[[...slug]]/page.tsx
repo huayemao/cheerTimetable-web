@@ -7,14 +7,15 @@ import { OwnerType } from '@/lib/types/Owner'
 
 export default async function SchedulePage({ params }) {
   const { slug } = params
-  const [type, id, term] = slug
+  const [type, id, term, grade] = slug
   if (decodeURIComponent(type) === '[[...slug]]') {
     return null
   }
   const { courses, owner, terms } = await getTimetable(
     type as OwnerType,
     id,
-    term
+    term,
+    grade
   )
   const title = (owner.label || '') + owner.name
   return (

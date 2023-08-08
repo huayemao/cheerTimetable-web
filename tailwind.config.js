@@ -1,5 +1,5 @@
-import colors from "tailwindcss/colors";
 const { withShurikenUI } = require("@shuriken-ui/tailwind")
+const colors = require("tailwindcss/colors")
 
 module.exports = withShurikenUI({
   mode: 'jit',

@@ -8,4 +8,5 @@ export enum OwnerType {
   'student' = 'student',
   'teacher' = 'teacher',
   'location' = 'location',
+  'profession'='profession'
 }

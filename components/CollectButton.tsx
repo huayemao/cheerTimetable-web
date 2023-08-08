@@ -1,14 +1,12 @@
 'use client'
-import React, { useCallback, useState, useEffect } from 'react'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
-import { CAN_COLLECT_ROUTES } from '../constants/routes'
-import { Course, Subject } from '@prisma/client'
+import { StarIcon } from '@heroicons/react/24/solid'
 import {
   useCollection,
-  useCollectionDispatch,
+  useCollectionDispatch
 } from 'contexts/collectionContext'
 import { useSelectedLayoutSegments } from 'next/navigation'
-import { StarIcon } from '@heroicons/react/24/solid'
+import React, { useCallback, useEffect, useState } from 'react'
 
 type CollectionItem = {
   type: string

@@ -1,11 +1,10 @@
-"use client"
-import useCollapsible from 'lib/hooks/useCollapsible'
+'use client'
 import React, {
   createContext,
-  useReducer,
+  Dispatch,
   useContext,
   useEffect,
-  Dispatch,
+  useReducer
 } from 'react'
 
 type CollectionItem = {
@@ -21,6 +20,7 @@ const initialData = {
   location: [],
   course: [],
   subject: [],
+  profession: [],
 }
 
 export const CollectionContext =
@@ -62,10 +62,12 @@ const CollectionProvider = ({ children }) => {
   const storageData =
     typeof window !== 'undefined' ? localStorage.getItem('COLLECTION') : null
 
-  const [state, dispatch] = useReducer(
-    reducer,
-    JSON.parse(storageData || 'null') || initialData
-  )
+  const parsedJson = JSON.parse(storageData || 'null')
+  if (!parsedJson['profession']) {
+    parsedJson['profession'] = []
+  }
+
+  const [state, dispatch] = useReducer(reducer, parsedJson || initialData)
 
   useEffect(() => {
     localStorage.setItem('COLLECTION', JSON.stringify(state))
