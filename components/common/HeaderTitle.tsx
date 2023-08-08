@@ -1,6 +1,6 @@
 'use client'
 
-export function HeaderTitle({}) {
+export default function HeaderTitle({}) {
   if (document.title.includes('——')) {
     const [title, sub] = document.title.replace('。', '').split('——')
     return (

@@ -1,10 +1,14 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 import { Logo } from '../Logo'
-import { HeaderTitle } from './HeaderTitle'
+// import { HeaderTitle } from './HeaderTitle'
 import { NavLink } from './NavLink'
 import { SideBarSearch } from './SideBarSearch'
-
+const HeaderTitle = dynamic(() => import('./HeaderTitle'), {
+  // Do not import in server side
+  ssr: false,
+})
 export type Props = {
   children: ReactElement
   navSection?: ReactElement

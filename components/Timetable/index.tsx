@@ -1,18 +1,23 @@
 'use client'
-import Timetable from './Main'
-import useMediaQuery from 'lib/hooks/useMediaQuery'
-import {
-  usePreference,
-  usePreferenceDispatch,
-} from 'contexts/preferenceContext'
-import Empty from '../Empty'
-import { H2 } from '../H2'
-import H1 from '../H1'
-import { CourseItem } from 'lib/types/CourseItem'
-import { OwnerType } from 'lib/types/Owner'
-import { memo, useEffect, useMemo } from 'react'
+// import Timetable from './Main'
 import { useTerm } from '@/lib/hooks/useTerm'
 import { useLayoutDispatch } from 'contexts/layoutContext'
+import {
+  usePreference
+} from 'contexts/preferenceContext'
+import useMediaQuery from 'lib/hooks/useMediaQuery'
+import { CourseItem } from 'lib/types/CourseItem'
+import { OwnerType } from 'lib/types/Owner'
+import dynamic from 'next/dynamic'
+import { memo, useEffect } from 'react'
+import Empty from '../Empty'
+import H1 from '../H1'
+import { H2 } from '../H2'
+
+const Timetable = dynamic(() => import("./Main"), {
+  // Do not import in server side
+  ssr: false,
+})
 // https://box-shadow.dev/?ref=tiny-helpers
 
 // https://beta.nextjs.org/docs/upgrade-guide#step-4-migrating-pages
