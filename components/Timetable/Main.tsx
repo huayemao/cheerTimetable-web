@@ -1,27 +1,19 @@
 'use client'
+import getGridCells from '@/lib/client/getGridCells'
+import { default as clsx, default as cn } from 'clsx'
+import { CourseItem } from 'lib/types/CourseItem'
+import { usePathname } from 'next/navigation'
+import Carousel from 'nuka-carousel'
 import {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
+  memo, useEffect,
   useLayoutEffect,
   useMemo,
-  useRef,
-  useState,
+  useState
 } from 'react'
-import cn from 'clsx'
-import { ArrowLongLeftIcon } from '@heroicons/react/20/solid'
+import OffCanvas from '../common/OffCanvas'
 import { Cell } from './Cell'
-import s from './Main.module.css'
-import { parseTime } from '../../lib/client/parseCourseFields'
-import { CourseItem, WeekInterval } from 'lib/types/CourseItem'
-import getGridCells from '@/lib/client/getGridCells'
-import { usePathname, useSearchParams } from 'next/navigation'
-import clsx from 'clsx'
 import { CourseDetail } from './CourseDetail'
-import useClickOutside from '@/lib/hooks/useClickOutside'
-import { H2 } from '../H2'
-import Carousel from 'nuka-carousel'
+import s from './Main.module.css'
 
 type TimetableProps = {
   courses: CourseItem[]
@@ -50,15 +42,10 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
   const activeCourses = (cells[modal]?.courses || []) as CourseItem[]
   const headerArr = show7days ? DAYS : DAYS.slice(0, -2)
 
-  const ref = useRef(null)
 
   const hasSelectedCourse = !!modal || modal === 0
 
-  useClickOutside(ref, () => {
-    if (hasSelectedCourse) {
-      handleNavBack()
-    }
-  })
+
 
   const handleNavBack = () => {
     setModal('')
@@ -150,7 +137,7 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
         ))}
       </div>
 
-      <OffCanvas open={hasSelectedCourse} ref={ref}>
+      <OffCanvas open={hasSelectedCourse} back={handleNavBack}>
         <button
           className="gradient p-2 text-2xl font-bold text-transparent"
           style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }}
@@ -217,20 +204,4 @@ export default memo(function Timetable({ courses, show7days }: TimetableProps) {
   )
 })
 
-// eslint-disable-next-line react/display-name
-const OffCanvas = forwardRef(({ children, open }, myRef) => {
-  return (
-    <div
-      ref={myRef}
-      className={clsx(
-        ' fixed bottom-0 -right-full z-10 h-[calc(100vh-4rem)] w-full overflow-auto bg-white bg-opacity-[.95] shadow-lg transition-all md:w-[50%] lg:w-[38%]',
-        {
-          '!right-0': open,
-        },
-        'p-6'
-      )}
-    >
-      {children}
-    </div>
-  )
-})
+
