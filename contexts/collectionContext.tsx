@@ -63,7 +63,7 @@ const CollectionProvider = ({ children }) => {
     typeof window !== 'undefined' ? localStorage.getItem('COLLECTION') : null
 
   const parsedJson = JSON.parse(storageData || 'null')
-  if (!parsedJson['profession']) {
+  if (parsedJson && !parsedJson['profession']) {
     parsedJson['profession'] = []
   }
 
