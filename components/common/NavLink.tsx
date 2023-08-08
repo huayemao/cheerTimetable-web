@@ -10,8 +10,8 @@ export function NavLink() {
   const isCollection = segments[0] === 'collection'
 
   const items = [
+    { href: '/', name: '主页', isActive: !isCollection },
     { href: '/collection', name: '收藏夹', isActive: isCollection },
-    { href: '/', name: '课表查询', isActive: !isCollection },
   ]
   return (
     <ul className="space-y-1">

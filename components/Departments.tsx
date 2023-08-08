@@ -23,7 +23,7 @@ export function Departments({ data }: {
 
 
   return <>
-    <div className="grid w-full grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-4">
       {Object.entries(data).map(([key, value], i) => {
         return (
           <div
@@ -40,7 +40,7 @@ export function Departments({ data }: {
             </div>
             <div>
               <h4 className="font-heading text-muted-800 text-sm font-medium leading-tight dark:text-white">
-                <span>{key}</span>
+                <Link  href={'/departments/'+key}>{key}</Link>
               </h4>
               <p className="font-alt text-xs font-normal leading-normal">
                 <span className="text-muted-400">{value.length} 专业</span>
@@ -48,9 +48,9 @@ export function Departments({ data }: {
             </div>
             <div className="ml-auto flex items-center">
               <Link 
-              
               className="false false text-muted-700 border-muted-300 dark:bg-muted-700 dark:hover:bg-muted-600 dark:border-muted-600 hover:bg-muted-50 nui-focus relative inline-flex h-10 w-10 scale-75 items-center justify-center space-x-1 rounded-xl border bg-white p-2 font-sans text-sm font-normal leading-5 no-underline outline-none transition-all duration-300 hover:shadow-none disabled:cursor-not-allowed disabled:opacity-60 dark:text-white"
-            shallow
+              shallow
+              scroll={false}
               href={{query:{
                 ...params,
                 department:key
