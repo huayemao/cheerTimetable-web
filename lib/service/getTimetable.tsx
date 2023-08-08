@@ -31,7 +31,7 @@ export const getTimetable = cache(
           },
         })
         return {
-          ...(await getTimetableByStudentId(student?.id)),
+          ...(await getTimetableByStudentId(student?.id, term)),
           owner: {
             name: decodeURIComponent(id) + '专业',
             label: grade + '级',
