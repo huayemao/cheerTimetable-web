@@ -6,9 +6,10 @@ import CollectButton from './CollectButton'
 type props = {
   title: string
   terms: string[]
+  grades?: string[]
 }
 
-export default function ScheduleLayoutTitle({ title, terms }: props) {
+export default function ScheduleLayoutTitle({ title, terms, grades }: props) {
   const { navToTerm, activeTerm, prefetchTerms } = useTerm()
   const prefetch = useCallback(() => {
     prefetchTerms(terms)
@@ -20,22 +21,41 @@ export default function ScheduleLayoutTitle({ title, terms }: props) {
         {title}
       </h1>
       <div className="flex items-center justify-center gap-2">
-        <select
-          onFocus={prefetch}
-          onChange={(v) => {
-            navToTerm(v.target.value)
-          }}
-          value={activeTerm || terms[0]}
-          name="term"
-          id=""
-          className="rounded  border border-slate-200 bg-white px-[.2em] py-[.12em] text-xs font-medium text-slate-700 focus:border-transparent focus:ring-1 focus:ring-slate-500 md:text-sm"
-        >
-          {terms.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
+        {(terms?.length && (
+          <select
+            onFocus={prefetch}
+            onChange={(v) => {
+              navToTerm(v.target.value)
+            }}
+            value={activeTerm || terms[0]}
+            name="term"
+            id="term"
+            className="rounded  border border-slate-200 bg-white px-[.2em] py-[.12em] text-xs font-medium text-slate-700 focus:border-transparent focus:ring-1 focus:ring-slate-500 md:text-sm"
+          >
+            {terms.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        )) ||
+          null}
+        {(grades?.length && (
+          <select
+            onChange={() => {}}
+            value={activeTerm || terms[0]}
+            name="grade"
+            id="grade"
+            className="rounded  border border-slate-200 bg-white px-[.2em] py-[.12em] text-xs font-medium text-slate-700 focus:border-transparent focus:ring-1 focus:ring-slate-500 md:text-sm"
+          >
+            {grades.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        )) ||
+          null}
         {/* <select
           defaultValue={'2'}
           name="week"

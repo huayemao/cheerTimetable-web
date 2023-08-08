@@ -1,8 +1,6 @@
 'use client'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import qs from 'qs'
-import { CourseItem } from '../types/CourseItem'
 import { useLayout } from 'contexts/layoutContext'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export function useTerm() {
   const router = useRouter()
@@ -29,7 +27,7 @@ export function useTerm() {
     const targetURL = !!activeTerm
       ? pathname.replace(/\d+\-\d+-\d+/, term)
       : pathname + '/' + term
-    router.replace(targetURL, { forceOptimisticNavigation: true })
+    router.replace(targetURL)
   }
   return { navToTerm, activeTerm, hasTermSearchParam, prefetchTerms, terms }
 }

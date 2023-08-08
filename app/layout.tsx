@@ -19,7 +19,7 @@ export default function RootLayout({
         <LayoutProvider>
           <PreferenceProvider>
             <CollectionProvider>
-              <NewLayout>
+              <NewLayout params={params}>
                 {children}
                 <BottomTab />
               </NewLayout>

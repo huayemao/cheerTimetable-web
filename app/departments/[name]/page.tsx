@@ -1,10 +1,25 @@
 import { getProfession, getProfessions } from '@/lib/service/profession'
 import clsx from 'clsx'
+import { APP_NAME } from 'constants/siteConfig'
 import groupBy from 'lodash/groupBy'
 import map from 'lodash/map'
+import { Metadata } from 'next'
 import Link from 'next/link'
 
-// https://beta.nextjs.org/docs/api-reference/sengment-config#configrevalidate
+export async function generateMetadata({
+  params,
+}: {
+  params: { name: string }
+}): Promise<Metadata> {
+  // read route params
+  const { name } = params
+
+  return {
+    title: `${decodeURIComponent(name || '')} | ${APP_NAME}`,
+    abstract: '中南大学' + decodeURIComponent(name || ''),
+    description: '中南大学' + decodeURIComponent(name || ''),
+  }
+}
 
 export default async function Department({ params }) {
   const { name } = params

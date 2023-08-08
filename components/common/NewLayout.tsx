@@ -1,21 +1,21 @@
+import Link from 'next/link'
 import { ReactChildren } from 'react'
 import { HeaderTitle } from './HeaderTitle'
-import { SideBarSearch } from './SideBarSearch'
 import { NavLink } from './NavLink'
-import Link from 'next/link'
+import { SideBarSearch } from './SideBarSearch'
 
 export type Props = {
   children: ReactChildren
-  navSection?: JSX.Element
-  title?: JSX.Element
+  navSection?: ReactChildren
+  title?: ReactChildren
   params: any
 }
 
-export function NewLayout({ children, navSection = '' }: Props) {
+export function NewLayout({ children, navSection = '', params }: Props) {
   function Header() {
     return (
       <header className="space-around sticky top-0 z-[10]  flex h-16 w-full items-center border-b border-b-slate-200 text-slate-900 backdrop-blur-sm md:flex-row">
-        <div className="absolute left-0  flex h-full w-20 items-center text-center md:static md:flex-[1]">
+        <div className="md:flex-[1] absolute  left-0 flex h-full w-20 items-center text-center md:static">
           {/* 这个内容叫什么？ yari 的 css 类名叫 top-navigation-wrap */}
           {navSection || (
             <Link
@@ -53,7 +53,7 @@ export function NewLayout({ children, navSection = '' }: Props) {
 
 function Sidebar() {
   return (
-    <aside className="top-16 col-span-1 row-span-4 hidden space-y-2 border-gray-200 md:sticky md:block md:h-[calc(100vh-4rem)] md:border-r md:p-4">
+    <aside className="md:h-[calc(100vh-4rem)] top-16 col-span-1 row-span-4 hidden space-y-2 border-gray-200 md:sticky md:block md:border-r md:p-4">
       {/* todo: 这个搜索框如何 SSR 化？ ? */}
       {<SideBarSearch />}
       {<NavLink />}
