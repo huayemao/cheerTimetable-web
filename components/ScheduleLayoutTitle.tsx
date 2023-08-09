@@ -23,7 +23,9 @@ export default function ScheduleLayoutTitle({
 
   return (
     <div className="flex flex-col items-center justify-center gap-1 w-full md:flex-row md:items-end">
-      <h1 className="inline-flex text-xl  font-light text-slate-700 md:mr-4 md:text-2xl">
+      <h1 className="inline-flex text-xl  font-light text-slate-700 md:mr-4 md:text-2xl max-w-[80%]"
+      style={{textWrap:'balance'}}
+      >
         {title} <sub style={{ lineHeight: 'unset' }}>{label}</sub>
       </h1>
       <div className="flex items-center justify-center gap-2">

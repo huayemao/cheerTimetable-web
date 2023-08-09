@@ -35,7 +35,7 @@ export function NewLayout({ children, navSection, title }: Props) {
           {title ?? (
             <h1
               id="headerContent"
-              className="text-center text-2xl text-slate-600 w-full"
+              className="text-center text-2xl text-slate-600 w-full line-clamp-1"
             >
               <HeaderTitle />
             </h1>
