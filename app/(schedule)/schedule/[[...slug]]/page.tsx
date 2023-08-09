@@ -1,6 +1,6 @@
 import { NewLayout } from '@/components/common/NewLayout'
 // import ScheduleLayoutTitle from '@/components/ScheduleLayoutTitle'
-import Schedule from '@/components/Timetable'
+// import Schedule from '@/components/Timetable'
 import prisma from '@/lib/prisma'
 import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
@@ -9,6 +9,10 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 
 const ScheduleLayoutTitle = dynamic(() => import("@/components/ScheduleLayoutTitle"), {
+  // Do not import in server side
+  ssr: false,
+})
+const Schedule = dynamic(() => import("@/components/Timetable"), {
   // Do not import in server side
   ssr: false,
 })
