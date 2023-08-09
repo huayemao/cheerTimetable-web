@@ -1,4 +1,3 @@
-'use client'
 import { Logo } from './Logo'
 
 export const SearchBox = () => {
