@@ -28,7 +28,7 @@ export default function RootLayout({
   params: any
 }) {
   return (
-    <html>
+    <html lang='zh-Hans'>
       <head />
       <body>
         <LayoutProvider>
