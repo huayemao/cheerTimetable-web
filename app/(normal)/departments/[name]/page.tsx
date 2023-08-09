@@ -41,7 +41,7 @@ export default async function Department({ params }) {
   })
 
   return (
-    <div className="bg-slate-50 grid grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+    <div className="bg-slate-50 grid grid-cols-1 lg:grid-cols-4 gap-4 p-4">
       {professions.map((e) => {
         return <Profession key={e.professionName} data={e}></Profession>
       })}
