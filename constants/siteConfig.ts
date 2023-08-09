@@ -21,5 +21,6 @@ export const KEY_WORDS = [
   'pwa',
   'Cheer Curriculum',
   'CSU',
-  '花野猫'
+  '花野猫',
+  '中南花野猫'
 ]
