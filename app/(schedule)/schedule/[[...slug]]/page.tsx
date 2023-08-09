@@ -102,7 +102,7 @@ export async function generateStaticParams() {
   })
 
   const params = students
-    .filter((e, i) => i % 6 == 0)
+    .filter((e, i) => i % 8 == 0)
     .map((s) => {
       return {
         slug: ['student', s.id],
