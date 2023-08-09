@@ -1,6 +1,5 @@
 import { getProfession, getProfessions } from '@/lib/service/profession'
 import clsx from 'clsx'
-import { APP_NAME } from 'constants/siteConfig'
 import groupBy from 'lodash/groupBy'
 import map from 'lodash/map'
 import { Metadata } from 'next'
@@ -15,7 +14,7 @@ export async function generateMetadata({
   const { name } = params
 
   return {
-    title: `${decodeURIComponent(name || '')} | ${APP_NAME}`,
+    title: `${decodeURIComponent(name || '')}`,
     abstract: '中南大学' + decodeURIComponent(name || ''),
     description: '中南大学' + decodeURIComponent(name || ''),
   }

@@ -4,7 +4,6 @@ import { NewLayout } from '@/components/common/NewLayout'
 import prisma from '@/lib/prisma'
 import { getTimetable } from '@/lib/service/getTimetable'
 import { OwnerType } from '@/lib/types/Owner'
-import { APP_NAME } from 'constants/siteConfig'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 
@@ -38,7 +37,7 @@ export async function generateMetadata({
   )
 
   return {
-    title: `${owner.name}@${owner.label} | ${APP_NAME}`,
+    title: `${owner.name}@${owner.label}`,
     abstract:
       '中南大学' +
       `${owner.label}${owner.name}` +

@@ -1,9 +1,8 @@
 import { Collection } from 'components/Collection'
-import { APP_NAME } from 'constants/siteConfig'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: `我的收藏 | ${APP_NAME}`,
+  title: `我的收藏`,
 }
 
 export default function Component() {

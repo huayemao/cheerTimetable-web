@@ -4,13 +4,12 @@ import { parseCourseItemByLesson } from '@/lib/utils/parseCourseItemByLesson'
 import { Students } from 'app/(search)/search/page'
 import { CourseDetail } from 'components/Timetable/CourseDetail'
 import MiniSchedule from 'components/Timetable/Mini'
-import { APP_NAME } from 'constants/siteConfig'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const course = await getCourseById(params.id)
   return {
-    title: `${course?.subject.name}@${course?.term} | ${APP_NAME}`,
+    title: `${course?.subject.name}@${course?.term}`,
     abstract: `中南大学课程：${course?.subject.name}@${course?.term}`,
   }
 }

@@ -13,11 +13,23 @@ import { Metadata } from 'next'
 import { BottomTab } from './BottomTab'
 
 export const metadata: Metadata = {
-  title: APP_NAME + '——' + APP_DESCRIPTION,
+  title: {
+    default:APP_NAME + '——' + APP_DESCRIPTION,
+    template:`%s | ${APP_NAME}`
+  },
   description: APP_INTRODUCTION,
   keywords: KEY_WORDS,
   authors: AUTHORS,
   abstract: APP_INTRODUCTION,
+  generator: 'Next.js',
+  applicationName: APP_NAME,
+  creator: AUTHORS[0].name,
+  publisher: AUTHORS[0].name,
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
 }
 
 export default function RootLayout({
@@ -28,7 +40,7 @@ export default function RootLayout({
   params: any
 }) {
   return (
-    <html lang='zh-Hans'>
+    <html lang="zh-Hans">
       <head />
       <body>
         <LayoutProvider>
