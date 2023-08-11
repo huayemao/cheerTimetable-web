@@ -85,7 +85,7 @@ const Profession = ({
 
   return (
     <Link
-      href={`/schedule/profession/${name}/${term}/${grades[0].grade}`}
+      href={`/schedule/profession/${name}/${term}?grade=${grades[0].grade}`}
       className="hover:shadow-muted-300/30 dark:hover:shadow-muted-800/30 group-hover:!border-primary-500 border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative w-full border bg-white transition-all duration-300 rounded-md hover:shadow-xl p-5"
     >
       <div className="mb-6 flex gap-2">

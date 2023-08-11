@@ -54,3 +54,47 @@ export const getTimetable = cache(
     )
   }
 )
+
+export const getTimetableByProfessionName = cache(
+  async (id: string, term?: string, grade?: string) => {
+    const professionName = decodeURIComponent(id)
+
+    const student = await prisma.student.findFirstOrThrow({
+      where: {
+        professionName,
+        grade,
+      },
+    })
+
+    const owner = {
+      name: professionName + '专业',
+      label: grade + '级',
+    }
+
+    const grades = await prisma.student.findMany({
+      where: {
+        professionName,
+      },
+      select: {
+        grade: true,
+      },
+      distinct: 'grade',
+    })
+
+    const { terms, courses } = await getTimetableByStudentId(student?.id, term)
+
+    return JSON.parse(
+      JSON.stringify({
+        courses,
+        owner,
+        terms:
+          terms ||
+          (Array.from(new Set(courses?.map((e) => e.term)))?.sort(
+            (a: string, b: string) => b.localeCompare(a)
+          ) as string[]),
+
+        grades: grades.map((e) => e.grade),
+      })
+    )
+  }
+)
