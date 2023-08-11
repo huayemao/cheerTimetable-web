@@ -1,11 +1,10 @@
-import React, { Suspense } from 'react'
-import qs from 'qs'
-import Avatar from 'boring-avatars'
-import { Location, Student, Teacher } from '@prisma/client'
-import { H2 } from 'components/H2'
-import Image from 'next/image'
+import Empty from '@/components/Empty'
 import { searchOwner } from '@/lib/service/searchOwner'
+import { Location, Student, Teacher } from '@prisma/client'
+import Avatar from 'boring-avatars'
+import { H2 } from 'components/H2'
 import Link from 'next/link'
+import React, { Suspense } from 'react'
 
 // 通过课程也应当可以进入一份课表，filter subject 的 courses 就可以了，类似于选课，学生就知道课程开在什么时候了。。
 // 这样从搜索结果里面其实可以设定成既可以进课表，又可以进实体。实体可以用封面、头像之类的进行美化
@@ -22,7 +21,7 @@ export default async function Content({ searchParams }) {
   const data = query ? await searchOwner(query) : []
 
   return (
-    <div className="min-h-[70vh]] bg-slate-50">
+    <div className="min-h-[70vh] bg-slate-50 relative">
       <Suspense fallback={'加载中。。。'}>
         <SearchR promise={data} query={query}></SearchR>
       </Suspense>
@@ -54,7 +53,7 @@ async function SearchR({ promise, query }) {
       </section>
     </article>
   ) : query ? (
-    <div>没有数据</div>
+    <Empty content="没有数据"></Empty>
   ) : null
 }
 

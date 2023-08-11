@@ -1,9 +1,9 @@
-import { useMemo } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { Location, Student, Teacher } from '@prisma/client'
 import Container from 'components/Container'
 import { OwnerType } from 'lib/types/Owner'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 import List from './common/List'
 import Empty from './Empty'
 
@@ -92,7 +92,7 @@ export function SearchResult({
           )
         })
       ) : (
-        <div className="flex w-full justify-center">
+        <div className="h-full w-full relative">
           <Empty />
         </div>
       )}

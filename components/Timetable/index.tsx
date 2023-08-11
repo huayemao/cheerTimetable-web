@@ -2,9 +2,7 @@
 // import Timetable from './Main'
 import { useTerm } from '@/lib/hooks/useTerm'
 import { useLayoutDispatch } from 'contexts/layoutContext'
-import {
-  usePreference
-} from 'contexts/preferenceContext'
+import { usePreference } from 'contexts/preferenceContext'
 import useMediaQuery from 'lib/hooks/useMediaQuery'
 import { CourseItem } from 'lib/types/CourseItem'
 import { OwnerType } from 'lib/types/Owner'
@@ -14,7 +12,7 @@ import Empty from '../Empty'
 import H1 from '../H1'
 import { H2 } from '../H2'
 
-const Timetable = dynamic(() => import("./Main"), {
+const Timetable = dynamic(() => import('./Main'), {
   // Do not import in server side
   ssr: false,
 })
@@ -73,23 +71,26 @@ export default memo(function Schedule({
             <Timetable courses={courses} show7days={show7days} />
           </div>
         ) : (
-          <Empty content={'这里一节课都没有呀'} />
+          <div className="relative min-h-[50vh]">
+            <Empty content={'这里一节课都没有呀'} />
+          </div>
         )}
       </H1>
-
-      <H2 close title={'日历订阅'}>
-        <div className="break-all font-thin leading-6">
-          <h4 className="text-medium text-slate-600">
-            {' '}
-            订阅当前学期日历 (experimental):
-          </h4>
-          <div className="text-sm">
-            {`${window?.location?.origin}/api/ical/${type}/${id}/${
-              activeTerm || terms[0]
-            }.ics`}
+      {courses.length ? (
+        <H2 close title={'日历订阅'}>
+          <div className="break-all font-thin leading-6">
+            <h4 className="text-medium text-slate-600">
+              {' '}
+              订阅当前学期日历 (experimental):
+            </h4>
+            <div className="text-sm">
+              {`${window?.location?.origin}/api/ical/${type}/${id}/${
+                activeTerm || terms[0]
+              }.ics`}
+            </div>
           </div>
-        </div>
-      </H2>
+        </H2>
+      ) : null}
     </div>
   )
 })
