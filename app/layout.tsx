@@ -10,12 +10,13 @@ import CollectionProvider from 'contexts/collectionContext'
 import LayoutProvider from 'contexts/layoutContext'
 import PreferenceProvider from 'contexts/preferenceContext'
 import { Metadata } from 'next'
+import Script from 'next/script'
 import { BottomTab } from './BottomTab'
 
 export const metadata: Metadata = {
   title: {
-    default:APP_NAME + '——' + APP_DESCRIPTION,
-    template:`%s | ${APP_NAME}`
+    default: APP_NAME + '——' + APP_DESCRIPTION,
+    template: `%s | ${APP_NAME}`,
   },
   description: APP_INTRODUCTION,
   keywords: KEY_WORDS,
@@ -52,6 +53,15 @@ export default function RootLayout({
           </PreferenceProvider>
         </LayoutProvider>
       </body>
+      <Script id="baidu-tongji">
+        {` var _hmt = _hmt || [];
+          (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?d0e515e7bc73e3a62f0078cc9783e9ab";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+          })(); `}
+      </Script>
     </html>
   )
 }
