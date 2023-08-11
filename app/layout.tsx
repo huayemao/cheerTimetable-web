@@ -55,12 +55,12 @@ export default function RootLayout({
       </body>
       <Script id="baidu-tongji">
         {` var _hmt = _hmt || [];
-          (function() {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?d0e515e7bc73e3a62f0078cc9783e9ab";
-            var s = document.getElementsByTagName("script")[0]; 
-            s.parentNode.insertBefore(hm, s);
-          })(); `}
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?2ee9d041f2af6093febf98f3134d4509";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();`}
       </Script>
     </html>
   )
