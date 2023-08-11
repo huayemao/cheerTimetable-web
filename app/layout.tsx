@@ -10,7 +10,6 @@ import CollectionProvider from 'contexts/collectionContext'
 import LayoutProvider from 'contexts/layoutContext'
 import PreferenceProvider from 'contexts/preferenceContext'
 import { Metadata } from 'next'
-import Script from 'next/script'
 import { BottomTab } from './BottomTab'
 
 export const metadata: Metadata = {
@@ -42,7 +41,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hans">
-      <head />
+      <head>
+        <script
+          id="baidu-tongji"
+          dangerouslySetInnerHTML={{
+            __html: ` var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?2ee9d041f2af6093febf98f3134d4509";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();`,
+          }}
+        ></script>
+      </head>
       <body>
         <LayoutProvider>
           <PreferenceProvider>
@@ -53,15 +65,6 @@ export default function RootLayout({
           </PreferenceProvider>
         </LayoutProvider>
       </body>
-      <Script id="baidu-tongji">
-        {` var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?2ee9d041f2af6093febf98f3134d4509";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();`}
-      </Script>
     </html>
   )
 }
