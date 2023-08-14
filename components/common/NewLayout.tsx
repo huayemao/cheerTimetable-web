@@ -65,12 +65,22 @@ function Sidebar() {
       {/* todo: 这个搜索框如何 SSR 化？ ? */}
       {<SideBarSearch />}
       {<NavLink />}
-      <p className="fixed bottom-0 p-4 text-sm">
-        <Link href={AUTHORS[0].url}>
-        {AUTHORS[0].name}</Link>筑之以 ❤
-        {/* <br />
+      <div className="fixed bottom-0 p-4 text-sm">
+        <p>
+          <Link className="text-primary-500" href={AUTHORS[0].url}>
+            {AUTHORS[0].name}&nbsp;
+          </Link>
+          筑之以 ❤
+          {/* <br />
         赏他一碗米线 */}
-      </p>
+        </p>
+        <p>
+          QQ 交流群:
+          <a href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Lcew_GOBoDdtbtL1D6U5XobhOWuGL-Qh&authKey=EBvha5ApbREU9GgDtL7JVgphjutbnsxi1RkSEUPCbLsAvQ6Oir9ZkwGOL0OS7fEY&noverify=0&group_code=1157682866">
+            1157682866
+          </a>
+        </p>
+      </div>
     </aside>
   )
 }
