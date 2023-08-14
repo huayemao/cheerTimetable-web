@@ -12,25 +12,28 @@
 
 ## get Started
 
-:::info
 此文档可能并不足够详尽，如遇到问题，请联系作者
-:::
 
-### 0. 安装 Node.JS 运行环境
+### prerequisite 
 
-请安装 [Node.js 12.22.0](https://nodejs.org/) 或更新版本
+0. 你心爱的命令行终端和代码编辑器
+1. 安装 Node.JS 运行环境: [Node.js 12.22.0](https://nodejs.org/) 或更高版本；
+2. 安装 yarn
+3. 安装 MySQL 8.0
 
 ### 1. 克隆代码仓库
 
-`git clone [https://github.com/huayemao/cheerTimetable-web.git](https://github.com/huayemao/cheerTimetable-web.git)`或 `git clone git@github.com:huayemao/cheerTimetable-web.git`
+`git clone https://github.com/huayemao/cheerTimetable-web.git` 或 `git clone git@github.com:huayemao/cheerTimetable-web.git`
 
-### 2. 配置数据库
+### 2. 配置环境变量
 
-准备一个 mysql 数据库实例，或者使用 [PlanetScale ](https://planetscale.com/)提供的服务，这也是目前绮课在生产环境所使用的。
-在项目根目录创建环境变量文件 .env，并添加数据库连接字符串的环境变量，如
+1. 数据库：准备一个 mysql 数据库实例，~~或者使用 [PlanetScale ](https://planetscale.com/)提供的服务，这也是目前绮课在生产环境所使用的。~~
+2. 获取教务系统 jwctest 环境以 kbuser 课表数据查询用户登录后获得的 cookie，详见 [绮课如何从教务系统抓取数据 | Dors.——花野猫的数字花园](https://dors.huayemao.run/posts/81)
+3. 在项目根目录创建环境变量文件 .env，使用 MySQL 数据库连接字符串和获得的 COOKIE 填写以下环境变量
 
 ```latex
 DATABASE_URL='mysql://root:huayemao123@localhost:3306/cheerTimetable'
+COOKIE='JSESSION_ID=XXX'
 ```
 
 ### 3. 安装依赖
@@ -38,13 +41,9 @@ DATABASE_URL='mysql://root:huayemao123@localhost:3306/cheerTimetable'
 
 ### 4. 导入数据
 
-运行 `yarn db:seed` 将自动从教务系统导入数据
+1. 运行 `yarn db:generate`
+2. 运行 `yarn db:seed` ，自动从教务系统导入数据
 
-:::warning
-
-- 如果因为网络问题而导致进程退出，可直接重新执行。
-- 如果遇到外键约束相关的错误，请尝试注释掉 `prisma/schema.prisma`文件中的 `referentialIntegrity="prisma"` 一行，并运行 `yarn db:generate`，再重新运行 `yarn db:seed`
-:::
 
 ### 5. 开发调试
 
