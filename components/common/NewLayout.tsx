@@ -1,3 +1,4 @@
+import { AUTHORS } from 'constants/siteConfig'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { ReactElement } from 'react'
@@ -64,11 +65,12 @@ function Sidebar() {
       {/* todo: 这个搜索框如何 SSR 化？ ? */}
       {<SideBarSearch />}
       {<NavLink />}
-      {/* <p className="fixed bottom-0 p-4 text-sm">
-        花野猫筑之以 ❤
-        <br />
-        赏他一碗米线
-      </p> */}
+      <p className="fixed bottom-0 p-4 text-sm">
+        <Link href={AUTHORS[0].url}>
+        {AUTHORS[0].name}</Link>筑之以 ❤
+        {/* <br />
+        赏他一碗米线 */}
+      </p>
     </aside>
   )
 }

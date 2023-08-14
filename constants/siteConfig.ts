@@ -4,11 +4,11 @@ export const APP_INTRODUCTION =
   '绮课（Cheer Curriculum）是又一个 CSUer 的课表查询工具，你可以用它来计划蹭课、获取自习室信息、关注其他同学的课表、帮助抉择选课或将课表添加到日历'
 export const AUTHORS = [
   {
-    url: 'dors.huayemao.run',
+    url: 'https://dors.huayemao.run',
     name: '花野猫',
   },
   {
-    url: 'dors.huayemao.run',
+    url: 'https://dors.huayemao.run',
     name: 'huayemao',
   },
 ]
