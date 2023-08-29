@@ -8,7 +8,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const facultyAndProfessions = await getDepartmentsAndProfessions()
   const faculties = Object.keys(facultyAndProfessions)
-  const professions = Object.values(facultyAndProfessions).flat()
+  const professions = Object.values(facultyAndProfessions)
+    .map((e) => e.map((e) => e.professionName))
+    .flat()
 
   const facultyRecords = faculties.map((e) => {
     return {
@@ -17,11 +19,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   })
 
-  const professionRecords = professions.map((e)=>{
+  const professionRecords = professions.map((e) => {
     return {
-        url: `${APP_URL}/schedule/profession/${e}`,
-        lastModified: date,
-      }
+      url: `${APP_URL}/schedule/profession/${e}`,
+      lastModified: date,
+    }
   })
 
   const teachers = await prisma.tuition.findMany({
