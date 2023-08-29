@@ -16,7 +16,7 @@ export function useTerm() {
       setTimeout(() => {
         router.prefetch(
           !!activeTerm
-            ? pathname.replace(/\d+\-\d+-\d+/, term)
+            ? pathname.replace(/\d+\-\d+-\d+/, term) + '?' + sp?.toString()
             : pathname + '/' + term
         )
       }, 200)
@@ -25,7 +25,7 @@ export function useTerm() {
 
   const navToTerm = (term) => {
     const targetURL = !!activeTerm
-      ? pathname.replace(/\d+\-\d+-\d+/, term)
+      ? pathname.replace(/\d+\-\d+-\d+/, term) + '?' + sp?.toString()
       : pathname + '/' + term
     router.replace(targetURL)
   }
