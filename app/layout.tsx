@@ -42,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="zh-Hans">
       <head>
+        <meta name="baidu-site-verification" content="codeva-Lor1pIMEO8" />
         <script
           id="baidu-tongji"
           dangerouslySetInnerHTML={{
