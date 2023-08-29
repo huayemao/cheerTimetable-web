@@ -78,6 +78,9 @@ export const getTimetableByProfessionName = cache(
       select: {
         grade: true,
       },
+      orderBy: {
+        grade: 'desc',
+      },
       distinct: 'grade',
     })
 
