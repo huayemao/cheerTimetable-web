@@ -23,21 +23,6 @@ export const getTimetable = cache(
       [OwnerType.teacher]: getTimetableByTeacherId,
       [OwnerType.student]: getTimetableByStudentId,
       [OwnerType.location]: getTimetableByLocationId,
-      [OwnerType.profession]: async () => {
-        const student = await prisma.student.findFirstOrThrow({
-          where: {
-            professionName: decodeURIComponent(id),
-            grade,
-          },
-        })
-        return {
-          ...(await getTimetableByStudentId(student?.id, term)),
-          owner: {
-            name: decodeURIComponent(id) + '专业',
-            label: grade + '级',
-          },
-        }
-      },
     }
     const { courses, owner, terms } = await fnMapping[type](id, term)
 
@@ -47,9 +32,9 @@ export const getTimetable = cache(
         owner,
         terms:
           terms ||
-          (Array.from(new Set(courses?.map((e) => e.term)))?.sort(
-            (a: string, b: string) => b.localeCompare(a)
-          ) as string[]),
+          Array.from(
+            new Set((courses as CourseItem[]).map((e) => e.term))
+          )?.sort((a: string, b: string) => b.localeCompare(a)),
       })
     )
   }
@@ -64,12 +49,10 @@ export const getTimetableByProfessionName = cache(
         professionName,
         grade,
       },
+      orderBy: {
+        grade: 'desc',
+      },
     })
-
-    const owner = {
-      name: professionName + '专业',
-      label: grade + '级',
-    }
 
     const grades = await prisma.student.findMany({
       where: {
@@ -83,6 +66,11 @@ export const getTimetableByProfessionName = cache(
       },
       distinct: 'grade',
     })
+
+    const owner = {
+      name: professionName + '专业',
+      label: grade || grades[0]?.grade + '级',
+    }
 
     const { terms, courses } = await getTimetableByStudentId(student?.id, term)
 
