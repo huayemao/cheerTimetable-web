@@ -1,11 +1,11 @@
 import { NewLayout } from '@/components/common/NewLayout'
 import { SearchBox } from '@/components/SearchBox'
-import { getProfessions } from '@/lib/service/profession'
+import { getDepartmentsAndProfessions } from '@/lib/service/profession'
 import { Departments } from '../components/Departments'
 import { APP_INTRODUCTION, APP_NAME } from '../constants/siteConfig'
 
 export default async function Home() {
-  const data = await getProfessions()
+  const data = await getDepartmentsAndProfessions()
 
   return (
     <NewLayout>

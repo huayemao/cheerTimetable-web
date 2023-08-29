@@ -1,10 +1,11 @@
 import Empty from '@/components/Empty'
+import { Profession } from '@/components/Profession'
 import { searchOwner } from '@/lib/service/searchOwner'
 import { Location, Student, Teacher } from '@prisma/client'
 import Avatar from 'boring-avatars'
 import { H2 } from 'components/H2'
 import Link from 'next/link'
-import React, { Suspense } from 'react'
+import React from 'react'
 
 // 通过课程也应当可以进入一份课表，filter subject 的 courses 就可以了，类似于选课，学生就知道课程开在什么时候了。。
 // 这样从搜索结果里面其实可以设定成既可以进课表，又可以进实体。实体可以用封面、头像之类的进行美化
@@ -22,9 +23,22 @@ export default async function Content({ searchParams }) {
 
   return (
     <div className="min-h-[70vh] bg-slate-50 relative">
-      <Suspense fallback={'加载中。。。'}>
-        <SearchR promise={data} query={query}></SearchR>
-      </Suspense>
+      {data.some((e) => !!e.length) ? (
+        <article className="space-y-8">
+          <section className="mx-auto p-4">
+            {/* 如果不用 tab 的话确实展示密度太小了，用了的话又破坏了之前 h2 的设计，没有用武之地了 */}
+            {/* 而且用 Tab 好像不利于 SEO ? 而且没办法以言看到全部内容   */}
+            {/* 暂时设计成没有结果的就折叠吧 */}
+
+            <SearchResults data={data[0]} />
+            <TeacherResult data={data[1]} />
+            <LocationResult data={data[2]} />
+            <ProfessionResult data={data[3]} />
+          </section>
+        </article>
+      ) : query ? (
+        <Empty content="没有数据"></Empty>
+      ) : null}
       {/* todo: 这个也放到 header 吧，但是 layout 页无法拿到 searchParams */}
       {/* <section className="sticky top-16 col-span-3 flex h-12 items-center bg-slate-50 md:top-2 md:bg-transparent">
         <span className="text-xl text-slate-500">←</span>{' '}
@@ -33,28 +47,6 @@ export default async function Content({ searchParams }) {
       {/* todo: 其实课表页 table 应该用 grid 的 row-start 之类的去计算 */}
     </div>
   )
-}
-
-// Albums Component
-async function SearchR({ promise, query }) {
-  // Wait for the albums promise to resolve
-  const data = await promise
-
-  return data.some((e) => !!e.length) ? (
-    <article className="space-y-8">
-      <section className="mx-auto p-4">
-        {/* 如果不用 tab 的话确实展示密度太小了，用了的话又破坏了之前 h2 的设计，没有用武之地了 */}
-        {/* 而且用 Tab 好像不利于 SEO ? 而且没办法以言看到全部内容   */}
-        {/* 暂时设计成没有结果的就折叠吧 */}
-
-        <SearchResults data={data[0]} />
-        <TeacherResult data={data[1]} />
-        <LocationResult data={data[2]} />
-      </section>
-    </article>
-  ) : query ? (
-    <Empty content="没有数据"></Empty>
-  ) : null
 }
 
 const H2Wrapper = ({ category, data, children }) => {
@@ -165,6 +157,22 @@ function LocationResult({ data }: { data: Location[] }) {
               </div>
             </Link>
           </li>
+        ))}
+      </ul>
+    </H2Wrapper>
+  )
+}
+
+function ProfessionResult({
+  data,
+}: {
+  data: Awaited<ReturnType<typeof searchOwner>>[3]
+}) {
+  return (
+    <H2Wrapper data={data} category={'专业'}>
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 md:p-4 md:px-8 lg:gap-x-8">
+        {data.map((e) => (
+          <Profession key={e.grade} data={e}></Profession>
         ))}
       </ul>
     </H2Wrapper>

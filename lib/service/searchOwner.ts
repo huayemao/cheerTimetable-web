@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import prisma from '../../lib/prisma'
+import { getProfessionsByName } from './profession'
 
 const { map, mapKeys } = _
 
@@ -41,15 +42,20 @@ export async function searchOwner(name: string) {
     },
   })
 
-  const subjects = prisma.subject.findMany({
-    where: {
-      name: { contains: name },
-    },
-    orderBy: {
-      credit: 'desc',
-    },
-  })
+  // const professions = prisma.student.findMany({
+  //   select: {
+  //     professionName: true,
+  //     facultyName: true,
+  //   },
+  //   where: {
+  //     professionName: {
+  //       contains: name,
+  //     },
+  //   },
+  //   take: 100,
+  //   distinct: 'professionName',
+  // })
 
   // todo: transaction 里面可以套 transaction 吗
-  return await Promise.all([students, teachers, locations, subjects])
+  return await Promise.all([students, teachers, locations, getProfessionsByName(name)])
 }
