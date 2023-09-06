@@ -1,5 +1,5 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
-import { APP_DESCRIPTION, APP_NAME } from '../constants/siteConfig'
+import { APP_NAME } from '../constants/siteConfig'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name
 
@@ -20,8 +20,6 @@ export default class MyDocument extends Document {
             content="default"
           />
           <meta name="apple-mobile-web-app-title" content={APP_NAME} />
-          <meta name="description" content={APP_DESCRIPTION} />
-          <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#FFFFFF" />
           {/* TIP: set viewport head meta tag in _app.js, otherwise it will show a warning */}
@@ -32,7 +30,6 @@ export default class MyDocument extends Document {
             sizes="180x180"
             href="/icons/apple-touch-icon.png"
           />
-          <link rel="manifest" href="/manifest.json" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <style>{`
             html, body, #__next {
@@ -45,19 +42,6 @@ export default class MyDocument extends Document {
               text-align: center;
             }
             `}</style>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              var _hmt = _hmt || [];
-              (function() {
-                var hm = document.createElement("script");
-                hm.src = "https://hm.baidu.com/hm.js?d0e515e7bc73e3a62f0078cc9783e9ab";
-                var s = document.getElementsByTagName("script")[0]; 
-                s.parentNode.insertBefore(hm, s);
-              })(); 
-              `,
-            }}
-          ></script>
         </Head>
         <body>
           <Main />

@@ -30,6 +30,19 @@ export const metadata: Metadata = {
     email: false,
     telephone: false,
   },
+  manifest: '/manifest.json',
+  icons: [
+    { url: '/icons/icon-48x48.png', type: 'image/png', sizes: '48x48' },
+    { url: '/icons/icon-72x72.png', type: 'image/png', sizes: '72x72' },
+    { url: '/icons/icon-96x96.png', type: 'image/png', sizes: '96x96' },
+    { url: '/icons/icon-128x128.png', type: 'image/png', sizes: '128x128' },
+    { url: '/icons/icon-144x144.png', type: 'image/png', sizes: '144x144' },
+    { url: '/icons/icon-152x152.png', type: 'image/png', sizes: '152x152' },
+    { url: '/icons/icon-192x192.png', type: 'image/png', sizes: '192x192' },
+    { url: '/icons/icon-384x384.png', type: 'image/png', sizes: '384x384' },
+    { url: '/icons/icon-512x512.png', type: 'image/png', sizes: '512x512' },
+  ],
+  themeColor: '#5b21b6',
 }
 
 export default function RootLayout({
