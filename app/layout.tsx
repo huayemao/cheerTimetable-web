@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     { url: '/icons/icon-384x384.png', type: 'image/png', sizes: '384x384' },
     { url: '/icons/icon-512x512.png', type: 'image/png', sizes: '512x512' },
   ],
-  themeColor: '#5b21b6',
+  themeColor: '#6d28d9',
 }
 
 export default function RootLayout({
