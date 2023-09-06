@@ -6,12 +6,10 @@ import { useSelectedLayoutSegments } from 'next/navigation'
 export function NavLink() {
   const segments = useSelectedLayoutSegments()
 
-  // 暂时只区分这两个
-  const isCollection = segments[0] === 'collection'
-
   const items = [
-    { href: '/', name: '主页', isActive: !isCollection },
-    { href: '/collection', name: '收藏夹', isActive: isCollection },
+    { href: '/', name: '主页', isActive: !segments[0] },
+    { href: '/collection', name: '收藏夹', isActive: segments[0] === 'collection' },
+    { href: '/about', name: '关于', isActive: segments[0] === 'about' },
   ]
   return (
     <ul className="space-y-1">
