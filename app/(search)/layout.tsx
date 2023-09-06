@@ -7,16 +7,14 @@ export default async function ScheduleLayout({
 }: {
   children: JSX.Element
   params: any
+  searchParams: any
 }) {
   return (
     <NewLayout
       title={
-        <>
-          <div className="flex justify-center md:hidden">
-            <SearchArea />
-          </div>
-          <span className="hidden md:inline">搜索</span>
-        </>
+        <div className='w-full flex justify-center'>
+          <SearchArea />
+        </div>
       }
     >
       {children}
