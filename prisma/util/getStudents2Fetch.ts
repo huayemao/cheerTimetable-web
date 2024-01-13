@@ -1,4 +1,4 @@
-import { TERMS } from '../../constants'
+import { ASSUME_SEEDING_HOURS, TERMS } from '../../constants'
 import prisma from '../../lib/prisma'
 import { parseGrade } from '../../lib/term'
 import { STUDENTS } from '../../_data/metas'
@@ -52,7 +52,7 @@ async function getExistedStudentIds(terms: any) {
     where: {
       OR,
       createdAt: {
-        gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+        gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
       },
       // 认为拉取应该在 3 天内完成
     },

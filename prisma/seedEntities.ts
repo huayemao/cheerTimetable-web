@@ -28,6 +28,7 @@ export async function seedEntities() {
   await withPersist(seedSubjects, 'Subject')()
 
   await withPersist(async () => {
+    // todo: seedCourse 分出来
     await seedCourses()
     await supplementSubjectAndSeedCourses()
   }, 'Course')()

@@ -5,22 +5,31 @@ import {
 import { seedEntities } from './seedEntities'
 import { seedRelations } from './seedRelations'
 
-async function run() {
+async function retryWhenTimeout(fn: Function) {
   let exception: any
-  try {
-    // await clearStorage()
-    await seedEntities()
-    await seedRelations()
-    await checkInvalidCourseIdsFromEnrollment()
-    await checkInvalidCourseIdsFromLesson()
-  } catch (error) {
-    console.error(error)
-    exception = error
-    return error
-  } finally {
-    while (['ETIMEDOUT', 'ECONNRESET'].includes(exception?.code)) {
-      exception = await run()
+
+  const run = async () => {
+    try {
+      await fn()
+    } catch (error) {
+      exception = error
     }
   }
+
+  await run()
+
+  while (
+    ['ETIMEDOUT', 'ECONNRESET', 'ENOTFOUND', 'ECONNABORTED'].includes(
+      exception?.code
+    )
+  ) {
+    await run()
+  }
 }
-run()
+
+retryWhenTimeout(async () => {
+  await seedEntities()
+  await seedRelations()
+  await checkInvalidCourseIdsFromEnrollment()
+  await checkInvalidCourseIdsFromLesson()
+})

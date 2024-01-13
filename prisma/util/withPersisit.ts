@@ -1,4 +1,5 @@
 import { Update } from '@prisma/client'
+import { ASSUME_SEEDING_HOURS } from '../../constants'
 import prisma from '../../lib/prisma'
 
 export async function getLastUpdateRecord(forceUpdate = false) {
@@ -16,7 +17,7 @@ export async function getLastUpdateRecord(forceUpdate = false) {
   let lastRecord = await prisma.update.findFirst({
     where: {
       createdAt: {
-        gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+        gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
       },
     },
     orderBy: {

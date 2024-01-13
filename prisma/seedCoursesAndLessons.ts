@@ -1,5 +1,5 @@
 import { Course, Tuition } from '@prisma/client'
-import { TERMS } from '../constants'
+import { ASSUME_SEEDING_HOURS, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { COURSES } from '../_data/metas'
 import { getCourseStuffs } from './util/getCourseStuffs'
@@ -42,7 +42,7 @@ async function upsertSubject(data, subjectId: string) {
 export async function seedSubjectByCourseMeta(courseMetas) {
   console.log('start supplementing Subject')
   for (let i = 0; i < courseMetas.length; i++) {
-    // await sleep(120)
+    await sleep(320)
     const element = courseMetas[i]
     const subjectId = element.kch.trim()
 
@@ -95,35 +95,47 @@ export async function seedCourses(offset = 0) {
 
   for (const id of ids) {
     if (!(await hasJx02Id(id))) {
-      console.log(id, 'no jx02id')
-      await makeFlag(id)
+      makeFlag(id).then(()=>{
+        console.log(id, 'no jx02id')
+      })
     }
   }
 
   for (let i = offset; i < ids.length; i++) {
     const id = ids[i]
-    // await sleep(120)
+    await sleep(440)
 
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, terms)) || {}
 
     const arr = [courses?.length, lessons?.length, tuitions?.length]
     if (arr.every((e) => !!e)) {
-      await updateSubjectDetail(id, terms, courses, lessons, tuitions)
-      logProgress(id, i, ids.length)
+      //@ts-ignore
+      updateSubjectDetail(id, terms, courses, lessons, tuitions).then(() => {
+        logProgress(id, i, ids.length)
+      }).catch(console.warn)
     } else {
-      await makeFlag(id)
-      console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
+      makeFlag(id).then(()=>{
+        console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
+      }).catch(console.warn)
     }
   }
 
   async function makeFlag(id: string) {
     if (terms.length === TERMS.length) {
-      await prisma.subject.delete({
-        where: {
-          id: id,
-        },
-      })
+      if (
+        await prisma.subject.findUnique({
+          where: {
+            id,
+          },
+        })
+      ) {
+        await prisma.subject.delete({
+          where: {
+            id: id,
+          },
+        })
+      }
     } else {
       await prisma.subject.update({
         data: {
@@ -142,10 +154,10 @@ async function getIds2Fetch(terms) {
     AND: {
       updatedAt: {
         // 如果 3 天内更新过，且早已创建,就过滤掉
-        gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+        gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
       },
       createdAt: {
-        lte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+        lte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
       },
       // unopenTerms: {
       //   equals: terms,
@@ -173,7 +185,7 @@ async function getIds2Fetch(terms) {
       where: {
         OR: {
           createdAt: {
-            gte: new Date(new Date().valueOf() - 72 * 60 * 60 * 1000),
+            gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
           },
         },
       },

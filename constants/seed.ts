@@ -1,0 +1,2 @@
+export const ASSUME_SEEDING_HOURS = 196
+export const STUDENTS_PER_FETCH = 3

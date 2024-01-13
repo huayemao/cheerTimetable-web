@@ -1,12 +1,11 @@
-import { TERMS } from '../constants'
+import { STUDENTS_PER_FETCH, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { getLessonsById } from './api/getLessonsByID'
 import { getStudents2Fetch } from './util/getStudents2Fetch'
 import { isUpdating } from './util/isUpdating'
 
-const GAP = 5
 
-export async function seedEnrollment(offset = 10, gap = GAP) {
+export async function seedEnrollment(offset = 0, gap = STUDENTS_PER_FETCH) {
   const terms = (await isUpdating('enrollment')) ? TERMS.slice(0, 1) : TERMS
   const students2Fetch = await getStudents2Fetch(terms)
   console.log('start seeding enrollment，total: ', students2Fetch.length)
