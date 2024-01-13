@@ -1,17 +1,18 @@
-import Link from 'next/link'
+import { getWeekStr } from '@/lib/client/getGridCells'
+import { CourseItem } from '@/lib/types/CourseItem'
 import {
-  Location as IconLocation,
-  Group as IconGroup,
-  Users as IconUsers,
-  Calendar as IconCalendar,
-  Hash as IconHash,
   Academic as IconAcademic,
   Calculator as IconCalculator,
+  Calendar as IconCalendar,
   Collection as IconCollection,
+  Group as IconGroup,
+  Hash as IconHash,
+  Location as IconLocation,
+  Users as IconUsers
 } from 'components/Icons'
-import { getWeekStr } from '@/lib/client/getGridCells'
 import { OwnerType } from 'lib/types/Owner'
-import { CourseItem } from '@/lib/types/CourseItem'
+import Link from 'next/link'
+import Materials from '../Materials'
 
 export function CourseDetail({
   course,
@@ -106,8 +107,9 @@ export function CourseDetail({
   return (
     <div className={className}>
       <div className="gradient text-white flex justify-center items-center flex-col rounded-t h-24">
-        <h3 className='font-semibold '>{course?.name}</h3>
+        <h3 className="font-semibold ">{course?.name}</h3>
         <span>{course?.term}</span>
+        <Materials></Materials>
       </div>
       <ul className="  divide-y px-4 py-2 text-gray-900">
         {list.map(({ icon: Icon, content, label }, i) => (

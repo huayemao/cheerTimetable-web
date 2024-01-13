@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useForceUpdate } from '../H1'
+import { useEffect } from 'react';
+import { useForceUpdate } from '../H1';
 
 export default function HeaderTitle({}) {
   const update = useForceUpdate()

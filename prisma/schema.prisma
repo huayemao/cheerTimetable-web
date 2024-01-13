@@ -5,7 +5,6 @@ generator client {
 datasource db {
     provider     = "mysql"
     url          = env("DATABASE_URL")
-    relationMode = "foreignKeys"
 }
 
 model Update {
@@ -14,6 +13,17 @@ model Update {
     updatedAt DateTime @default(now()) @updatedAt()
     detail    Json     @default("{}")
     status    Int      @default(0)
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    username  String
+    email     String   @db.VarChar(255)
+    password  String
+    bio       String?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt()
 }
 
 model StudentMeta {

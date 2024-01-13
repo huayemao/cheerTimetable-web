@@ -10,6 +10,8 @@ import CollectionProvider from 'contexts/collectionContext'
 import LayoutProvider from 'contexts/layoutContext'
 import PreferenceProvider from 'contexts/preferenceContext'
 import { Metadata } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]/route'
 import { BottomTab } from './BottomTab'
 
 export const metadata: Metadata = {
@@ -45,13 +47,14 @@ export const metadata: Metadata = {
   themeColor: '#6d28d9',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: {
   children: JSX.Element
   params: any
 }) {
+  const session = await getServerSession(authOptions)
   return (
     <html lang="zh-Hans">
       <head>
@@ -70,7 +73,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body>
-        <LayoutProvider>
+        <LayoutProvider value={{ user: session?.user }}>
           <PreferenceProvider>
             <CollectionProvider>
               {children}

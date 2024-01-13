@@ -1,10 +1,6 @@
 'use client'
 import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useEffect,
-  Dispatch,
+  createContext, Dispatch, useContext, useReducer
 } from 'react'
 
 const initialData = {
@@ -35,8 +31,8 @@ const reducer = (state, action) => {
   }
 }
 
-const LayoutProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialData)
+const LayoutProvider = ({ children, value }) => {
+  const [state, dispatch] = useReducer(reducer, value || initialData)
 
   return (
     <LayoutContext.Provider value={state}>

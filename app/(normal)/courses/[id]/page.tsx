@@ -56,6 +56,9 @@ export default async function CoursePage({
       >
         <Students data={course?.enrollments.map((e) => e.student)}></Students>
       </H2>
+      <H2 title={<>课程资料</>}>
+        <div>上传</div>
+      </H2>
     </>
   )
 }
