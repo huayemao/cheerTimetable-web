@@ -57,6 +57,7 @@ export default function RootLayout({
       <head>
         <meta name="baidu-site-verification" content="codeva-Lor1pIMEO8" />
         <script
+          suppressHydrationWarning
           id="baidu-tongji"
           dangerouslySetInnerHTML={{
             __html: ` var _hmt = _hmt || [];
