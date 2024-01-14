@@ -28,7 +28,7 @@
 
   .show-7-days {
     @apply mx-0  bg-slate-50;
-    @apply gap-x-0;
+    @apply gap-x-[1px];
   }
 
   .cell {
