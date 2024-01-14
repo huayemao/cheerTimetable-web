@@ -28,7 +28,9 @@ export function NewLayout({ children, navSection, title }: Props) {
               className="whitespace-nowrap flex gap-2 drop-shadow-lg shadow-primary-500 items-center ml-4 text-center text-2xl lg:text-4xl font-semibold  md:ml-8"
             >
               <Logo />
-              <span className="text-primary-900/80 hidden md:block font-[qike]">绮课</span>
+              <span className="text-primary-900/80 hidden md:block font-[qike]">
+                绮课
+              </span>
             </Link>
           )}
         </div>
@@ -61,11 +63,11 @@ export function NewLayout({ children, navSection, title }: Props) {
 
 function Sidebar() {
   return (
-    <aside className="md:h-[calc(100vh-4rem)] top-16 col-span-1 row-span-4 hidden space-y-2 border-gray-200 md:sticky md:block md:border-r md:p-4">
+    <aside className="md:h-[calc(100vh-4rem)] top-16 col-span-1 row-span-4 hidden space-y-2 border-gray-200 md:flex md:flex-col md:sticky md:border-r md:p-4">
       {/* todo: 这个搜索框如何 SSR 化？ ? */}
-      {<SideBarSearch />}
-      {<NavLink />}
-      <div className="fixed bottom-0 p-4 text-sm">
+      <SideBarSearch />
+      <NavLink/>
+      <div className="!mt-auto p-4 text-sm text-muted-800 bg-muted-100/80 dark:bg-muted-800/60">
         <p>
           <Link className="text-primary-500" href={AUTHORS[0].url}>
             {AUTHORS[0].name}&nbsp;
@@ -76,7 +78,7 @@ function Sidebar() {
         </p>
         <p>
           QQ 交流群:
-          <a href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Lcew_GOBoDdtbtL1D6U5XobhOWuGL-Qh&authKey=EBvha5ApbREU9GgDtL7JVgphjutbnsxi1RkSEUPCbLsAvQ6Oir9ZkwGOL0OS7fEY&noverify=0&group_code=1157682866">
+          <a className='text-primary-500' href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Lcew_GOBoDdtbtL1D6U5XobhOWuGL-Qh&authKey=EBvha5ApbREU9GgDtL7JVgphjutbnsxi1RkSEUPCbLsAvQ6Oir9ZkwGOL0OS7fEY&noverify=0&group_code=1157682866">
             1157682866
           </a>
         </p>
