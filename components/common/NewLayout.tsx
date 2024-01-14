@@ -28,7 +28,7 @@ export function NewLayout({ children, navSection, title }: Props) {
               className="whitespace-nowrap flex gap-2 drop-shadow-lg shadow-primary-500 items-center ml-4 text-center text-2xl lg:text-4xl font-semibold  md:ml-8"
             >
               <Logo />
-              {/* <span className="font-sans">cheer</span> */}
+              <span className="text-primary-900/80 hidden md:block font-[qike]">绮课</span>
             </Link>
           )}
         </div>
