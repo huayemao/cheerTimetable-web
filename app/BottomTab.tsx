@@ -15,7 +15,7 @@ export const BottomTab = () => {
       <Link href={'/search'} className="flex flex-1 justify-center">
         <MagnifyingGlassIcon className="h-8 w-8 text-slate-600" />
       </Link>
-      <Link href={'/about'} className="flex flex-1 justify-center">
+      <Link href={'/settings'} className="flex flex-1 justify-center">
         <Cog8ToothIcon className="h-8 w-8 text-slate-600" />
       </Link>
     </div>
