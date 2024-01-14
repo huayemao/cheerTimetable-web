@@ -6,7 +6,9 @@ const { map, mapKeys } = _
 
 export async function searchOwner(name: string) {
   const students = prisma.student.findMany({
-    where: { name: { equals: name } },
+    where: {
+      OR: [{ name: { equals: name } }, { id: { equals: name } }],
+    },
     orderBy: { grade: 'desc' },
   })
 
@@ -57,5 +59,10 @@ export async function searchOwner(name: string) {
   // })
 
   // todo: transaction 里面可以套 transaction 吗
-  return await Promise.all([students, teachers, locations, getProfessionsByName(name)])
+  return await Promise.all([
+    students,
+    teachers,
+    locations,
+    getProfessionsByName(name),
+  ])
 }
