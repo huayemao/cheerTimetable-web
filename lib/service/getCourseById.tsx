@@ -1,4 +1,4 @@
-import { cache } from 'react'
+import { cache } from 'next/dist/compiled/react'
 import prisma from '../prisma'
 
 export default cache(async function getCourseById(id: any) {

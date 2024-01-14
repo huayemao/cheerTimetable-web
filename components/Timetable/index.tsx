@@ -76,7 +76,7 @@ export default memo(function Schedule({
           </div>
         )}
       </H1>
-      {courses.length ? (
+      {courses.length && type!='profession' ? (
         <H2 close title={'日历订阅'}>
           <div className="break-all font-thin leading-6">
             <h4 className="text-medium text-slate-600">

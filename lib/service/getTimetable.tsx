@@ -1,7 +1,7 @@
 import { mergeSameCourse } from '@/lib/utils/mergeSameCourse'
 import { CourseItem } from 'lib/types/CourseItem'
 import { OwnerType } from 'lib/types/Owner'
-import { cache } from 'react'
+import { cache } from 'next/dist/compiled/react'
 import prisma from '../prisma'
 import { getTimetableByLocationId } from './getTimetableByLocationId'
 import { getTimetableByStudentId } from './getTimetableByStudentId'
