@@ -1,4 +1,5 @@
 import { Course, Tuition } from '@prisma/client'
+import { pull } from 'lodash'
 import { ASSUME_SEEDING_HOURS, COURSE_OFFSET, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { COURSES } from '../_data/metas'
@@ -95,7 +96,8 @@ export async function seedCourses(offset = COURSE_OFFSET) {
 
   for (const id of ids) {
     if (!(await hasJx02Id(id))) {
-      makeFlag(id).then(()=>{
+      await makeFlag(id).then(() => {
+        pull(ids, id)
         console.log(id, 'no jx02id')
       })
     }
@@ -111,30 +113,30 @@ export async function seedCourses(offset = COURSE_OFFSET) {
     const arr = [courses?.length, lessons?.length, tuitions?.length]
     if (arr.every((e) => !!e)) {
       //@ts-ignore
-      updateSubjectDetail(id, terms, courses, lessons, tuitions).then(() => {
-        logProgress(id, i, ids.length)
-      }).catch(console.warn)
+      updateSubjectDetail(id, terms, courses, lessons, tuitions)
+        .then(() => {
+          logProgress(id, i, ids.length)
+        })
+        .catch(console.warn)
     } else {
-      makeFlag(id).then(()=>{
-        console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
-      }).catch(console.warn)
+      await makeFlag(id)
+        .then(() => {
+          console.log(ids[i], ' no data , skipped', i + 1, ' of ', ids.length)
+        })
+        .catch(console.warn)
     }
   }
 
   async function makeFlag(id: string) {
     if (terms.length === TERMS.length) {
-      if (
-        await prisma.subject.findUnique({
-          where: {
-            id,
-          },
-        })
-      ) {
+      try {
         await prisma.subject.delete({
           where: {
             id: id,
           },
         })
+      } catch (error) {
+        console.error(error)
       }
     } else {
       await prisma.subject.update({
@@ -154,10 +156,14 @@ async function getIds2Fetch(terms) {
     AND: {
       updatedAt: {
         // 如果 3 天内更新过，且早已创建,就过滤掉
-        gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
+        gte: new Date(
+          new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
+        ),
       },
       createdAt: {
-        lte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
+        lte: new Date(
+          new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
+        ),
       },
       // unopenTerms: {
       //   equals: terms,
@@ -185,7 +191,9 @@ async function getIds2Fetch(terms) {
       where: {
         OR: {
           createdAt: {
-            gte: new Date(new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000),
+            gte: new Date(
+              new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
+            ),
           },
         },
       },
