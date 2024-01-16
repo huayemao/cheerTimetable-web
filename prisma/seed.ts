@@ -25,6 +25,8 @@ async function retryWhenTimeout(fn: Function) {
   ) {
     await run()
   }
+
+  console.error(exception)
 }
 
 retryWhenTimeout(async () => {

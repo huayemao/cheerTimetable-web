@@ -55,7 +55,7 @@ export const seedMetas = async () => {
           }
           console.log('term ', terms[i], 'inserted ', count, ' rows')
         } catch (error) {
-          console.log(tableName + ' seed error')
+          console.error(tableName + ' seed error')
           throw error
         }
       }
