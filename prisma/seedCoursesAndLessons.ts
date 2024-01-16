@@ -1,5 +1,5 @@
 import { Course, Tuition } from '@prisma/client'
-import { ASSUME_SEEDING_HOURS, TERMS } from '../constants'
+import { ASSUME_SEEDING_HOURS, COURSE_OFFSET, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { COURSES } from '../_data/metas'
 import { getCourseStuffs } from './util/getCourseStuffs'
@@ -81,7 +81,7 @@ function logProgress(id: any, i: number, total: number) {
   console.log('completed ', id, ' ', i + 1, ' of total', total)
 }
 
-export async function seedCourses(offset = 0) {
+export async function seedCourses(offset = COURSE_OFFSET) {
   const updating = await isUpdating('course')
   const terms = updating ? TERMS.slice(0, 1) : TERMS
 
