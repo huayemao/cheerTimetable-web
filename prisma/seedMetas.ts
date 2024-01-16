@@ -1,5 +1,5 @@
 import { chunk } from 'lodash'
-import { TERMS } from '../constants'
+import { META_CHUNK_SIZE, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import {
   getCourseMeta,
@@ -43,7 +43,7 @@ export const seedMetas = async () => {
       for (let i = 0; i < terms.length; i++) {
         try {
           const data = await fn(terms[i])
-          const chuncked = chunk(data, 5000)
+          const chuncked = chunk(data, META_CHUNK_SIZE)
           let count = 0
 
           for (const e of chuncked) {

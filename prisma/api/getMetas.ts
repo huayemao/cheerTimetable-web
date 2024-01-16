@@ -39,6 +39,7 @@ export const getCourseMeta = async (term) => {
       }
     )
   ).text()
+  // todo: catch 一下这里的 text
   return eval(text.match(/\[.*]/)[0])
 }
 

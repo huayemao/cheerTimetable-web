@@ -1,3 +1,5 @@
+import { ENTITY_CHUNK_SIZE } from "../../constants/seed"
+
 export function seedUntilNoData(getList, model) {
   return async () => {
     let pageNum = 1
@@ -7,7 +9,7 @@ export function seedUntilNoData(getList, model) {
     }
 
     async function saveOnePage(pageNum) {
-      const list = await getList(pageNum, '1000')
+      const list = await getList(pageNum, Number(ENTITY_CHUNK_SIZE))
       const payload = await model.createMany({
         data: list.filter((e) => e.id), // 确保 id 存在
         skipDuplicates: true,
@@ -17,7 +19,7 @@ export function seedUntilNoData(getList, model) {
 
       return {
         payload,
-        hasMore: 1000 === list.length,
+        hasMore: ENTITY_CHUNK_SIZE === list.length,
       }
     }
   }
