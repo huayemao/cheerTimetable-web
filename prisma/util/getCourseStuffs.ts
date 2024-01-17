@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Course, Subject, Tuition } from '@prisma/client'
-import { TERMS } from 'constants'
-import { compact, groupBy, map, omit } from 'lodash'
+import { compact, groupBy, map, omit, pull } from 'lodash'
+import { TERMS } from '../../constants'
 import { getLessons, LessonRes1 } from '../api/getLessons'
 import { getLessonsById, LessonRes } from '../api/getLessonsByID'
 import { getSubjectCategory } from '../api/getSubjectCategory'
@@ -39,7 +39,7 @@ export async function getCourseStuffs(
     ]
   >([
     mapByTerms((term) => getLessonsById('course', jx02id, term), terms),
-    mapByTerms((term) => getLessons({ term, jx02id }), terms), // 全校总课表
+    mapByTerms((term) => getLessons({ term, jx02id }), pull(terms,'2014-2015-1')), // 全校总课表，获取太早的年份将没有返回结果，导致报错
     needSubjectCat
       ? mapByTerms((term) => getSubjectCategory(jx02id, term))
       : undefined,
