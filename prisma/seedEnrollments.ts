@@ -3,9 +3,18 @@ import prisma from '../lib/prisma'
 import { getLessonsById } from './api/getLessonsByID'
 import { getStudents2Fetch } from './util/getStudents2Fetch'
 import { isUpdating } from './util/isUpdating'
+import fs from 'fs'
 
+var emptyOffset = ENROLLMENT_OFFSET; // 初始化变量emptyOffset 用于空课表学生补偿计数
+const constantName = 'ENROLLMENT_OFFSET'; // 定义要修改的常量名称 ENROLLMENT_OFFSET
+console.log("ENROLLMENT_OFFSET Detected: " + emptyOffset)
 
-export async function seedEnrollment(offset = ENROLLMENT_OFFSET, gap = STUDENTS_PER_FETCH) {
+/* 
+offset -> 补偿用
+emptyOffset -> 计数用
+offset = emptyOffset * STUDENTS_PER_FETCH
+*/
+export async function seedEnrollment(offset = emptyOffset * STUDENTS_PER_FETCH, gap = STUDENTS_PER_FETCH) {
   const terms = (await isUpdating('enrollment')) ? TERMS.slice(0, 1) : TERMS
   const students2Fetch = await getStudents2Fetch(terms)
   console.log('start seeding enrollment，total: ', students2Fetch.length)
@@ -41,6 +50,33 @@ export async function seedEnrollment(offset = ENROLLMENT_OFFSET, gap = STUDENTS_
         skipDuplicates: true,
       }),
     ])
+
+    if (deletedPayload.count == 0 && payload.count == 0) {
+      // 遇到deleted 0 updated 0 时, emptyOffset++ 防止重复获取空课表的同学
+      // 提示 第一次为0 所以每次fetch应该都会取一次空值 为正常 暂不修改 以便于查看请求情况
+      const newValue = emptyOffset++;
+
+      // 读取文件内容 存入./constants/seed.ts 作为常量
+      fs.readFile('./constants/seed.ts', 'utf8', (err, data) => {
+        if (err) {
+          console.error('Reading enrollment offset error:', err);
+          return;
+        }
+        // 在文件内容中查找要修改的常量 ENROLLMENT_OFFSET
+        const regex = new RegExp(`export const ${constantName} = \\d+`);
+        const updatedContent = data.replace(regex, `export const ${constantName} = ${newValue}`);
+        // 写回修改后的内容到文件
+        fs.writeFile('./constants/seed.ts', updatedContent, 'utf8', (err) => {
+          if (err) {
+            console.error('Setting enrollment offset error:', err);
+            return;
+          }
+          console.log(`Empty detected: ${constantName} has already updated to ${newValue}`);
+          console.log(`Offset = ${newValue*3}`);
+        });
+      });
+    }
+
     logProgress(
       students2Fetch.length,
       i,
