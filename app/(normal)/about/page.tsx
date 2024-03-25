@@ -39,6 +39,9 @@ export default function Component() {
           绮课由{' '}
           <a className="text-primary-500" href={AUTHORS[0].url}>
             {AUTHORS[0].name}&nbsp;
+          </a>{' 与 '}
+          <a className="text-primary-500" href={AUTHORS[1].url}>
+            {AUTHORS[1].name}&nbsp;
           </a>{' '}
           开发和维护，欢迎联系
         </p>
