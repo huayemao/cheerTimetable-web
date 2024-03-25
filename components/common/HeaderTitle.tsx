@@ -16,7 +16,7 @@ export default function HeaderTitle({}) {
       <>
         {title}
         {'  '}
-        <sub className="text-xs md:text-sm" style={{fontFamily: 'roboto'}}>{sub}</sub>
+        <sub className="text-xs md:text-sm" style={{fontFamily: 'initial'}}>{sub}</sub>
       </>
     )
   }
