@@ -72,7 +72,7 @@ export async function seedEnrollment(offset = emptyOffset * STUDENTS_PER_FETCH, 
             return;
           }
           console.log(`Empty detected: ${constantName} has already updated to ${newValue}`);
-          console.log(`Offset = ${newValue*3}`);
+          console.log(`Offset = ${newValue * STUDENTS_PER_FETCH}`);
         });
       });
     }
