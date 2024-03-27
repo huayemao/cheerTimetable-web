@@ -9,8 +9,8 @@ export const AUTHORS = [
     name: '花野猫',
   },
   {
-    url: 'https://dors.huayemao.run',
-    name: 'huayemao',
+    url: 'https://github.com/SteamFinder',
+    name: 'SteamFinder',
   },
 ]
 export const KEY_WORDS = [
