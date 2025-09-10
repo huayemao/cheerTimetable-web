@@ -36,7 +36,8 @@ async function retryWhenTimeout(fn: Function) {
   }
 
 
-  while (["RATE_LIMIT"].includes(exception?.cause)) {
+  // todo: 这里策略应支持配置
+  while (["RATE_LIMIT", "UNCERTAIN"].includes(exception?.cause)) {
     console.log(`Retrying after ${exception?.cause} ,wait for 2 seconds...`)
     await sleep(2000)
     exception = null
