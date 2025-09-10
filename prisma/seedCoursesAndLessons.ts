@@ -43,7 +43,7 @@ async function upsertSubject(data, subjectId: string) {
 export async function seedSubjectByCourseMeta(courseMetas) {
   console.log('start supplementing Subject')
   for (let i = 0; i < courseMetas.length; i++) {
-    await sleep(320)
+    await sleep(280)
     const element = courseMetas[i]
     const subjectId = element.kch.trim()
 
@@ -96,16 +96,15 @@ export async function seedCourses(offset = COURSE_OFFSET) {
 
   for (const id of ids) {
     if (!(await hasJx02Id(id))) {
-      await makeFlag(id).then(() => {
-        pull(ids, id)
-        console.log(id, 'no jx02id')
-      })
+      await makeFlag(id);
+      pull(ids, id)
+      console.log(id, 'no jx02id', ids.length)
     }
   }
 
   for (let i = offset; i < ids.length; i++) {
     const id = ids[i]
-    await sleep(440)
+    await sleep(280)
 
     const { lessons, courses, tuitions } =
       (await getCourseStuffs(id, false, terms)) || {}

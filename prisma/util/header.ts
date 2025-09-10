@@ -13,6 +13,7 @@ export const HEADERS = {
   Cookie: process.env.COOKIE,
   Host: Host,
   Referer:
+    // BaseURL,
     BaseURL + '/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where=',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
 }

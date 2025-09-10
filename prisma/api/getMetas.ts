@@ -39,8 +39,13 @@ export const getCourseMeta = async (term) => {
       }
     )
   ).text()
-  // todo: catch 一下这里的 text
-  return eval(text.match(/\[.*]/)[0])
+
+  try {
+    return eval(text.match(/\[.*]/)[0])
+  } catch (error) {
+    console.error("failed to get course meta" + text)
+    throw (error)
+  }
 }
 
 export const getTeacherMeta = async (term) => {

@@ -5,6 +5,12 @@ import {
 import { seedEntities } from './seedEntities'
 import { seedRelations } from './seedRelations'
 
+const sleep = async (time) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}
+
 async function retryWhenTimeout(fn: Function) {
   let exception: any
 
@@ -13,7 +19,7 @@ async function retryWhenTimeout(fn: Function) {
       await fn()
     } catch (error) {
       exception = error
-      console.error('Error:', error)
+      console.error(error)
     }
   }
 
@@ -24,12 +30,19 @@ async function retryWhenTimeout(fn: Function) {
       exception?.code
     )
   ) {
-    console.log(`Retrying after ${exception.code} ...`)
+    console.log(`Retrying after ${exception?.code} ...`)
     exception = null
     await run()
   }
 
-  console.error(exception)
+
+  while (["RATE_LIMIT"].includes(exception?.cause)) {
+    console.log(`Retrying after ${exception?.cause} ,wait for 2 seconds...`)
+    await sleep(2000)
+    exception = null
+    await run()
+  }
+
 }
 
 retryWhenTimeout(async () => {
