@@ -6,6 +6,7 @@ import { COURSES } from '../_data/metas'
 import { getCourseStuffs } from './util/getCourseStuffs'
 import { getSubjectMeta } from './util/getFromMeta'
 import { isUpdating } from './util/isUpdating'
+import { getNeedUpdateSubjectIds } from './util/getNeedUpdateSubjectIds'
 
 const sleep = async (time) => {
   return new Promise((resolve) => {
@@ -87,7 +88,7 @@ export async function seedCourses(offset = COURSE_OFFSET) {
   const terms = updating ? TERMS.slice(0, 1) : TERMS
 
   console.log('seed courses and lessons from subject')
-  const ids = await getIds2Fetch(terms)
+  const ids = await getNeedUpdateSubjectIds(terms)
 
   const hasJx02Id = async (subjectId) => {
     const { jx02id, kcmc: name } = (await getSubjectMeta(subjectId)) || {}
@@ -150,72 +151,7 @@ export async function seedCourses(offset = COURSE_OFFSET) {
   }
 }
 
-async function getIds2Fetch(terms) {
-  const excludeCondition = {
-    AND: {
-      updatedAt: {
-        // 如果 3 天内更新过，且早已创建,就过滤掉
-        gte: new Date(
-          new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
-        ),
-      },
-      createdAt: {
-        lte: new Date(
-          new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
-        ),
-      },
-      // unopenTerms: {
-      //   equals: terms,
-      // },
-    },
-  }
-  const allSubjectIds = (
-    await prisma.subject.findMany({
-      where: {
-        tooOld: false,
-        NOT: excludeCondition,
-      },
-      select: {
-        id: true,
-      },
-    })
-  ).map((e) => e.id)
 
-  // 刚刚创建过 course 的 subject 过滤掉
-  const skippedIds = (
-    await prisma.course.findMany({
-      select: {
-        subjectId: true,
-      },
-      where: {
-        OR: {
-          createdAt: {
-            gte: new Date(
-              new Date().valueOf() - ASSUME_SEEDING_HOURS * 60 * 60 * 1000
-            ),
-          },
-        },
-      },
-    })
-  ).map((e) => e.subjectId)
-
-  const idCondition =
-    allSubjectIds.length > skippedIds.length * 2
-      ? { notIn: skippedIds }
-      : { in: allSubjectIds.filter((e) => !skippedIds.includes(e)) }
-
-  const ids = (
-    await prisma.subject.findMany({
-      select: { id: true },
-      where: {
-        id: idCondition,
-        tooOld: false,
-        NOT: excludeCondition,
-      },
-    })
-  ).map((e) => e.id)
-  return ids
-}
 
 // 删除对应学期开课信息，重新添加
 // todo: 其实 id 和 terms 这几个参数应该是不用要？还是要要，万一某个学期删除了开课，那么要删除这个学期的
