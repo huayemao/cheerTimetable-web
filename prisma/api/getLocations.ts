@@ -2,7 +2,7 @@ import { Location } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 import { parseTable } from '../util/parseTable'
 
 const mapping = {
@@ -35,7 +35,7 @@ const fieldExtractorMapping = {
 
 export async function getLocations(pageNum, pageSize = '10') {
   const url =
-    'http://jwctest.its.csu.edu.cn/common/jx0601_select.jsp?id=&name=&type=0&where='
+    `${BaseURL}/common/jx0601_select.jsp?id=&name=&type=0&where=`
 
   const data = qs.stringify({
     searchName: '',

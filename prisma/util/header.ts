@@ -1,3 +1,7 @@
+export const Host = 'csujwc.its.csu.edu.cn'
+export const Protocol = 'http:'
+export const BaseURL = `${Protocol}//${Host}`
+
 export const HEADERS = {
   accept:
     'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -7,8 +11,8 @@ export const HEADERS = {
   'upgrade-insecure-requests': '1',
   Connection: 'keep-alive',
   Cookie: process.env.COOKIE,
-  Host: 'jwctest.its.csu.edu.cn',
+  Host: Host,
   Referer:
-    'http://jwctest.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where=',
+    BaseURL + '/common/kcxxNew_select.jsp?id=undefined&name=undefined&kch=2-105&type=0&where=',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
 }

@@ -1,10 +1,10 @@
 import { parseHTML } from '../util/parseTable'
 import qs from 'qs'
 import fetch from 'node-fetch'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 
 export const getSubjectCategory = async (jx02id, term): Promise<string> => {
-  const url = 'http://jwctest.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_kb.jsp'
+  const url = `${BaseURL}/jiaowu/pkgl/llsykb/llsykb_kb.jsp`
 
   const data = qs.stringify({
     xnxq01id: term,

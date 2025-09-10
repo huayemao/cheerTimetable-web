@@ -2,7 +2,7 @@ import { Subject } from '@prisma/client'
 import { mapKeys, pick } from 'lodash'
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 import { parseTable } from '../util/parseTable'
 
 const mapping = {
@@ -39,7 +39,7 @@ const parseSubject = (obj): Subject => {
 
 export async function getSubjects(pageNum, pageSize = '10', version) {
   const url =
-    'http://jwctest.its.csu.edu.cn/common/kcxxNew_select.jsp?id=undefined&name=undefined&where='
+    `${BaseURL}/common/kcxxNew_select.jsp?id=undefined&name=undefined&where=`
 
   const data = qs.stringify({
     searchName: 'kch',

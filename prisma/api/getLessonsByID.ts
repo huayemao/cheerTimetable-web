@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 import { parseTable } from '../util/parseTable'
 
 const { map, mapKeys, mapValues } = _
@@ -77,7 +77,7 @@ export async function getLessonsById(type, id, term = '') {
     },
   }
 
-  const url = `http://jwctest.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_list.jsp?kbtype=xs0101&isview=0`
+  const url = `${BaseURL}/jiaowu/pkgl/llsykb/llsykb_list.jsp?kbtype=xs0101&isview=0`
 
   const requestOptions = {
     method: 'POST',

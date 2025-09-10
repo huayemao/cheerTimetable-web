@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import qs from 'qs'
 import { Teacher } from 'prisma/prisma-client'
 import { parseTable } from '../util/parseTable'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 
 const { map, mapKeys, mapValues, pick } = _
 
@@ -21,7 +21,7 @@ const parseTeacher = (obj): Teacher => {
 }
 
 export async function getTeachers(pageNum, pageSize = '1000') {
-  const url = `http://jwctest.its.csu.edu.cn/common/jg0101_select.jsp?id=jg0101id&type=1&where=`
+  const url = `${BaseURL}/common/jg0101_select.jsp?id=jg0101id&type=1&where=`
   const data = qs.stringify({
     searchName: 'XM',
     searchJsfh: 'like',

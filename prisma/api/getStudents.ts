@@ -4,7 +4,7 @@ import qs from 'qs'
 import { Student } from 'prisma/prisma-client'
 import { parseTable } from '../util/parseTable'
 import prisma from '../../lib/prisma'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 
 const { map, mapKeys, mapValues } = _
 
@@ -26,7 +26,7 @@ const fieldExtractorMapping = {
 const myHeaders = HEADERS
 
 export async function getStudents(pageNum, pageSize = '10') {
-  const url = `http://jwctest.its.csu.edu.cn/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
+  const url = `${BaseURL}/common/xs0101_select.jsp?id=xs0101id&type=1&where=`
 
   const data = qs.stringify({
     searchName: 'xm',

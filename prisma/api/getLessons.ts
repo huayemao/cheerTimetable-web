@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import qs from 'qs'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 import { parseTable } from '../util/parseTable'
 
 type params = {
@@ -42,7 +42,7 @@ export async function getLessons({
   slotStart,
   jsid,
 }: params): Promise<LessonRes1[]> {
-  const url = 'http://jwctest.its.csu.edu.cn/tkglAction.do?method=qxzkb'
+  const url = `${BaseURL}/tkglAction.do?method=qxzkb`
 
   const data = qs.stringify({
     jx02id: jx02id,

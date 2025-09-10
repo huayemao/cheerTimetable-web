@@ -1,12 +1,12 @@
 import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
 import TERMS from '../../constants/terms'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 
 export const getStudentMeta = async (term) => {
   const html = await (
     await fetch(
-      `https://jwctest.its.csu.edu.cn/jiaowu/pkgl/llsykb/llsykb_find_xs0101.jsp?xnxq01id=${term}&init=1&isview=0`,
+      `${BaseURL}/jiaowu/pkgl/llsykb/llsykb_find_xs0101.jsp?xnxq01id=${term}&init=1&isview=0`,
       { headers: HEADERS }
     )
   ).text()
@@ -21,7 +21,7 @@ export const getStudentMeta = async (term) => {
 export const getLocationMeta = async (term) => {
   const text = await (
     await fetch(
-      `https://jwctest.its.csu.edu.cn/kkglAction.do?method=queryjs&xnxqh=${term}`,
+      `${BaseURL}/kkglAction.do?method=queryjs&xnxqh=${term}`,
       {
         headers: HEADERS,
       }
@@ -33,7 +33,7 @@ export const getLocationMeta = async (term) => {
 export const getCourseMeta = async (term) => {
   const text = await (
     await fetch(
-      `https://jwctest.its.csu.edu.cn/tkglAction.do?method=querykc&xnxqh=${term}`,
+      `http://csujwc.its.csu.edu.cn/tkglAction.do?method=querykc&xnxqh=${term}`,
       {
         headers: HEADERS,
       }
@@ -46,7 +46,7 @@ export const getCourseMeta = async (term) => {
 export const getTeacherMeta = async (term) => {
   const text = await (
     await fetch(
-      `http://jwctest.its.csu.edu.cn/tkglAction.do?method=queryjg0101&xnxqh=${term}`,
+      `http://csujwc.its.csu.edu.cn/tkglAction.do?method=queryjg0101&xnxqh=${term}`,
       {
         headers: HEADERS,
       }
@@ -61,11 +61,11 @@ const getDateMapping = async () => {
   const resluts = await Promise.all(
     TERMS.map(async (term) => {
       const res = await fetch(
-        'https://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
+        'http://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
         {
           headers: HEADERS,
           referrer:
-            'https://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
+            'http://csujwc.its.csu.edu.cn/jsxsd/jskb/jskb_list.do?Ves632DSdyV=NEW_JSD_WDKB',
           referrerPolicy: 'strict-origin-when-cross-origin',
           body: `cj0701id=&zc=&demo=&xnxq01id=${term}&sfFD=1`,
           method: 'POST',

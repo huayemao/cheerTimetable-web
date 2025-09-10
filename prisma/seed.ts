@@ -13,6 +13,7 @@ async function retryWhenTimeout(fn: Function) {
       await fn()
     } catch (error) {
       exception = error
+      console.error('Error:', error)
     }
   }
 
@@ -23,6 +24,8 @@ async function retryWhenTimeout(fn: Function) {
       exception?.code
     )
   ) {
+    console.log(`Retrying after ${exception.code} ...`)
+    exception = null
     await run()
   }
 
@@ -30,6 +33,7 @@ async function retryWhenTimeout(fn: Function) {
 }
 
 retryWhenTimeout(async () => {
+  console.log('Start seeding ...')
   await seedEntities()
   await seedRelations()
   await checkInvalidCourseIdsFromEnrollment()

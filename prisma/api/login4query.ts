@@ -1,13 +1,14 @@
 import fetch from 'node-fetch'
-import { HEADERS } from '../util/header'
+import { BaseURL, HEADERS } from '../util/header'
 
 export async function login4query() {
+  console.log('Logging in for query...')
   const res = await fetch(
-    'http://jwctest.its.csu.edu.cn/kblogin.jsp?f=3&type=jg',
+    `${BaseURL}/kblogin.jsp?f=3&type=jg`,
     {
       headers: HEADERS,
     }
   )
-//  console.log(await res.text())
+  console.log(await res.text())
 
 }
