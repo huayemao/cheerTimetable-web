@@ -1,6 +1,7 @@
 import { ENROLLMENT_OFFSET, STUDENTS_PER_FETCH, TERMS } from '../constants'
 import prisma from '../lib/prisma'
 import { getLessonsById } from './api/getLessonsByID'
+import { getSemestersByGrade } from './util/getSemestersByGrade'
 import { getStudents2Fetch } from './util/getStudents2Fetch'
 import { isUpdating } from './util/isUpdating'
 import fs from 'fs'
@@ -23,7 +24,19 @@ export async function seedEnrollment(offset = emptyOffset * STUDENTS_PER_FETCH, 
     const items = students2Fetch.slice(i, i + gap)
     const data = await Promise.all(
       items.map(async (e) => {
-        const courseIds = await getCourseIdsByStudentId(e.xs0101id, terms)
+        const student = await prisma.student.findUnique({
+          where: { id: e.xh.trim() },
+        })
+        let stuTerms = terms
+        const grade = parseInt(student?.grade.slice(2, 4) || '00');
+
+
+        if (!grade) {
+
+        } else {
+          stuTerms = getSemestersByGrade(grade, terms, student)
+        }
+        const courseIds = await getCourseIdsByStudentId(e.xs0101id, stuTerms)
         return courseIds.map((id) => ({
           studentId: e.xh,
           courseId: id,
